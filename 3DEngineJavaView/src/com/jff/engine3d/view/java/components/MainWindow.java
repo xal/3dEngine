@@ -1,16 +1,17 @@
-package com.jff.engine3d.view.java;
+package com.jff.engine3d.view.java.components;
 
+import com.jff.engine3d.view.java.components.settings.SettingsTabsFragment;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.*;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Layout;
-import sun.jkernel.Bundle;
 
 public class MainWindow extends Composite {
 
 
     private EngineCanvas engineCanvas;
-    protected SettingsFragment settingsFragment;
+    protected SettingsTabsFragment settingsTabsFragment;
 
     public MainWindow(Composite parent) {
         super(parent, SWT.NONE);
@@ -28,8 +29,7 @@ public class MainWindow extends Composite {
         parent.setLayout(layout);
 
 
-
-        settingsFragment = new SettingsFragment(parent);
+        settingsTabsFragment = new SettingsTabsFragment(parent);
 
         GridData settingsFragmentData = new GridData();
 
@@ -38,7 +38,7 @@ public class MainWindow extends Composite {
         settingsFragmentData.horizontalAlignment = SWT.FILL;
         settingsFragmentData.verticalAlignment = SWT.FILL;
 
-        settingsFragment.setLayoutData(settingsFragmentData);
+        settingsTabsFragment.setLayoutData(settingsFragmentData);
 
         engineCanvas = new EngineCanvas(parent);
         GridData canvasData = new GridData();
@@ -50,8 +50,7 @@ public class MainWindow extends Composite {
         engineCanvas.setLayoutData(canvasData);
 
 
-
-//        settingsFragment.setOnPrimitiveChangedListener(new OnPrimitiveChangingListener() {
+//        settingsTabsFragment.setOnPrimitiveChangedListener(new OnPrimitiveChangingListener() {
 //            @Override
 //            public void onPrimitiveChanged(Primitive object) {
 //                engineCanvas.removeObject(object);
@@ -117,7 +116,7 @@ public class MainWindow extends Composite {
 //
 //    @Override
 //    public void onPrimitiveChanged(Primitive object) {
-//        settingsFragment.setObject(object);
-//        settingsFragment.updateCoordinates();
+//        settingsTabsFragment.setObject(object);
+//        settingsTabsFragment.updateCoordinates();
 //    }
 }

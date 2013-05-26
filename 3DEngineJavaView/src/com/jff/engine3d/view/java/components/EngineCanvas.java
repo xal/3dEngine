@@ -1,6 +1,5 @@
-package com.jff.engine3d.view.java;
+package com.jff.engine3d.view.java.components;
 
-import com.jff.engine3d.view.primitives.Primitive;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Canvas;
@@ -19,7 +18,7 @@ public class EngineCanvas extends Canvas {
     private void onCreate() {
 
         Display display = Display.getCurrent();
-        Color backgroundColor  = display.getSystemColor(SWT.COLOR_WHITE);
+        Color backgroundColor = display.getSystemColor(SWT.COLOR_WHITE);
 
         setBackground(backgroundColor);
     }

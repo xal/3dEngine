@@ -1,15 +1,13 @@
-package com.jff.engine3d.view.java;
+package com.jff.engine3d.view.java.components.settings;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.*;
 
-public class SettingsFragment extends Composite {
+public class SettingsTabsFragment extends Composite {
 
-    public SettingsFragment(Composite parent) {
+    public SettingsTabsFragment(Composite parent) {
         super(parent, SWT.NONE);
 
 
@@ -24,15 +22,37 @@ public class SettingsFragment extends Composite {
         tabFolder.setLayoutData(tabsData);
 
 
+        String title;
+        Control control;
 
-        for (int i = 1; i < 5; i++) {
-            TabItem item = new TabItem(tabFolder, SWT.NULL);
-            item.setText("Tab" + i);
-            Text text = new Text(tabFolder, SWT.BORDER | SWT.MULTI);
-            text.setText("This is Tab " + i);
-            item.setControl(text);
-        }
+        title = "Create";
+        control = new CreateFragment(tabFolder);
+        createTab(tabFolder, title, control);
 
+
+        title = "Modify";
+        control = new ModifyFragment(tabFolder);
+        createTab(tabFolder, title, control);
+
+        title = "Camera";
+        control = new CameraFragment(tabFolder);
+        createTab(tabFolder, title, control);
+
+        title = "View";
+        control = new ViewFragment(tabFolder);
+        createTab(tabFolder, title, control);
+
+        title = "Save";
+        control = new SaveFragment(tabFolder);
+        createTab(tabFolder, title, control);
+
+
+    }
+
+    private void createTab(TabFolder tabFolder, String title, Control control) {
+        TabItem item = new TabItem(tabFolder, SWT.NULL);
+        item.setText(title);
+        item.setControl(control);
     }
 
 
