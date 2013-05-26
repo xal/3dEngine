@@ -1,8 +1,8 @@
-package com.jff.engine3d.model.primitives;
+package com.jff.engine3d.view.primitives;
 
-import com.custom_3DEnjine.Constants;
-import com.custom_3DEnjine.drawing_utils.Coordinates;
-import com.custom_3DEnjine.drawing_utils.Point3D;
+import com.jff.engine3d.view.utils.draw.Constants;
+import com.jff.engine3d.view.utils.draw.Coordinates;
+import com.jff.engine3d.view.utils.draw.Point3D;
 
 public class Parallelepiped extends Primitive {
 	
@@ -16,7 +16,7 @@ public class Parallelepiped extends Primitive {
 		this.width = width;
 		this.length = length;
 		this.height = height;
-		
+
 		int maxSize = (int) Math.max(Math.max(length, height), width) + Constants.BACKGROUND_PADDING;
 		this.viewWidth = maxSize;
 		this.viewHeight = maxSize;

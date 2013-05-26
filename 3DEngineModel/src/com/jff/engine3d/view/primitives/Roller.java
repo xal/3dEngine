@@ -1,8 +1,9 @@
-package com.jff.engine3d.model.primitives;
+package com.jff.engine3d.view.primitives;
 
-import android.graphics.Color;
-import com.custom_3DEnjine.Constants;
-import com.custom_3DEnjine.drawing_utils.Coordinates;
+
+import com.jff.engine3d.view.utils.draw.Color;
+import com.jff.engine3d.view.utils.draw.Constants;
+import com.jff.engine3d.view.utils.draw.Coordinates;
 
 import java.util.ArrayList;
 
@@ -21,7 +22,7 @@ public class Roller extends Primitive {
     private int wheelsCount;
 
     private HalfFrustCone horisontalCone;
-	private Cilinder verticalCilinder;
+    private Cilinder verticalCilinder;
     private ArrayList<Cilinder> shutters;
     private Parallelepiped rack;
     private ArrayList<Cilinder> wheels;
@@ -125,7 +126,7 @@ public class Roller extends Primitive {
 
         for (int i = 0; i < count; i++) {
             double x = (i == 0) ? rack.center.getX() - rackWidth / 2 + wheelRadius :
-                                  wheels.get(i - 1).center.getX() + wheelRadius * 2;
+                    wheels.get(i - 1).center.getX() + wheelRadius * 2;
             Coordinates wheelCenter = new Coordinates(x, rack.center.getY() + rackHeight / 2, center.getZ());
             Cilinder wheel = new Cilinder(wheelCenter, wheelRadius, wheelRadius, wheelHeight);
             wheels.add(wheel);
@@ -133,9 +134,9 @@ public class Roller extends Primitive {
     }
 
     @Override
-	public void initializeVertices() {
-		this.vertices.addAll(horisontalCone.vertices);
-		this.vertices.addAll(verticalCilinder.vertices);
+    public void initializeVertices() {
+        this.vertices.addAll(horisontalCone.vertices);
+        this.vertices.addAll(verticalCilinder.vertices);
 
         for (Cilinder cilinder : shutters) {
             this.vertices.addAll(cilinder.vertices);
@@ -145,11 +146,11 @@ public class Roller extends Primitive {
         for (Cilinder wheel : wheels) {
             this.vertices.addAll(wheel.vertices);
         }
-	}
+    }
 
-	@Override
-	public void initializeFaces() {
-		this.faces = new int[horisontalCone.faces.length +
+    @Override
+    public void initializeFaces() {
+        this.faces = new int[horisontalCone.faces.length +
                 verticalCilinder.faces.length +
                 shutters.get(0).faces.length * shutters.size() +
                 rack.faces.length +
@@ -166,31 +167,31 @@ public class Roller extends Primitive {
 
         for (Cilinder wheel : wheels)
             offset = initializePrimitiveFaces(wheel, offset[0], offset[1]);
-	}
+    }
 
     public int[] initializePrimitiveFaces(Primitive primitive, int facesOffset, int verticesOffset) {
         for (int i = 0; i < primitive.faces.length; i++)
             for (int j = 0; j < primitive.faces[i].length; j++)
                 this.faces[i + facesOffset][j] = primitive.faces[i][j] + verticesOffset;
 
-        return new int[] {facesOffset + primitive.faces.length, verticesOffset + primitive.vertices.size()};
+        return new int[]{facesOffset + primitive.faces.length, verticesOffset + primitive.vertices.size()};
     }
 
     private void setFacesColors() {
         int offset = horisontalCone.faces.length;
-        setFacesColor(Color.rgb(218, 113, 29), 0 , offset);
+        setFacesColor(Color.COLOR1, 0, offset);
 
         offset += verticalCilinder.faces.length;
-        setFacesColor(Color.rgb(218, 113, 29), offset - verticalCilinder.faces.length, offset);
+        setFacesColor(Color.COLOR1, offset - verticalCilinder.faces.length, offset);
 
         offset += shutters.get(0).faces.length * shutters.size();
-        setFacesColor(Color.rgb(65, 70, 74), offset - shutters.get(0).faces.length * shutters.size(), offset);
+        setFacesColor(Color.COLOR2, offset - shutters.get(0).faces.length * shutters.size(), offset);
 
         offset += rack.faces.length;
-        setFacesColor(Color.rgb(156, 162, 165), offset - rack.faces.length, offset);
+        setFacesColor(Color.COLOR3, offset - rack.faces.length, offset);
 
         offset += wheels.get(0).faces.length * wheels.size();
-        setFacesColor(Color.rgb(243, 215, 126), offset - wheels.get(0).faces.length * wheels.size(), offset);
+        setFacesColor(Color.COLOR4, offset - wheels.get(0).faces.length * wheels.size(), offset);
     }
 
     public Coordinates calculateCenter() {

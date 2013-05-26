@@ -1,8 +1,8 @@
-package com.jff.engine3d.model.primitives;
+package com.jff.engine3d.view.primitives;
 
-import com.custom_3DEnjine.Constants;
-import com.custom_3DEnjine.drawing_utils.Coordinates;
-import com.custom_3DEnjine.drawing_utils.Point3D;
+import com.jff.engine3d.view.utils.draw.Constants;
+import com.jff.engine3d.view.utils.draw.Coordinates;
+import com.jff.engine3d.view.utils.draw.Point3D;
 
 public class Cone extends Primitive {
 	
