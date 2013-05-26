@@ -2,14 +2,26 @@ package com.jff.engine3d.view.java;
 
 import com.jff.engine3d.view.primitives.Primitive;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 
 public class EngineCanvas extends Canvas {
 
 
     public EngineCanvas(Composite parent) {
         super(parent, SWT.NONE);
+
+        onCreate();
+    }
+
+    private void onCreate() {
+
+        Display display = Display.getCurrent();
+        Color backgroundColor  = display.getSystemColor(SWT.COLOR_WHITE);
+
+        setBackground(backgroundColor);
     }
 
 //

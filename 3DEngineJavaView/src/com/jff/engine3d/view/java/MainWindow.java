@@ -1,7 +1,9 @@
 package com.jff.engine3d.view.java;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.*;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Layout;
 import sun.jkernel.Bundle;
 
 public class MainWindow extends Composite {
@@ -19,10 +21,34 @@ public class MainWindow extends Composite {
 
     protected void onCreate() {
 
-        Composite parent = this
-                ;
-        engineCanvas = new EngineCanvas(parent);
+        Composite parent = this;
+
+        Layout layout = new GridLayout(2, false);
+
+        parent.setLayout(layout);
+
+
+
         settingsFragment = new SettingsFragment(parent);
+
+        GridData settingsFragmentData = new GridData();
+
+        settingsFragmentData.grabExcessHorizontalSpace = false;
+        settingsFragmentData.grabExcessVerticalSpace = true;
+        settingsFragmentData.horizontalAlignment = SWT.FILL;
+        settingsFragmentData.verticalAlignment = SWT.FILL;
+
+        settingsFragment.setLayoutData(settingsFragmentData);
+
+        engineCanvas = new EngineCanvas(parent);
+        GridData canvasData = new GridData();
+        canvasData.grabExcessHorizontalSpace = true;
+        canvasData.grabExcessVerticalSpace = true;
+        canvasData.horizontalAlignment = SWT.FILL;
+        canvasData.verticalAlignment = SWT.FILL;
+
+        engineCanvas.setLayoutData(canvasData);
+
 
 
 //        settingsFragment.setOnPrimitiveChangedListener(new OnPrimitiveChangingListener() {

@@ -1,12 +1,38 @@
 package com.jff.engine3d.view.java;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.*;
 
-public class SettingsFragment  extends Composite {
+public class SettingsFragment extends Composite {
 
     public SettingsFragment(Composite parent) {
         super(parent, SWT.NONE);
+
+
+        Layout layout = new GridLayout(1, false);
+        this.setLayout(layout);
+
+        GridData tabsData = new GridData(SWT.FILL, SWT.FILL, false, true);
+
+
+        final TabFolder tabFolder = new TabFolder(this, SWT.NONE);
+
+        tabFolder.setLayoutData(tabsData);
+
+
+
+        for (int i = 1; i < 5; i++) {
+            TabItem item = new TabItem(tabFolder, SWT.NULL);
+            item.setText("Tab" + i);
+            Text text = new Text(tabFolder, SWT.BORDER | SWT.MULTI);
+            text.setText("This is Tab " + i);
+            item.setControl(text);
+        }
+
     }
 
 
