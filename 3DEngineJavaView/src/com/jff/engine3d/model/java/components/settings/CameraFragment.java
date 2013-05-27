@@ -273,7 +273,7 @@ public class CameraFragment extends Composite {
 
                     RotationCoordinates rotationCoordinates = new RotationCoordinates(xz, yz, xy);
 
-                    controller.rotateCamera(rotateType, rotationCoordinates);
+                    controller.setCameraRotation(rotateType, rotationCoordinates);
 
                 } catch (IllegalArgumentException e) {
                     String message = e.getMessage();

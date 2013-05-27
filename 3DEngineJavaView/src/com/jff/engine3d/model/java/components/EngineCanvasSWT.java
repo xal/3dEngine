@@ -1,7 +1,7 @@
 package com.jff.engine3d.model.java.components;
 
 import com.jff.engine3d.model.java.FaceDrawerSWT;
-import com.jff.engine3d.model.primitives.Primitive;
+import com.jff.engine3d.model.primitives.AbstractObject;
 import com.jff.engine3d.model.utils.draw.AbstractFaceDrawer;
 import com.jff.engine3d.model.utils.draw.IEngineCanvas;
 import com.jff.engine3d.model.utils.draw.Point3D;
@@ -21,7 +21,7 @@ import java.util.List;
 public class EngineCanvasSWT extends Canvas implements IEngineCanvas {
 
 
-    private List<Primitive> myObjects = new ArrayList<Primitive>();
+    private List<AbstractObject> myObjects = new ArrayList<AbstractObject>();
 
     public EngineCanvasSWT(Composite parent) {
         super(parent, SWT.NONE);
@@ -39,32 +39,32 @@ public class EngineCanvasSWT extends Canvas implements IEngineCanvas {
         this.addPaintListener(new PaintListener() {
             @Override
             public void paintControl(PaintEvent paintEvent) {
-                for (Primitive primitive : myObjects) {
+                for (AbstractObject abstractObject : myObjects) {
 
-                    onDraw(primitive);
+                    onDraw(abstractObject);
                 }
             }
         });
     }
 
     /**
-     * Draw triangulated primitive
+     * Draw triangulated abstractObject
      */
 
-    public void onDraw(Primitive primitive) {
+    public void onDraw(AbstractObject abstractObject) {
 
         Canvas canvas = this;
 
-        int[][] faces = primitive.getFaces();
-        ArrayList<Point3D> vertices = primitive.getVertices();
+        int[][] faces = abstractObject.getFaces();
+        ArrayList<Point3D> vertices = abstractObject.getVertices();
 
         int[] order = new int[faces.length];
         paintersAlgorithm(vertices.toArray(new Point3D[vertices.size()]), order, faces);
 
         //draw background
-        AbstractFaceDrawer[] drawers = primitive.getDrawers();
+        AbstractFaceDrawer[] drawers = abstractObject.getDrawers();
 
-        Point3D[] backgroundVertices = primitive.getBackgroundVertices();
+        Point3D[] backgroundVertices = abstractObject.getBackgroundVertices();
         drawers[faces.length].setPath(backgroundVertices, new int[]{0, 2, 3});
         drawers[faces.length + 1].setPath(backgroundVertices, new int[]{0, 1, 3});
 
@@ -183,7 +183,7 @@ public class EngineCanvasSWT extends Canvas implements IEngineCanvas {
 //                    //remove onLongClick
 //                    handler.removeCallbacks(mLongPressed);
 //
-//                for (Primitive object : myObjects) {
+//                for (AbstractObject object : myObjects) {
 //
 //                    if ((event.getXz() >= object.center.getXz() - object.viewWidth / 2) &&
 //                            (event.getXz() <= object.center.getXz() + object.viewWidth / 2) &&
@@ -204,7 +204,7 @@ public class EngineCanvasSWT extends Canvas implements IEngineCanvas {
 //                    }
 //                }
 //                //if touched out of any object - skip all enabling
-//                for (Primitive object : myObjects) {
+//                for (AbstractObject object : myObjects) {
 //                    object.setEnabled(false);
 //                }
 //                ((DrawingObjectActivity)context).hideObjectSettingsFragment();
@@ -222,7 +222,7 @@ public class EngineCanvasSWT extends Canvas implements IEngineCanvas {
      * @param object object for add
      */
     @Override
-    public void addObject(Primitive object) {
+    public void addObject(AbstractObject object) {
         myObjects.add(object);
         invalidate();
     }
@@ -238,32 +238,9 @@ public class EngineCanvasSWT extends Canvas implements IEngineCanvas {
      * @param object removing object
      */
     @Override
-    public void removeObject(Primitive object) {
+    public void removeObject(AbstractObject object) {
         myObjects.remove(object);
         invalidate();
     }
 
-//    /**
-//     * class for handling long-click event
-//     */
-//    private class EnablingRunnable implements Runnable {
-//        /**
-//         * selected object
-//         */
-//        private Primitive object;
-//
-//        public void setObject(Primitive object) {
-//            this.object = object;
-//        }
-//
-//        @Override
-//        public void run() {
-//            //long click on object
-//            object.onLongClick();
-//            //show fragment with object params
-//            ((DrawingObjectActivity)context).showObjectSettingsFragment(object);
-//            //redraw canvas
-//            invalidate();
-//        }
-//    }
 }

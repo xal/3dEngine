@@ -5,26 +5,32 @@ import com.jff.engine3d.model.Engine;
 import com.jff.engine3d.model.EngineManager;
 import com.jff.engine3d.model.utils.draw.*;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public abstract class Primitive {
+public abstract class AbstractObject implements Serializable {
+
 
     private int id;
+    private RotationCoordinates rotationCoordinates;
+    private float scale;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Primitive primitive = (Primitive) o;
+        AbstractObject abstractObject = (AbstractObject) o;
 
-        if (id != primitive.id) return false;
-        if (isOnFocus != primitive.isOnFocus) return false;
-        if (viewHeight != primitive.viewHeight) return false;
-        if (viewWidth != primitive.viewWidth) return false;
-        if (!Arrays.equals(backgroundVertices, primitive.backgroundVertices)) return false;
-        if (!Arrays.equals(drawers, primitive.drawers)) return false;
+        if (id != abstractObject.id) return false;
+        if (isEnabled != abstractObject.isEnabled) return false;
+        if (isOnFocus != abstractObject.isOnFocus) return false;
+        if (viewHeight != abstractObject.viewHeight) return false;
+        if (viewWidth != abstractObject.viewWidth) return false;
+        if (!Arrays.equals(backgroundVertices, abstractObject.backgroundVertices)) return false;
+        if (center != null ? !center.equals(abstractObject.center) : abstractObject.center != null) return false;
+        if (!Arrays.equals(drawers, abstractObject.drawers)) return false;
 
         return true;
     }
@@ -104,13 +110,16 @@ public abstract class Primitive {
      *
      * @param coordinates Current primitive position coordinates
      */
-    public Primitive(Coordinates coordinates) {
-        //Set current coordinates
+    public AbstractObject(Coordinates coordinates) {
+
         this.center = coordinates;
+
+
+        id = IDUtils.generateID();
     }
 
-    public Primitive() {
-        this.center = new Coordinates(0, 0, 0);
+    protected AbstractObject() {
+
     }
 
     /**

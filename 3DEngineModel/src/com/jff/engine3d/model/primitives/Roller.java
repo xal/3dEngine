@@ -7,7 +7,7 @@ import com.jff.engine3d.model.utils.draw.Coordinates;
 
 import java.util.ArrayList;
 
-public class Roller extends Primitive {
+public class Roller extends AbstractObject {
 
     private double verticalCilinderRaduis;
     private double verticalCilinderHeight;
@@ -169,12 +169,12 @@ public class Roller extends Primitive {
             offset = initializePrimitiveFaces(wheel, offset[0], offset[1]);
     }
 
-    public int[] initializePrimitiveFaces(Primitive primitive, int facesOffset, int verticesOffset) {
-        for (int i = 0; i < primitive.faces.length; i++)
-            for (int j = 0; j < primitive.faces[i].length; j++)
-                this.faces[i + facesOffset][j] = primitive.faces[i][j] + verticesOffset;
+    public int[] initializePrimitiveFaces(AbstractObject abstractObject, int facesOffset, int verticesOffset) {
+        for (int i = 0; i < abstractObject.faces.length; i++)
+            for (int j = 0; j < abstractObject.faces[i].length; j++)
+                this.faces[i + facesOffset][j] = abstractObject.faces[i][j] + verticesOffset;
 
-        return new int[]{facesOffset + primitive.faces.length, verticesOffset + primitive.vertices.size()};
+        return new int[]{facesOffset + abstractObject.faces.length, verticesOffset + abstractObject.vertices.size()};
     }
 
     private void setFacesColors() {

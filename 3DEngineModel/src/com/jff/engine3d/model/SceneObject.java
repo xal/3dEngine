@@ -1,12 +1,18 @@
 package com.jff.engine3d.model;
 
-import com.jff.engine3d.model.primitives.Primitive;
+import com.jff.engine3d.model.primitives.AbstractObject;
 
-public class SceneObject {
+import java.io.Serializable;
 
-    private Primitive primitive;
+public class SceneObject implements Serializable {
+
+    private AbstractObject object;
 
     private boolean selected;
+
+    public SceneObject(AbstractObject object) {
+        this.object = object;
+    }
 
     public String getDescription() {
         return toString();
@@ -19,13 +25,13 @@ public class SceneObject {
 
         SceneObject that = (SceneObject) o;
 
-        if (primitive != null ? !primitive.equals(that.primitive) : that.primitive != null) return false;
+        if (object != null ? !object.equals(that.object) : that.object != null) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        return primitive != null ? primitive.hashCode() : 0;
+        return object != null ? object.hashCode() : 0;
     }
 }

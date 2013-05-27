@@ -1,15 +1,17 @@
 package com.jff.engine3d.model;
 
 import com.jff.engine3d.model.object.AbstractObjectParams;
+import com.jff.engine3d.model.primitives.AbstractObject;
+import com.jff.engine3d.model.primitives.Parallelepiped;
 import com.jff.engine3d.model.utils.draw.Coordinates;
 import com.jff.engine3d.model.utils.draw.RotationCoordinates;
 
-import java.util.Collections;
 import java.util.List;
 
 public class Controller {
 
 
+    private final StorageHelper storageHelper;
     private Scene scene;
 
 
@@ -24,66 +26,94 @@ public class Controller {
     public Controller(Scene scene) {
 
         this.scene = scene;
+        this.storageHelper = new StorageHelper();
     }
 
 
     public void createObject(Coordinates coordinates, AbstractObjectParams objectParams) {
 
+        AbstractObject object = new Parallelepiped(coordinates, 100, 100, 100);
+
+        SceneObject sceneObject = new SceneObject(object);
+
+        scene.addObject(sceneObject);
+
     }
 
     public void deleteObject(SceneObject object) {
 
+        scene.removeObject(object);
+
     }
 
-    public void loadScene(String pathToFile) {
-        //To change body of created methods use File | Settings | File Templates.
-    }
-
-    public void saveScene(String pathToFile) {
-        //To change body of created methods use File | Settings | File Templates.
-    }
-
-    public void setViewType(ViewType edges) {
-
+    public void setViewType(ViewType viewType) {
+        scene.setViewType(viewType);
     }
 
     public void startPanorama() {
-        //To change body of created methods use File | Settings | File Templates.
+        scene.startPanorama();
     }
 
-    public void setProjectionType(ProjectionType perspective) {
-        //To change body of created methods use File | Settings | File Templates.
+    public void setProjectionType(ProjectionType projectionType) {
+        scene.setProjectionType(projectionType);
     }
 
     public void setCameraFromCoordinates(Coordinates coordinates) {
-        //To change body of created methods use File | Settings | File Templates.
+        scene.setCameraFromCoordinates(coordinates);
     }
 
     public void setCameraToCoordinates(Coordinates coordinates) {
-        //To change body of created methods use File | Settings | File Templates.
+        scene.setCameraToCoordinates(coordinates);
     }
 
-    public void rotateCamera(CameraRotateType rotateType, RotationCoordinates rotationCoordinates) {
-        //To change body of created methods use File | Settings | File Templates.
+    public void setCameraRotation(CameraRotateType rotateType, RotationCoordinates rotationCoordinates) {
+        scene.setCameraRotation(rotateType, rotationCoordinates);
     }
 
     public List<SceneObject> getSelectedObjects() {
-        return Collections.emptyList();  //To change body of created methods use File | Settings | File Templates.
+        List<SceneObject> selectedObjects = scene.getSelectedObjects();
+        return selectedObjects;
     }
 
     public SceneObject getCurrentSelectedObject() {
-        return null;  //To change body of created methods use File | Settings | File Templates.
+        SceneObject currentSelectedObject = scene.getCurrentSelectedObject();
+        return currentSelectedObject;
     }
 
     public void setCoordinatesForObject(Coordinates coordinates, SceneObject object) {
-        //To change body of created methods use File | Settings | File Templates.
+        scene.setCoordinatesForObject(coordinates, object);
     }
 
     public void setRotationForObject(RotationCoordinates rotationCoordinates, SceneObject object) {
-        //To change body of created methods use File | Settings | File Templates.
+        scene.setRotationForObject(rotationCoordinates, object);
     }
 
     public void setScaleForObject(float scale, SceneObject object) {
-        //To change body of created methods use File | Settings | File Templates.
+        scene.setScaleForObject(scale, object);
+    }
+
+    public void loadScene(String pathToFile) {
+
+        try {
+            Scene newScene = storageHelper.loadScene(pathToFile);
+            Scene oldScene = scene;
+
+            newScene.init(oldScene);
+            oldScene.clean();
+
+            scene = newScene;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new IllegalArgumentException("Error on load");
+        }
+    }
+
+    public void saveScene(String pathToFile) {
+        try {
+            storageHelper.saveScene(scene, pathToFile);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new IllegalArgumentException("Error on save");
+        }
     }
 }

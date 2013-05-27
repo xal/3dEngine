@@ -4,7 +4,7 @@ import com.jff.engine3d.model.utils.draw.Constants;
 import com.jff.engine3d.model.utils.draw.Coordinates;
 import com.jff.engine3d.model.utils.draw.Point3D;
 
-public class Cone extends Primitive {
+public class Cone extends AbstractObject {
 
     private static final int BASE_CENTER_INDEX = 0;
     private static final int VERTEX_INDEX = 1;

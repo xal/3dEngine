@@ -63,7 +63,7 @@ public class SettingsTabsFragment extends Composite {
 
 
     //
-//    private Primitive object;
+//    private AbstractObject object;
 //
 //    private EditText xCoords;
 //    private EditText yCoords;
@@ -176,7 +176,7 @@ public class SettingsTabsFragment extends Composite {
 //        });
 //    }
 //
-//    public void setObject(Primitive object) {
+//    public void setObject(AbstractObject object) {
 //        this.object = object;
 //    }
 //

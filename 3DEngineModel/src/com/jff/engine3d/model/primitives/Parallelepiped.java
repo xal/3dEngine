@@ -4,7 +4,7 @@ import com.jff.engine3d.model.utils.draw.Constants;
 import com.jff.engine3d.model.utils.draw.Coordinates;
 import com.jff.engine3d.model.utils.draw.Point3D;
 
-public class Parallelepiped extends Primitive {
+public class Parallelepiped extends AbstractObject {
 
     private double width;
     private double length;

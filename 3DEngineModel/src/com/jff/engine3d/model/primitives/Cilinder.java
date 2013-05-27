@@ -5,7 +5,7 @@ import com.jff.engine3d.model.utils.draw.Constants;
 import com.jff.engine3d.model.utils.draw.Coordinates;
 import com.jff.engine3d.model.utils.draw.Point3D;
 
-public class Cilinder extends Primitive {
+public class Cilinder extends AbstractObject {
 
     protected static final int BASE_LOWER_CENTER_INDEX = 0;
     protected static final int BASE_UPPER_CENTER_INDEX = 1;
