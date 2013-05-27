@@ -14,6 +14,23 @@ public class SettingsTabsFragment extends Composite {
         Layout layout = new GridLayout(1, false);
         this.setLayout(layout);
 
+        createCombo();
+        createTabs();
+
+
+    }
+
+    private void createCombo() {
+
+        GridData gridData = new GridData(SWT.FILL, SWT.FILL, false, true);
+
+        Combo combo = new Combo(this, SWT.NONE);
+
+        combo.setLayoutData(gridData);
+
+    }
+
+    private void createTabs() {
         GridData tabsData = new GridData(SWT.FILL, SWT.FILL, false, true);
 
 
@@ -38,15 +55,9 @@ public class SettingsTabsFragment extends Composite {
         control = new CameraFragment(tabFolder);
         createTab(tabFolder, title, control);
 
-        title = "View";
-        control = new ViewFragment(tabFolder);
+        title = "File";
+        control = new FileFragment(tabFolder);
         createTab(tabFolder, title, control);
-
-        title = "Save";
-        control = new SaveFragment(tabFolder);
-        createTab(tabFolder, title, control);
-
-
     }
 
     private void createTab(TabFolder tabFolder, String title, Control control) {
