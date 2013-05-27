@@ -1,10 +1,12 @@
 package com.jff.engine3d.model.java.components.settings;
 
+import com.jff.engine3d.model.Controller;
+import com.jff.engine3d.model.EngineManager;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.*;
 
 public class FileFragment extends Composite {
@@ -12,9 +14,9 @@ public class FileFragment extends Composite {
         super(parent, SWT.NONE);
 
 
-        Layout layout = new FillLayout(SWT.VERTICAL);
+        RowLayout layout = new RowLayout(SWT.VERTICAL);
+        layout.fill = true;
         this.setLayout(layout);
-
 
         createSaveSettings();
     }
@@ -41,7 +43,17 @@ public class FileFragment extends Composite {
 
 
                 String pathToFile = fileDialog.open();
-                System.out.println(pathToFile);
+
+                EngineManager engineManager = EngineManager.getInstance();
+                Controller controller = engineManager.getController();
+                try {
+
+                    controller.loadScene(pathToFile);
+                } catch (IllegalArgumentException e) {
+                    String message = e.getMessage();
+                    SWTUtils.showMessage(message);
+                }
+
             }
 
             @Override
@@ -61,7 +73,16 @@ public class FileFragment extends Composite {
                 FileDialog fileDialog = new FileDialog(shell, SWT.SAVE);
 
                 String pathToFile = fileDialog.open();
-                System.out.println(pathToFile);
+
+                EngineManager engineManager = EngineManager.getInstance();
+                Controller controller = engineManager.getController();
+                try {
+
+                    controller.saveScene(pathToFile);
+                } catch (IllegalArgumentException e) {
+                    String message = e.getMessage();
+                    SWTUtils.showMessage(message);
+                }
 
             }
 

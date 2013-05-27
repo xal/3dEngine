@@ -14,21 +14,12 @@ public class SettingsTabsFragment extends Composite {
         Layout layout = new GridLayout(1, false);
         this.setLayout(layout);
 
-        createCombo();
+
         createTabs();
 
 
     }
 
-    private void createCombo() {
-
-        GridData gridData = new GridData(SWT.FILL, SWT.FILL, false, true);
-
-        Combo combo = new Combo(this, SWT.NONE);
-
-        combo.setLayoutData(gridData);
-
-    }
 
     private void createTabs() {
         GridData tabsData = new GridData(SWT.FILL, SWT.FILL, false, true);
@@ -53,6 +44,10 @@ public class SettingsTabsFragment extends Composite {
 
         title = "Camera";
         control = new CameraFragment(tabFolder);
+        createTab(tabFolder, title, control);
+
+        title = "View";
+        control = new ViewFragment(tabFolder);
         createTab(tabFolder, title, control);
 
         title = "File";
@@ -108,9 +103,9 @@ public class SettingsTabsFragment extends Composite {
 //
 //    public void updateCoordinates() {
 //        try {
-//            xCoords.setText(((Double) object.center.getX()).toString());
-//            yCoords.setText(((Double)object.center.getY()).toString());
-//            zCoords.setText(((Double)object.center.getZ()).toString());
+//            xCoords.setText(((Double) object.center.getXz()).toString());
+//            yCoords.setText(((Double)object.center.getYz()).toString());
+//            zCoords.setText(((Double)object.center.getXy()).toString());
 //
 //            if (object instanceof Roller) {
 //                wheelsNumberLayout.setVisibility(View.VISIBLE);
@@ -129,7 +124,7 @@ public class SettingsTabsFragment extends Composite {
 //            @Override
 //            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 //                Coordinates coordsToMove = object.center.clone();
-//                coordsToMove.setX(Double.parseDouble(v.getText().toString()));
+//                coordsToMove.setXz(Double.parseDouble(v.getText().toString()));
 //                object.move(object.center, coordsToMove);
 //                return false;
 //            }
@@ -138,7 +133,7 @@ public class SettingsTabsFragment extends Composite {
 //            @Override
 //            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 //                Coordinates coordsToMove = object.center.clone();
-//                coordsToMove.setY(Double.parseDouble(v.getText().toString()));
+//                coordsToMove.setYz(Double.parseDouble(v.getText().toString()));
 //                object.move(object.center, coordsToMove);
 //                return false;
 //            }
@@ -147,7 +142,7 @@ public class SettingsTabsFragment extends Composite {
 //            @Override
 //            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 //                Coordinates coordsToMove = object.center.clone();
-//                coordsToMove.setZ(Double.parseDouble(v.getText().toString()));
+//                coordsToMove.setXy(Double.parseDouble(v.getText().toString()));
 //                object.move(object.center, coordsToMove);
 //                return false;
 //            }

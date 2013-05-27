@@ -169,14 +169,14 @@ public class EngineCanvasSWT extends Canvas implements IEngineCanvas {
 //            public boolean onTouch(View v, MotionEvent event) {
 //
 //                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-//                    mDownX = event.getX();
-//                    mDownY = event.getY();
+//                    mDownX = event.getXz();
+//                    mDownY = event.getYz();
 //                    //handle onLongClick
 //                    handler.postDelayed(mLongPressed, 1000);
 //                }
 //                if (event.getAction() == MotionEvent.ACTION_MOVE)
-//                    if (Math.abs(mDownX - event.getX()) > Constants.FINGER_MOVING_DEAD_ZONE ||
-//                            Math.abs(mDownY - event.getY()) > Constants.FINGER_MOVING_DEAD_ZONE)
+//                    if (Math.abs(mDownX - event.getXz()) > Constants.FINGER_MOVING_DEAD_ZONE ||
+//                            Math.abs(mDownY - event.getYz()) > Constants.FINGER_MOVING_DEAD_ZONE)
 //                        //remove onLongClick
 //                        handler.removeCallbacks(mLongPressed);
 //                if (event.getAction() == MotionEvent.ACTION_UP)
@@ -185,10 +185,10 @@ public class EngineCanvasSWT extends Canvas implements IEngineCanvas {
 //
 //                for (Primitive object : myObjects) {
 //
-//                    if ((event.getX() >= object.center.getX() - object.viewWidth / 2) &&
-//                            (event.getX() <= object.center.getX() + object.viewWidth / 2) &&
-//                            (event.getY() >= object.center.getY() - object.viewHeight / 2) &&
-//                            (event.getY() <= object.center.getY() + object.viewHeight / 2) &&
+//                    if ((event.getXz() >= object.center.getXz() - object.viewWidth / 2) &&
+//                            (event.getXz() <= object.center.getXz() + object.viewWidth / 2) &&
+//                            (event.getYz() >= object.center.getYz() - object.viewHeight / 2) &&
+//                            (event.getYz() <= object.center.getYz() + object.viewHeight / 2) &&
 //                            (event.getAction() == MotionEvent.ACTION_DOWN || object.isOnFocus())) {
 //
 //                        //set object which can be long clicked

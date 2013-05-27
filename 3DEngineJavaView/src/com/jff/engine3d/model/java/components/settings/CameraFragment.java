@@ -1,5 +1,11 @@
 package com.jff.engine3d.model.java.components.settings;
 
+import com.jff.engine3d.model.CameraRotateType;
+import com.jff.engine3d.model.Controller;
+import com.jff.engine3d.model.EngineManager;
+import com.jff.engine3d.model.ProjectionType;
+import com.jff.engine3d.model.utils.draw.Coordinates;
+import com.jff.engine3d.model.utils.draw.RotationCoordinates;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -8,15 +14,23 @@ import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.*;
 
 public class CameraFragment extends Composite {
+    private final Controller controller;
+
     public CameraFragment(Composite parent) {
         super(parent, SWT.NONE);
 
-        Layout layout = new RowLayout(SWT.VERTICAL);
+
+        RowLayout layout = new RowLayout(SWT.VERTICAL);
+        layout.fill = true;
         this.setLayout(layout);
+
+        EngineManager engineManager = EngineManager.getInstance();
+
+        controller = engineManager.getController();
 
 
         createProjectionSettings();
-        createViewSettings();
+
         createFromSettings();
         createToSettings();
         createRotateSettings();
@@ -45,7 +59,7 @@ public class CameraFragment extends Composite {
         perspectiveButton.addSelectionListener(new SelectionListener() {
             @Override
             public void widgetSelected(SelectionEvent selectionEvent) {
-
+                controller.setProjectionType(ProjectionType.PERSPECTIVE);
 
             }
 
@@ -59,71 +73,7 @@ public class CameraFragment extends Composite {
             @Override
             public void widgetSelected(SelectionEvent selectionEvent) {
 
-
-            }
-
-            @Override
-            public void widgetDefaultSelected(SelectionEvent selectionEvent) {
-                //To change body of implemented methods use File | Settings | File Templates.
-            }
-        });
-
-
-    }
-
-    private void createViewSettings() {
-
-        Composite parent = this;
-        Group group = new Group(parent, SWT.NONE);
-
-        group.setText("View");
-
-        GridLayout gridLayout = new GridLayout(3, true);
-
-        group.setLayout(gridLayout);
-
-        Button polygonsButton = new Button(group, SWT.RADIO);
-        polygonsButton.setText("Polygons");
-
-        Button edgesButton = new Button(group, SWT.RADIO);
-        edgesButton.setText("Edges");
-
-        Button verticesButton = new Button(group, SWT.RADIO);
-        verticesButton.setText("Vertices");
-
-        polygonsButton.setSelection(true);
-
-        polygonsButton.addSelectionListener(new SelectionListener() {
-            @Override
-            public void widgetSelected(SelectionEvent selectionEvent) {
-
-
-            }
-
-            @Override
-            public void widgetDefaultSelected(SelectionEvent selectionEvent) {
-                //To change body of implemented methods use File | Settings | File Templates.
-            }
-        });
-
-        edgesButton.addSelectionListener(new SelectionListener() {
-            @Override
-            public void widgetSelected(SelectionEvent selectionEvent) {
-
-
-            }
-
-            @Override
-            public void widgetDefaultSelected(SelectionEvent selectionEvent) {
-                //To change body of implemented methods use File | Settings | File Templates.
-            }
-        });
-
-        verticesButton.addSelectionListener(new SelectionListener() {
-            @Override
-            public void widgetSelected(SelectionEvent selectionEvent) {
-
-
+                controller.setProjectionType(ProjectionType.PARALLER);
             }
 
             @Override
@@ -168,9 +118,21 @@ public class CameraFragment extends Composite {
             @Override
             public void widgetSelected(SelectionEvent selectionEvent) {
 
-                int x = Integer.parseInt(editX.getText());
-                int y = Integer.parseInt(editY.getText());
-                int z = Integer.parseInt(editZ.getText());
+                try {
+                    int x = SWTUtils.retrieveInteger(editX);
+                    int y = SWTUtils.retrieveInteger(editY);
+                    int z = SWTUtils.retrieveInteger(editZ);
+
+                    Coordinates coordinates = new Coordinates(x, y, z);
+
+
+                    controller.setCameraFromCoordinates(coordinates);
+
+                } catch (IllegalArgumentException e) {
+                    String message = e.getMessage();
+                    SWTUtils.showMessage(message);
+                }
+
 
             }
 
@@ -187,7 +149,7 @@ public class CameraFragment extends Composite {
         Composite parent = this;
         Group group = new Group(parent, SWT.NONE);
 
-        group.setText("Camera TO");
+        group.setText("Camera To");
 
         GridLayout gridLayout = new GridLayout(2, true);
 
@@ -214,9 +176,23 @@ public class CameraFragment extends Composite {
             @Override
             public void widgetSelected(SelectionEvent selectionEvent) {
 
-                int x = Integer.parseInt(editX.getText());
-                int y = Integer.parseInt(editY.getText());
-                int z = Integer.parseInt(editZ.getText());
+                try {
+
+
+                    int x = SWTUtils.retrieveInteger(editX);
+                    int y = SWTUtils.retrieveInteger(editY);
+                    int z = SWTUtils.retrieveInteger(editZ);
+
+                    Coordinates coordinates = new Coordinates(x, y, z);
+
+
+                    controller.setCameraToCoordinates(coordinates);
+
+                } catch (IllegalArgumentException e) {
+                    String message = e.getMessage();
+                    SWTUtils.showMessage(message);
+                }
+
 
             }
 
@@ -240,7 +216,7 @@ public class CameraFragment extends Composite {
         group.setLayout(gridLayout);
 
 
-        Button axisButton = new Button(group, SWT.RADIO);
+        final Button axisButton = new Button(group, SWT.RADIO);
         axisButton.setText("Axis");
 
         Button objectButton = new Button(group, SWT.RADIO);
@@ -277,9 +253,32 @@ public class CameraFragment extends Composite {
             @Override
             public void widgetSelected(SelectionEvent selectionEvent) {
 
-                int xz = Integer.parseInt(editXZ.getText());
-                int yz = Integer.parseInt(editYZ.getText());
-                int xy = Integer.parseInt(editXY.getText());
+                try {
+
+                    CameraRotateType rotateType;
+                    if (axisButton.getSelection()) {
+                        rotateType = CameraRotateType.AXYS;
+                    } else {
+                        rotateType = CameraRotateType.OBJECT;
+                    }
+
+                    int xz = SWTUtils.retrieveInteger(editXZ);
+                    int yz = SWTUtils.retrieveInteger(editYZ);
+                    int xy = SWTUtils.retrieveInteger(editXY);
+
+                    SWTUtils.checkDegrees(xz);
+                    SWTUtils.checkDegrees(yz);
+                    SWTUtils.checkDegrees(xy);
+
+
+                    RotationCoordinates rotationCoordinates = new RotationCoordinates(xz, yz, xy);
+
+                    controller.rotateCamera(rotateType, rotationCoordinates);
+
+                } catch (IllegalArgumentException e) {
+                    String message = e.getMessage();
+                    SWTUtils.showMessage(message);
+                }
 
 
             }

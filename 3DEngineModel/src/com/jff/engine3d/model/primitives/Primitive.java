@@ -6,8 +6,33 @@ import com.jff.engine3d.model.EngineManager;
 import com.jff.engine3d.model.utils.draw.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public abstract class Primitive {
+
+    private int id;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Primitive primitive = (Primitive) o;
+
+        if (id != primitive.id) return false;
+        if (isOnFocus != primitive.isOnFocus) return false;
+        if (viewHeight != primitive.viewHeight) return false;
+        if (viewWidth != primitive.viewWidth) return false;
+        if (!Arrays.equals(backgroundVertices, primitive.backgroundVertices)) return false;
+        if (!Arrays.equals(drawers, primitive.drawers)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return id;
+    }
 
     /**
      * Vertices of the primitive.
@@ -157,12 +182,12 @@ public abstract class Primitive {
 //            //If touched two fingers calculate diagonal between them
 //            if (event.getPointerCount() == 2) {
 //                //calculate diagonal between fingers
-//                previousDiagonal = Math.sqrt(Math.pow((event.getX() - event.getX(1)), 2) +
-//                        Math.pow((event.getY() - event.getY(1)), 2));
+//                previousDiagonal = Math.sqrt(Math.pow((event.getXz() - event.getXz(1)), 2) +
+//                        Math.pow((event.getYz() - event.getYz(1)), 2));
 //            }
 //            //remember previous touch
-//            lastTouchX = event.getX();
-//            lastTouchY = event.getY();
+//            lastTouchX = event.getXz();
+//            lastTouchY = event.getYz();
 //        } else {
 //            if (event.getAction() == MotionEvent.ACTION_MOVE) {
 //
@@ -170,8 +195,8 @@ public abstract class Primitive {
 //                //scale when two fingers moving
 //                if (!isEnabled) {
 //                    //rotate primitive in other case
-//                    float dx = (event.getX() - lastTouchX) / 30.0f;
-//                    float dy = (event.getY() - lastTouchY) / 30.0f;
+//                    float dx = (event.getXz() - lastTouchX) / 30.0f;
+//                    float dy = (event.getYz() - lastTouchY) / 30.0f;
 //                    //set rotation angles of primitive
 //                    ax -= dy;
 //                    ay += dx;
@@ -180,8 +205,8 @@ public abstract class Primitive {
 //                } else {
 //                    if (event.getPointerCount() == 2) {
 //                        //calculate diagonal between fingers
-//                        currentDiagonal = Math.sqrt(Math.pow((event.getX() - event.getX(1)), 2) +
-//                                Math.pow((event.getY() - event.getY(1)), 2));
+//                        currentDiagonal = Math.sqrt(Math.pow((event.getXz() - event.getXz(1)), 2) +
+//                                Math.pow((event.getYz() - event.getYz(1)), 2));
 //                        //if first time
 //                        if (previousDiagonal == 0)
 //                            previousDiagonal = currentDiagonal;
@@ -193,8 +218,8 @@ public abstract class Primitive {
 //
 //                    } else {
 //                        // move primitive
-//                        move(new Coordinates(center.getX(), center.getY(), center.getZ()),
-//                                new Coordinates(event.getX(), event.getY(), center.getZ()));
+//                        move(new Coordinates(center.getXz(), center.getYz(), center.getXy()),
+//                                new Coordinates(event.getXz(), event.getYz(), center.getXy()));
 //                    }
 //                }
 //            } else {

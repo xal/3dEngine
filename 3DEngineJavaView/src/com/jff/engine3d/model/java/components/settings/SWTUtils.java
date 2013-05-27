@@ -1,7 +1,7 @@
 package com.jff.engine3d.model.java.components.settings;
 
-import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.*;
 
 public class SWTUtils {
 
@@ -40,5 +40,45 @@ public class SWTUtils {
         };
 
         return listener;
+    }
+
+    public static void checkDegrees(int degrees) {
+
+        if (degrees < 0 || degrees >= 360) {
+            throw new IllegalArgumentException("Value not in range [0,360)");
+        }
+
+
+    }
+
+    public static int retrieveInteger(Text editText) {
+        String text = editText.getText();
+        if (text.isEmpty()) {
+            throw new IllegalArgumentException("Input text is empty!");
+        }
+        int integer = Integer.parseInt(text);
+
+        return integer;
+    }
+
+    public static void showMessage(String message) {
+        Shell shell = Display.getCurrent().getActiveShell();
+        MessageBox dialog =
+                new MessageBox(shell, SWT.OK);
+        dialog.setText("Message");
+        dialog.setMessage(message);
+
+
+        dialog.open();
+    }
+
+    public static float retrieveScale(Text editText) {
+        String text = editText.getText();
+        if (text.isEmpty()) {
+            throw new IllegalArgumentException("Input text is empty!");
+        }
+        float value = Float.parseFloat(text);
+
+        return value;
     }
 }

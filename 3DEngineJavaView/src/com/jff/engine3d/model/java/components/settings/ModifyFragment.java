@@ -1,24 +1,109 @@
 package com.jff.engine3d.model.java.components.settings;
 
+import com.jff.engine3d.model.Controller;
+import com.jff.engine3d.model.EngineListener;
+import com.jff.engine3d.model.EngineManager;
+import com.jff.engine3d.model.SceneObject;
+import com.jff.engine3d.model.utils.draw.Coordinates;
+import com.jff.engine3d.model.utils.draw.RotationCoordinates;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.*;
 
+import java.util.List;
+
+
 public class ModifyFragment extends Composite {
+    private final Controller controller;
+    private Combo comboSelectedObjects;
+
     public ModifyFragment(Composite parent) {
         super(parent, SWT.NONE);
 
-        Layout layout = new FillLayout(SWT.VERTICAL);
+        RowLayout layout = new RowLayout(SWT.VERTICAL);
+
+        layout.fill = true;
+
         this.setLayout(layout);
 
+        EngineManager engineManager = EngineManager.getInstance();
+        controller = engineManager.getController();
 
+
+        createSelectedComboSettings();
         createMoveSettings();
         createRotateSettings();
         createScaleSettings();
+        createDeleteSettings();
     }
+
+    private void createSelectedComboSettings() {
+
+        Composite parent = this;
+
+        comboSelectedObjects = new Combo(parent, SWT.NONE);
+
+        comboSelectedObjects.addSelectionListener(new SelectionListener() {
+            @Override
+            public void widgetSelected(SelectionEvent selectionEvent) {
+
+
+            }
+
+            @Override
+            public void widgetDefaultSelected(SelectionEvent selectionEvent) {
+                //To change body of implemented methods use File | Settings | File Templates.
+            }
+        });
+
+        updateSelectedObjectCombo();
+
+        controller.addEngineListener(new EngineListener() {
+            @Override
+            public void onSelectedObjectsChanged(List<SceneObject> objects) {
+                updateSelectedObjectCombo();
+            }
+
+            @Override
+            public void onCurrentSelectedObjectChanged(SceneObject object) {
+                updateCurrentSelectedObject();
+            }
+        });
+    }
+
+    private void updateSelectedObjectCombo() {
+        List<SceneObject> sceneObjects = controller.getSelectedObjects();
+
+        String[] items = new String[sceneObjects.size()];
+
+        for (int i = 0; i < sceneObjects.size(); i++) {
+            SceneObject sceneObject = sceneObjects.get(i);
+            items[i] = sceneObject.getDescription();
+        }
+
+        comboSelectedObjects.setItems(items);
+
+
+        updateCurrentSelectedObject();
+    }
+
+    private void updateCurrentSelectedObject() {
+        List<SceneObject> sceneObjects = controller.getSelectedObjects();
+        SceneObject sceneObject = getCurrentSelectedObject();
+
+        int index = sceneObjects.indexOf(sceneObject);
+
+        comboSelectedObjects.select(index);
+
+    }
+
+    private SceneObject getCurrentSelectedObject() {
+        return controller.getCurrentSelectedObject();
+    }
+
 
     private void createMoveSettings() {
 
@@ -51,10 +136,24 @@ public class ModifyFragment extends Composite {
         buttonOk.addSelectionListener(new SelectionListener() {
             @Override
             public void widgetSelected(SelectionEvent selectionEvent) {
+                try {
 
-                int x = Integer.parseInt(editX.getText());
-                int y = Integer.parseInt(editY.getText());
-                int z = Integer.parseInt(editZ.getText());
+
+                    int x = SWTUtils.retrieveInteger(editX);
+                    int y = SWTUtils.retrieveInteger(editY);
+                    int z = SWTUtils.retrieveInteger(editZ);
+
+                    Coordinates coordinates = new Coordinates(x, y, z);
+
+                    SceneObject object = getCurrentSelectedObject();
+
+                    controller.setCoordinatesForObject(coordinates, object);
+
+                } catch (IllegalArgumentException e) {
+                    String message = e.getMessage();
+                    SWTUtils.showMessage(message);
+                }
+
 
             }
 
@@ -98,10 +197,26 @@ public class ModifyFragment extends Composite {
             @Override
             public void widgetSelected(SelectionEvent selectionEvent) {
 
-                int xz = Integer.parseInt(editXZ.getText());
-                int yz = Integer.parseInt(editYZ.getText());
-                int xy = Integer.parseInt(editXY.getText());
+                try {
 
+                    int xz = SWTUtils.retrieveInteger(editXZ);
+                    int yz = SWTUtils.retrieveInteger(editYZ);
+                    int xy = SWTUtils.retrieveInteger(editXY);
+
+                    SWTUtils.checkDegrees(xz);
+                    SWTUtils.checkDegrees(yz);
+                    SWTUtils.checkDegrees(xy);
+
+
+                    SceneObject object = getCurrentSelectedObject();
+
+                    RotationCoordinates rotationCoordinates = new RotationCoordinates(xz, yz, xy);
+                    controller.setRotationForObject(rotationCoordinates, object);
+
+                } catch (IllegalArgumentException e) {
+                    String message = e.getMessage();
+                    SWTUtils.showMessage(message);
+                }
 
             }
 
@@ -136,8 +251,21 @@ public class ModifyFragment extends Composite {
             @Override
             public void widgetSelected(SelectionEvent selectionEvent) {
 
-                float scale = Float.parseFloat(editScale.getText());
 
+                try {
+
+                    float scale = SWTUtils.retrieveScale(editScale);
+
+
+                    SceneObject object = getCurrentSelectedObject();
+
+
+                    controller.setScaleForObject(scale, object);
+
+                } catch (IllegalArgumentException e) {
+                    String message = e.getMessage();
+                    SWTUtils.showMessage(message);
+                }
 
             }
 
@@ -147,5 +275,38 @@ public class ModifyFragment extends Composite {
             }
         });
 
+    }
+
+    private void createDeleteSettings() {
+
+        Composite parent = this;
+
+
+        Button buttonOk = new Button(parent, SWT.NONE);
+        buttonOk.setText("Delete");
+        buttonOk.addSelectionListener(new SelectionListener() {
+            @Override
+            public void widgetSelected(SelectionEvent selectionEvent) {
+
+
+                try {
+
+
+                    SceneObject object = getCurrentSelectedObject();
+
+                    controller.deleteObject(object);
+
+                } catch (IllegalArgumentException e) {
+                    String message = e.getMessage();
+                    SWTUtils.showMessage(message);
+                }
+
+            }
+
+            @Override
+            public void widgetDefaultSelected(SelectionEvent selectionEvent) {
+                //To change body of implemented methods use File | Settings | File Templates.
+            }
+        });
     }
 }
