@@ -123,7 +123,7 @@ public class SettingsTabsFragment extends Composite {
 //        xCoords.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 //            @Override
 //            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-//                Coordinates coordsToMove = object.center.clone();
+//                Point3D coordsToMove = object.center.clone();
 //                coordsToMove.setXz(Double.parseDouble(v.getText().toString()));
 //                object.move(object.center, coordsToMove);
 //                return false;
@@ -132,7 +132,7 @@ public class SettingsTabsFragment extends Composite {
 //        yCoords.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 //            @Override
 //            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-//                Coordinates coordsToMove = object.center.clone();
+//                Point3D coordsToMove = object.center.clone();
 //                coordsToMove.setYz(Double.parseDouble(v.getText().toString()));
 //                object.move(object.center, coordsToMove);
 //                return false;
@@ -141,7 +141,7 @@ public class SettingsTabsFragment extends Composite {
 //        zCoords.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 //            @Override
 //            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-//                Coordinates coordsToMove = object.center.clone();
+//                Point3D coordsToMove = object.center.clone();
 //                coordsToMove.setXy(Double.parseDouble(v.getText().toString()));
 //                object.move(object.center, coordsToMove);
 //                return false;
@@ -159,7 +159,7 @@ public class SettingsTabsFragment extends Composite {
 //            @Override
 //            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 //                //save pre-edited object
-//                Coordinates temp = object.center.clone();
+//                Point3D temp = object.center.clone();
 //                //set center which is non calculated
 //                object.center = ((Roller)object).oldCenter;
 //                //set new wheels count
@@ -170,7 +170,7 @@ public class SettingsTabsFragment extends Composite {
 //                object.setEnabled(true);
 //                //move and rotate object
 //                object.move(object.center, temp);
-//                object.rotate(new Coordinates(object.ax, object.ay, object.az), object.center);
+//                object.rotate(new Point3D(object.ax, object.ay, object.az), object.center);
 //                return false;
 //            }
 //        });

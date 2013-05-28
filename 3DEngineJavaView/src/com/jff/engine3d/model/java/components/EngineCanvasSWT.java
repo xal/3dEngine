@@ -1,9 +1,9 @@
 package com.jff.engine3d.model.java.components;
 
+import com.jff.engine3d.model.IEngineCanvas;
 import com.jff.engine3d.model.PaintEdge;
-import com.jff.engine3d.model.PaintPolygon;
-import com.jff.engine3d.model.PaintVertex;
-import com.jff.engine3d.model.utils.draw.IEngineCanvas;
+import com.jff.engine3d.model.PaintPoint2D;
+import com.jff.engine3d.model.PaintTriangle;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
@@ -20,9 +20,9 @@ import java.util.List;
 public class EngineCanvasSWT extends Canvas implements IEngineCanvas {
 
 
-    private List<PaintVertex> vertexes = new ArrayList<PaintVertex>();
+    private List<PaintPoint2D> vertexes = new ArrayList<PaintPoint2D>();
     private List<PaintEdge> edges = new ArrayList<PaintEdge>();
-    private List<PaintPolygon> polygons = new ArrayList<PaintPolygon>();
+    private List<PaintTriangle> polygons = new ArrayList<PaintTriangle>();
     private com.jff.engine3d.model.utils.draw.Color previousColor;
 
     public EngineCanvasSWT(Composite parent) {
@@ -52,7 +52,7 @@ public class EngineCanvasSWT extends Canvas implements IEngineCanvas {
 
     private void drawVertexes(GC gc) {
 
-        for (PaintVertex vertex : vertexes) {
+        for (PaintPoint2D vertex : vertexes) {
             com.jff.engine3d.model.utils.draw.Color color = vertex.color;
             changeForegroundColor(gc, color);
 
@@ -62,7 +62,8 @@ public class EngineCanvasSWT extends Canvas implements IEngineCanvas {
     }
 
     private void changeForegroundColor(GC gc, com.jff.engine3d.model.utils.draw.Color color) {
-        if (previousColor.equals(color)) {
+        color = com.jff.engine3d.model.utils.draw.Color.BLACK;
+        if (previousColor != null && previousColor.equals(color)) {
             return;
         } else {
 
@@ -88,20 +89,22 @@ public class EngineCanvasSWT extends Canvas implements IEngineCanvas {
     }
 
     private void drawPolygons(GC gc) {
-        for (PaintPolygon polygon : polygons) {
+        for (PaintTriangle polygon : polygons) {
 
             com.jff.engine3d.model.utils.draw.Color color = polygon.color;
             changeForegroundColor(gc, color);
 
-            PaintVertex[] vertexes = polygon.vertexes;
 
-            int[] pointArray = new int[vertexes.length * 2];
+            int[] pointArray = new int[6];
 
-            for (int i = 0; i < vertexes.length; i++) {
-                PaintVertex vertex = vertexes[i];
-                pointArray[i] = vertex.x;
-                pointArray[i + 1] = vertex.y;
-            }
+            int counter = 0;
+            pointArray[counter++] = polygon.firstPoint.x;
+            pointArray[counter++] = polygon.firstPoint.y;
+            pointArray[counter++] = polygon.secondPoint.x;
+            pointArray[counter++] = polygon.secondPoint.y;
+            pointArray[counter++] = polygon.thirdPoint.x;
+            pointArray[counter++] = polygon.thirdPoint.y;
+
             gc.drawPolygon(pointArray);
         }
 
@@ -109,7 +112,7 @@ public class EngineCanvasSWT extends Canvas implements IEngineCanvas {
 
 
     @Override
-    public void setPaintVertexes(List<PaintVertex> vertexes) {
+    public void setPaintVertices(List<PaintPoint2D> vertexes) {
         this.vertexes = vertexes;
     }
 
@@ -119,12 +122,19 @@ public class EngineCanvasSWT extends Canvas implements IEngineCanvas {
     }
 
     @Override
-    public void setPaintPolygons(List<PaintPolygon> polygons) {
+    public void setPaintPolygons(List<PaintTriangle> polygons) {
         this.polygons = polygons;
     }
 
     public void redraw() {
         super.redraw();
+    }
+
+    @Override
+    public void clear() {
+        vertexes.clear();
+        edges.clear();
+        polygons.clear();
     }
 
 

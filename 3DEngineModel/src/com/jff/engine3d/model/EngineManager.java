@@ -19,6 +19,10 @@ public class EngineManager {
         this.controller = new Controller(scene);
     }
 
+    public void init(IEngineCanvas canvas) {
+        controller.init(canvas);
+    }
+
     public Controller getController() {
         return controller;
     }

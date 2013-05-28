@@ -2,9 +2,8 @@ package com.jff.engine3d.model.java.components.settings;
 
 import com.jff.engine3d.model.Controller;
 import com.jff.engine3d.model.EngineListener;
-import com.jff.engine3d.model.EngineManager;
 import com.jff.engine3d.model.SceneObject;
-import com.jff.engine3d.model.utils.draw.Coordinates;
+import com.jff.engine3d.model.utils.draw.Point3D;
 import com.jff.engine3d.model.utils.draw.RotationCoordinates;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
@@ -17,7 +16,7 @@ import java.util.List;
 
 
 public class ModifyFragment extends Composite {
-    private final Controller controller;
+
     private Combo comboSelectedObjects;
 
     public ModifyFragment(Composite parent) {
@@ -28,9 +27,6 @@ public class ModifyFragment extends Composite {
         layout.fill = true;
 
         this.setLayout(layout);
-
-        EngineManager engineManager = EngineManager.getInstance();
-        controller = engineManager.getController();
 
 
         createSelectedComboSettings();
@@ -61,6 +57,7 @@ public class ModifyFragment extends Composite {
 
         updateSelectedObjectCombo();
 
+        Controller controller = Utils.getController();
         controller.addEngineListener(new EngineListener() {
             @Override
             public void onSelectedObjectsChanged(List<SceneObject> objects) {
@@ -75,6 +72,7 @@ public class ModifyFragment extends Composite {
     }
 
     private void updateSelectedObjectCombo() {
+        Controller controller = Utils.getController();
         List<SceneObject> sceneObjects = controller.getSelectedObjects();
 
         String[] items = new String[sceneObjects.size()];
@@ -91,6 +89,7 @@ public class ModifyFragment extends Composite {
     }
 
     private void updateCurrentSelectedObject() {
+        Controller controller = Utils.getController();
         List<SceneObject> sceneObjects = controller.getSelectedObjects();
         SceneObject sceneObject = getCurrentSelectedObject();
 
@@ -101,6 +100,7 @@ public class ModifyFragment extends Composite {
     }
 
     private SceneObject getCurrentSelectedObject() {
+        Controller controller = Utils.getController();
         return controller.getCurrentSelectedObject();
     }
 
@@ -110,7 +110,7 @@ public class ModifyFragment extends Composite {
         Composite parent = this;
         Group group = new Group(parent, SWT.NONE);
 
-        group.setText("Coordinates");
+        group.setText("Point3D");
 
         GridLayout gridLayout = new GridLayout(2, true);
 
@@ -119,17 +119,17 @@ public class ModifyFragment extends Composite {
         Label textX = new Label(group, SWT.NONE);
         textX.setText("X");
         final Text editX = new Text(group, SWT.NONE);
-        editX.addListener(SWT.Verify, SWTUtils.createVerifyIntegerListener());
+        editX.addListener(SWT.Verify, Utils.createVerifyIntegerListener());
 
         Label textY = new Label(group, SWT.NONE);
         textY.setText("Y");
         final Text editY = new Text(group, SWT.NONE);
-        editY.addListener(SWT.Verify, SWTUtils.createVerifyIntegerListener());
+        editY.addListener(SWT.Verify, Utils.createVerifyIntegerListener());
 
         Label textZ = new Label(group, SWT.NONE);
         textZ.setText("Z");
         final Text editZ = new Text(group, SWT.NONE);
-        editZ.addListener(SWT.Verify, SWTUtils.createVerifyIntegerListener());
+        editZ.addListener(SWT.Verify, Utils.createVerifyIntegerListener());
 
         Button buttonOk = new Button(group, SWT.NONE);
         buttonOk.setText("OK");
@@ -139,19 +139,20 @@ public class ModifyFragment extends Composite {
                 try {
 
 
-                    int x = SWTUtils.retrieveInteger(editX);
-                    int y = SWTUtils.retrieveInteger(editY);
-                    int z = SWTUtils.retrieveInteger(editZ);
+                    int x = Utils.retrieveInteger(editX);
+                    int y = Utils.retrieveInteger(editY);
+                    int z = Utils.retrieveInteger(editZ);
 
-                    Coordinates coordinates = new Coordinates(x, y, z);
+                    Point3D point3D = new Point3D(x, y, z);
 
                     SceneObject object = getCurrentSelectedObject();
 
-                    controller.setCoordinatesForObject(coordinates, object);
+                    Controller controller = Utils.getController();
+                    controller.setCoordinatesForObject(point3D, object);
 
                 } catch (IllegalArgumentException e) {
                     String message = e.getMessage();
-                    SWTUtils.showMessage(message);
+                    Utils.showMessage(message);
                 }
 
 
@@ -179,17 +180,17 @@ public class ModifyFragment extends Composite {
         final Label textXZ = new Label(group, SWT.NONE);
         textXZ.setText("XZ");
         final Text editXZ = new Text(group, SWT.NONE);
-        editXZ.addListener(SWT.Verify, SWTUtils.createVerifyIntegerListener());
+        editXZ.addListener(SWT.Verify, Utils.createVerifyIntegerListener());
 
         final Label textYZ = new Label(group, SWT.NONE);
         textYZ.setText("YZ");
         final Text editYZ = new Text(group, SWT.NONE);
-        editYZ.addListener(SWT.Verify, SWTUtils.createVerifyIntegerListener());
+        editYZ.addListener(SWT.Verify, Utils.createVerifyIntegerListener());
 
         final Label textXY = new Label(group, SWT.NONE);
         textXY.setText("XY");
         final Text editXY = new Text(group, SWT.NONE);
-        editXY.addListener(SWT.Verify, SWTUtils.createVerifyIntegerListener());
+        editXY.addListener(SWT.Verify, Utils.createVerifyIntegerListener());
 
         Button buttonOk = new Button(group, SWT.NONE);
         buttonOk.setText("OK");
@@ -199,23 +200,24 @@ public class ModifyFragment extends Composite {
 
                 try {
 
-                    int xz = SWTUtils.retrieveInteger(editXZ);
-                    int yz = SWTUtils.retrieveInteger(editYZ);
-                    int xy = SWTUtils.retrieveInteger(editXY);
+                    int xz = Utils.retrieveInteger(editXZ);
+                    int yz = Utils.retrieveInteger(editYZ);
+                    int xy = Utils.retrieveInteger(editXY);
 
-                    SWTUtils.checkDegrees(xz);
-                    SWTUtils.checkDegrees(yz);
-                    SWTUtils.checkDegrees(xy);
+                    Utils.checkDegrees(xz);
+                    Utils.checkDegrees(yz);
+                    Utils.checkDegrees(xy);
 
 
                     SceneObject object = getCurrentSelectedObject();
 
                     RotationCoordinates rotationCoordinates = new RotationCoordinates(xz, yz, xy);
+                    Controller controller = Utils.getController();
                     controller.setRotationForObject(rotationCoordinates, object);
 
                 } catch (IllegalArgumentException e) {
                     String message = e.getMessage();
-                    SWTUtils.showMessage(message);
+                    Utils.showMessage(message);
                 }
 
             }
@@ -242,7 +244,7 @@ public class ModifyFragment extends Composite {
         final Label textScale = new Label(group, SWT.NONE);
         textScale.setText("Scale");
         final Text editScale = new Text(group, SWT.NONE);
-        editScale.addListener(SWT.Verify, SWTUtils.createVerifyFloatListener());
+        editScale.addListener(SWT.Verify, Utils.createVerifyFloatListener());
 
 
         Button buttonOk = new Button(group, SWT.NONE);
@@ -254,17 +256,18 @@ public class ModifyFragment extends Composite {
 
                 try {
 
-                    float scale = SWTUtils.retrieveScale(editScale);
+                    float scale = Utils.retrieveScale(editScale);
 
 
                     SceneObject object = getCurrentSelectedObject();
 
+                    Controller controller = Utils.getController();
 
                     controller.setScaleForObject(scale, object);
 
                 } catch (IllegalArgumentException e) {
                     String message = e.getMessage();
-                    SWTUtils.showMessage(message);
+                    Utils.showMessage(message);
                 }
 
             }
@@ -294,11 +297,12 @@ public class ModifyFragment extends Composite {
 
                     SceneObject object = getCurrentSelectedObject();
 
+                    Controller controller = Utils.getController();
                     controller.deleteObject(object);
 
                 } catch (IllegalArgumentException e) {
                     String message = e.getMessage();
-                    SWTUtils.showMessage(message);
+                    Utils.showMessage(message);
                 }
 
             }

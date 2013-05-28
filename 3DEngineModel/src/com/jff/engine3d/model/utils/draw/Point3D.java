@@ -1,24 +1,19 @@
 package com.jff.engine3d.model.utils.draw;
 
 public class Point3D {
-
     public double x;
     public double y;
     public double z;
-    public double h;
 
-    public Point3D() {
-        x = y = z = h = 0;
-    }
 
-    public Point3D(double x, double y, double z, double h) {
+    public Point3D(double x, double y, double z) {
         this.x = x;
         this.y = y;
         this.z = z;
-        this.h = h;
+
     }
 
-    public Point3D move(Coordinates offset) {
+    public Point3D move(Point3D offset) {
 
         double[][] matrix =
                 {
@@ -31,7 +26,7 @@ public class Point3D {
         return multiply(matrix);
     }
 
-    public Point3D scale(Coordinates offset, Coordinates center) {
+    public Point3D scale(Point3D offset, Point3D center) {
 
         double[][] matrix =
                 {
@@ -44,7 +39,7 @@ public class Point3D {
         return moveAroundPoint(center, matrix);
     }
 
-    public Point3D rotateX(double angle, Coordinates center) {
+    public Point3D rotateX(double angle, Point3D center) {
         double rad, cos, sin;
 
         rad = angle * Math.PI / 180;
@@ -62,7 +57,7 @@ public class Point3D {
         return moveAroundPoint(center, matrix);
     }
 
-    public Point3D rotateY(double angle, Coordinates center) {
+    public Point3D rotateY(double angle, Point3D center) {
         double rad, cos, sin;
 
         rad = angle * Math.PI / 180;
@@ -80,7 +75,7 @@ public class Point3D {
         return moveAroundPoint(center, matrix);
     }
 
-    public Point3D rotateZ(double angle, Coordinates center) {
+    public Point3D rotateZ(double angle, Point3D center) {
         double rad, cos, sin;
 
         rad = angle * Math.PI / 180;
@@ -98,10 +93,10 @@ public class Point3D {
         return moveAroundPoint(center, matrix);
     }
 
-    private Point3D moveAroundPoint(Coordinates center,
+    private Point3D moveAroundPoint(Point3D center,
                                     double[][] matrix) {
 
-        Point3D rotated = move(new Coordinates(-center.getX(),
+        Point3D rotated = move(new Point3D(-center.getX(),
                 -center.getY(),
                 -center.getZ()));
 
@@ -112,7 +107,7 @@ public class Point3D {
 
     private Point3D multiply(double[][] matrix) {
 
-        double[] vector = {this.x, this.y, this.z, this.h};
+        double[] vector = {this.x, this.y, this.z};
         double[] result = new double[4];
 
         for (int i = 0; i < 4; i++) {
@@ -121,6 +116,29 @@ public class Point3D {
             }
         }
 
-        return new Point3D(result[0], result[1], result[2], result[3]);
+        return new Point3D(result[0], result[1], result[2]);
+    }
+
+    public double getX() {
+        return x;
+    }
+
+    public double getY() {
+        return y;
+    }
+
+    public double getZ() {
+        return z;
+    }
+
+    public float distanceTo(Point3D point3D) {
+        float distance;
+
+        double powX = Math.pow(this.x - point3D.x, 2);
+        double powY = Math.pow(this.y - point3D.y, 2);
+        double powZ = Math.pow(this.z - point3D.z, 2);
+        distance = (float) Math.sqrt(powX + powY + powZ);
+
+        return distance;
     }
 }

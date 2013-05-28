@@ -1,4 +1,4 @@
-package com.jff.engine3d.model.primitives;
+package com.jff.engine3d.model;
 
 public class IDUtils {
     public static int generateID() {

@@ -2,8 +2,8 @@ package com.jff.engine3d.model;
 
 import com.jff.engine3d.model.object.AbstractObjectParams;
 import com.jff.engine3d.model.primitives.AbstractObject;
-import com.jff.engine3d.model.primitives.Parallelepiped;
-import com.jff.engine3d.model.utils.draw.Coordinates;
+import com.jff.engine3d.model.primitives.Box;
+import com.jff.engine3d.model.utils.draw.Point3D;
 import com.jff.engine3d.model.utils.draw.RotationCoordinates;
 
 import java.util.List;
@@ -30,9 +30,9 @@ public class Controller {
     }
 
 
-    public void createObject(Coordinates coordinates, AbstractObjectParams objectParams) {
+    public void createObject(Point3D point3D, AbstractObjectParams objectParams) {
 
-        AbstractObject object = new Parallelepiped(coordinates, 100, 100, 100);
+        AbstractObject object = new Box(point3D, 100, 100, 100);
 
         SceneObject sceneObject = new SceneObject(object);
 
@@ -58,12 +58,12 @@ public class Controller {
         scene.setProjectionType(projectionType);
     }
 
-    public void setCameraFromCoordinates(Coordinates coordinates) {
-        scene.setCameraFromCoordinates(coordinates);
+    public void setCameraFromCoordinates(Point3D point3D) {
+        scene.setCameraFromCoordinates(point3D);
     }
 
-    public void setCameraToCoordinates(Coordinates coordinates) {
-        scene.setCameraToCoordinates(coordinates);
+    public void setCameraToCoordinates(Point3D point3D) {
+        scene.setCameraToCoordinates(point3D);
     }
 
     public void setCameraRotation(CameraRotateType rotateType, RotationCoordinates rotationCoordinates) {
@@ -80,8 +80,8 @@ public class Controller {
         return currentSelectedObject;
     }
 
-    public void setCoordinatesForObject(Coordinates coordinates, SceneObject object) {
-        scene.setCoordinatesForObject(coordinates, object);
+    public void setCoordinatesForObject(Point3D point3D, SceneObject object) {
+        scene.setCoordinatesForObject(point3D, object);
     }
 
     public void setRotationForObject(RotationCoordinates rotationCoordinates, SceneObject object) {
@@ -115,5 +115,9 @@ public class Controller {
             e.printStackTrace();
             throw new IllegalArgumentException("Error on save");
         }
+    }
+
+    public void init(IEngineCanvas canvas) {
+        scene.initializeCanvas(canvas);
     }
 }

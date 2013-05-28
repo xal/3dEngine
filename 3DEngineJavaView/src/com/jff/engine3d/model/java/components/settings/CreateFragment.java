@@ -4,7 +4,7 @@ import com.jff.engine3d.model.Controller;
 import com.jff.engine3d.model.EngineManager;
 import com.jff.engine3d.model.object.AbstractObjectParams;
 import com.jff.engine3d.model.object.BicycleParams;
-import com.jff.engine3d.model.utils.draw.Coordinates;
+import com.jff.engine3d.model.utils.draw.Point3D;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -39,7 +39,28 @@ public class CreateFragment extends Composite {
         createCoordinateSettings();
         createObjectParamsSettings();
 
+        fillSettings();
+
         createButtonOk();
+    }
+
+    private void fillSettings() {
+
+        centerXText.setText("100");
+        centerYText.setText("100");
+        centerZText.setText("100");
+
+        widthWheel.setText("100");
+        diameterWheel.setText("100");
+        widthBush.setText("100");
+        diameterBush.setText("100");
+        widthHelm.setText("100");
+        diameterHelm.setText("100");
+        widthSeat.setText("100");
+        heightSeat.setText("100");
+        widthPedal.setText("100");
+        heightPedal.setText("100");
+
     }
 
     private void createObjectParamsSettings() {
@@ -101,7 +122,7 @@ public class CreateFragment extends Composite {
     }
 
     private void addListeners(Text text) {
-        text.addListener(SWT.Verify, SWTUtils.createVerifyIntegerListener());
+        text.addListener(SWT.Verify, Utils.createVerifyIntegerListener());
     }
 
     private void createButtonOk() {
@@ -112,23 +133,23 @@ public class CreateFragment extends Composite {
             public void widgetSelected(SelectionEvent selectionEvent) {
 
                 try {
-                    int x = SWTUtils.retrieveInteger(centerXText);
-                    int y = SWTUtils.retrieveInteger(centerYText);
-                    int z = SWTUtils.retrieveInteger(centerZText);
+                    int x = Utils.retrieveInteger(centerXText);
+                    int y = Utils.retrieveInteger(centerYText);
+                    int z = Utils.retrieveInteger(centerZText);
 
-                    Coordinates coordinates = new Coordinates(x, y, z);
+                    Point3D point3D = new Point3D(x, y, z);
 
 
-                    int widthWheelInt = SWTUtils.retrieveInteger(widthWheel);
-                    int diameterWheelInt = SWTUtils.retrieveInteger(diameterWheel);
-                    int widthBushInt = SWTUtils.retrieveInteger(widthBush);
-                    int diameterBushInt = SWTUtils.retrieveInteger(diameterBush);
-                    int widthHelmInt = SWTUtils.retrieveInteger(widthHelm);
-                    int diameterHelmInt = SWTUtils.retrieveInteger(diameterHelm);
-                    int widthSeatInt = SWTUtils.retrieveInteger(widthSeat);
-                    int heightSeatInt = SWTUtils.retrieveInteger(heightSeat);
-                    int widthPedalInt = SWTUtils.retrieveInteger(widthPedal);
-                    int heightPedalInt = SWTUtils.retrieveInteger(heightPedal);
+                    int widthWheelInt = Utils.retrieveInteger(widthWheel);
+                    int diameterWheelInt = Utils.retrieveInteger(diameterWheel);
+                    int widthBushInt = Utils.retrieveInteger(widthBush);
+                    int diameterBushInt = Utils.retrieveInteger(diameterBush);
+                    int widthHelmInt = Utils.retrieveInteger(widthHelm);
+                    int diameterHelmInt = Utils.retrieveInteger(diameterHelm);
+                    int widthSeatInt = Utils.retrieveInteger(widthSeat);
+                    int heightSeatInt = Utils.retrieveInteger(heightSeat);
+                    int widthPedalInt = Utils.retrieveInteger(widthPedal);
+                    int heightPedalInt = Utils.retrieveInteger(heightPedal);
 
 
                     AbstractObjectParams objectParams = new BicycleParams(widthWheelInt, diameterWheelInt, widthBushInt, diameterBushInt,
@@ -136,11 +157,11 @@ public class CreateFragment extends Composite {
 
                     EngineManager engineManager = EngineManager.getInstance();
                     Controller controller = engineManager.getController();
-                    controller.createObject(coordinates, objectParams);
+                    controller.createObject(point3D, objectParams);
 
                 } catch (IllegalArgumentException e) {
                     String message = e.getMessage();
-                    SWTUtils.showMessage(message);
+                    Utils.showMessage(message);
                 }
 
 
@@ -159,7 +180,7 @@ public class CreateFragment extends Composite {
         Composite parent = this;
         Group group = new Group(parent, SWT.NONE);
 
-        group.setText("Coordinates");
+        group.setText("Point3D");
 
         GridLayout gridLayout = new GridLayout(2, true);
 
@@ -168,17 +189,17 @@ public class CreateFragment extends Composite {
         Label textX = new Label(group, SWT.NONE);
         textX.setText("X");
         centerXText = new Text(group, SWT.NONE);
-        centerXText.addListener(SWT.Verify, SWTUtils.createVerifyIntegerListener());
+        centerXText.addListener(SWT.Verify, Utils.createVerifyIntegerListener());
 
         Label textY = new Label(group, SWT.NONE);
         textY.setText("Y");
         centerYText = new Text(group, SWT.NONE);
-        centerYText.addListener(SWT.Verify, SWTUtils.createVerifyIntegerListener());
+        centerYText.addListener(SWT.Verify, Utils.createVerifyIntegerListener());
 
         Label textZ = new Label(group, SWT.NONE);
         textZ.setText("Z");
         centerZText = new Text(group, SWT.NONE);
-        centerZText.addListener(SWT.Verify, SWTUtils.createVerifyIntegerListener());
+        centerZText.addListener(SWT.Verify, Utils.createVerifyIntegerListener());
 
 
     }

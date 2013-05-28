@@ -1,9 +1,11 @@
 package com.jff.engine3d.model.java.components.settings;
 
+import com.jff.engine3d.model.Controller;
+import com.jff.engine3d.model.EngineManager;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.*;
 
-public class SWTUtils {
+public class Utils {
 
 
     public static Listener createVerifyIntegerListener() {
@@ -80,5 +82,12 @@ public class SWTUtils {
         float value = Float.parseFloat(text);
 
         return value;
+    }
+
+    public static Controller getController() {
+        EngineManager engineManager = EngineManager.getInstance();
+        Controller controller = engineManager.getController();
+
+        return controller;
     }
 }

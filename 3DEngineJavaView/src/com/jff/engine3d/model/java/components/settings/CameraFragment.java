@@ -4,7 +4,7 @@ import com.jff.engine3d.model.CameraRotateType;
 import com.jff.engine3d.model.Controller;
 import com.jff.engine3d.model.EngineManager;
 import com.jff.engine3d.model.ProjectionType;
-import com.jff.engine3d.model.utils.draw.Coordinates;
+import com.jff.engine3d.model.utils.draw.Point3D;
 import com.jff.engine3d.model.utils.draw.RotationCoordinates;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
@@ -100,17 +100,17 @@ public class CameraFragment extends Composite {
         Label textX = new Label(group, SWT.NONE);
         textX.setText("X");
         final Text editX = new Text(group, SWT.NONE);
-        editX.addListener(SWT.Verify, SWTUtils.createVerifyIntegerListener());
+        editX.addListener(SWT.Verify, Utils.createVerifyIntegerListener());
 
         Label textY = new Label(group, SWT.NONE);
         textY.setText("Y");
         final Text editY = new Text(group, SWT.NONE);
-        editY.addListener(SWT.Verify, SWTUtils.createVerifyIntegerListener());
+        editY.addListener(SWT.Verify, Utils.createVerifyIntegerListener());
 
         Label textZ = new Label(group, SWT.NONE);
         textZ.setText("Z");
         final Text editZ = new Text(group, SWT.NONE);
-        editZ.addListener(SWT.Verify, SWTUtils.createVerifyIntegerListener());
+        editZ.addListener(SWT.Verify, Utils.createVerifyIntegerListener());
 
         Button buttonOk = new Button(group, SWT.NONE);
         buttonOk.setText("OK");
@@ -119,18 +119,18 @@ public class CameraFragment extends Composite {
             public void widgetSelected(SelectionEvent selectionEvent) {
 
                 try {
-                    int x = SWTUtils.retrieveInteger(editX);
-                    int y = SWTUtils.retrieveInteger(editY);
-                    int z = SWTUtils.retrieveInteger(editZ);
+                    int x = Utils.retrieveInteger(editX);
+                    int y = Utils.retrieveInteger(editY);
+                    int z = Utils.retrieveInteger(editZ);
 
-                    Coordinates coordinates = new Coordinates(x, y, z);
+                    Point3D point3D = new Point3D(x, y, z);
 
 
-                    controller.setCameraFromCoordinates(coordinates);
+                    controller.setCameraFromCoordinates(point3D);
 
                 } catch (IllegalArgumentException e) {
                     String message = e.getMessage();
-                    SWTUtils.showMessage(message);
+                    Utils.showMessage(message);
                 }
 
 
@@ -158,17 +158,17 @@ public class CameraFragment extends Composite {
         Label textX = new Label(group, SWT.NONE);
         textX.setText("X");
         final Text editX = new Text(group, SWT.NONE);
-        editX.addListener(SWT.Verify, SWTUtils.createVerifyIntegerListener());
+        editX.addListener(SWT.Verify, Utils.createVerifyIntegerListener());
 
         Label textY = new Label(group, SWT.NONE);
         textY.setText("Y");
         final Text editY = new Text(group, SWT.NONE);
-        editY.addListener(SWT.Verify, SWTUtils.createVerifyIntegerListener());
+        editY.addListener(SWT.Verify, Utils.createVerifyIntegerListener());
 
         Label textZ = new Label(group, SWT.NONE);
         textZ.setText("Z");
         final Text editZ = new Text(group, SWT.NONE);
-        editZ.addListener(SWT.Verify, SWTUtils.createVerifyIntegerListener());
+        editZ.addListener(SWT.Verify, Utils.createVerifyIntegerListener());
 
         Button buttonOk = new Button(group, SWT.NONE);
         buttonOk.setText("OK");
@@ -179,18 +179,18 @@ public class CameraFragment extends Composite {
                 try {
 
 
-                    int x = SWTUtils.retrieveInteger(editX);
-                    int y = SWTUtils.retrieveInteger(editY);
-                    int z = SWTUtils.retrieveInteger(editZ);
+                    int x = Utils.retrieveInteger(editX);
+                    int y = Utils.retrieveInteger(editY);
+                    int z = Utils.retrieveInteger(editZ);
 
-                    Coordinates coordinates = new Coordinates(x, y, z);
+                    Point3D point3D = new Point3D(x, y, z);
 
 
-                    controller.setCameraToCoordinates(coordinates);
+                    controller.setCameraToCoordinates(point3D);
 
                 } catch (IllegalArgumentException e) {
                     String message = e.getMessage();
-                    SWTUtils.showMessage(message);
+                    Utils.showMessage(message);
                 }
 
 
@@ -235,17 +235,17 @@ public class CameraFragment extends Composite {
         final Label textXZ = new Label(group, SWT.NONE);
         textXZ.setText("XZ");
         final Text editXZ = new Text(group, SWT.NONE);
-        editXZ.addListener(SWT.Verify, SWTUtils.createVerifyIntegerListener());
+        editXZ.addListener(SWT.Verify, Utils.createVerifyIntegerListener());
 
         final Label textYZ = new Label(group, SWT.NONE);
         textYZ.setText("YZ");
         final Text editYZ = new Text(group, SWT.NONE);
-        editYZ.addListener(SWT.Verify, SWTUtils.createVerifyIntegerListener());
+        editYZ.addListener(SWT.Verify, Utils.createVerifyIntegerListener());
 
         final Label textXY = new Label(group, SWT.NONE);
         textXY.setText("XY");
         final Text editXY = new Text(group, SWT.NONE);
-        editXY.addListener(SWT.Verify, SWTUtils.createVerifyIntegerListener());
+        editXY.addListener(SWT.Verify, Utils.createVerifyIntegerListener());
 
         Button buttonOk = new Button(group, SWT.NONE);
         buttonOk.setText("OK");
@@ -262,13 +262,13 @@ public class CameraFragment extends Composite {
                         rotateType = CameraRotateType.OBJECT;
                     }
 
-                    int xz = SWTUtils.retrieveInteger(editXZ);
-                    int yz = SWTUtils.retrieveInteger(editYZ);
-                    int xy = SWTUtils.retrieveInteger(editXY);
+                    int xz = Utils.retrieveInteger(editXZ);
+                    int yz = Utils.retrieveInteger(editYZ);
+                    int xy = Utils.retrieveInteger(editXY);
 
-                    SWTUtils.checkDegrees(xz);
-                    SWTUtils.checkDegrees(yz);
-                    SWTUtils.checkDegrees(xy);
+                    Utils.checkDegrees(xz);
+                    Utils.checkDegrees(yz);
+                    Utils.checkDegrees(xy);
 
 
                     RotationCoordinates rotationCoordinates = new RotationCoordinates(xz, yz, xy);
@@ -277,7 +277,7 @@ public class CameraFragment extends Composite {
 
                 } catch (IllegalArgumentException e) {
                     String message = e.getMessage();
-                    SWTUtils.showMessage(message);
+                    Utils.showMessage(message);
                 }
 
 

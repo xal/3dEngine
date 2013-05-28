@@ -1,6 +1,7 @@
 package com.jff.engine3d.model.java.components;
 
 
+import com.jff.engine3d.model.EngineManager;
 import com.jff.engine3d.model.java.components.settings.SettingsTabsFragment;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -51,5 +52,9 @@ public class MainWindow extends Composite {
 
         engineCanvas = new EngineCanvasSWT(parent);
         engineCanvas.setLayoutData(canvasData);
+
+        EngineManager engineManager = EngineManager.getInstance();
+
+        engineManager.init(engineCanvas);
     }
 }

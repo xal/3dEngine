@@ -51,7 +51,7 @@ public class FileFragment extends Composite {
                     controller.loadScene(pathToFile);
                 } catch (IllegalArgumentException e) {
                     String message = e.getMessage();
-                    SWTUtils.showMessage(message);
+                    Utils.showMessage(message);
                 }
 
             }
@@ -81,7 +81,7 @@ public class FileFragment extends Composite {
                     controller.saveScene(pathToFile);
                 } catch (IllegalArgumentException e) {
                     String message = e.getMessage();
-                    SWTUtils.showMessage(message);
+                    Utils.showMessage(message);
                 }
 
             }
