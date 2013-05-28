@@ -36,12 +36,12 @@ public class Box extends AbstractObject {
 
     @Override
     protected void computeVertices() {
-        vertices = TriangulateUtils.createVertices(this);
+        vertexes = TriangulateUtils.createVertices(this);
 
     }
 
     @Override
     protected void computeTriangles() {
-        triangles = TriangulateUtils.triangulateBox(this, vertices);
+        triangles = TriangulateUtils.triangulateBox(this, vertexes);
     }
 }

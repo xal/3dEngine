@@ -72,6 +72,7 @@ public class EngineCanvasSWT extends Canvas implements IEngineCanvas {
             Device device = Display.getCurrent();
             Color swtColor = new Color(device, color.red, color.green, color.blue);
             gc.setForeground(swtColor);
+            gc.setBackground(new Color(device, 100, 100, 100));
         }
     }
 
@@ -95,7 +96,7 @@ public class EngineCanvasSWT extends Canvas implements IEngineCanvas {
             changeForegroundColor(gc, color);
 
 
-            int[] pointArray = new int[6];
+            int[] pointArray = new int[8];
 
             int counter = 0;
             pointArray[counter++] = polygon.firstPoint.x;
@@ -105,7 +106,8 @@ public class EngineCanvasSWT extends Canvas implements IEngineCanvas {
             pointArray[counter++] = polygon.thirdPoint.x;
             pointArray[counter++] = polygon.thirdPoint.y;
 
-            gc.drawPolygon(pointArray);
+
+            gc.fillPolygon(pointArray);
         }
 
     }

@@ -152,6 +152,7 @@ public class Scene implements Serializable {
     }
 
     public void setRotationForObject(RotationCoordinates rotationCoordinates, SceneObject object) {
+
         object.rotate(rotationCoordinates);
         fireSceneChanged();
     }

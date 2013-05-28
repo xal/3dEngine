@@ -39,4 +39,12 @@ public class RotationCoordinates {
     public RotationCoordinates clone() {
         return new RotationCoordinates(xz, yz, xy);
     }
+
+    public double getXAngleInRadians() {
+        return Math.toRadians(xz);
+    }
+
+    public double getYAngleInRadians() {
+        return Math.toRadians(yz);
+    }
 }

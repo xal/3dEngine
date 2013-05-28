@@ -11,7 +11,7 @@ public class SceneObject implements Serializable {
 
     private AbstractObject object;
 
-    private boolean selected;
+    private boolean selected = true;
 
     public SceneObject(AbstractObject object) {
         this.object = object;
@@ -43,7 +43,7 @@ public class SceneObject implements Serializable {
     }
 
     public List<Point3D> getVertices() {
-        return object.getVertices();
+        return object.getVertexes();
     }
 
     public boolean isSelected() {
@@ -51,14 +51,15 @@ public class SceneObject implements Serializable {
     }
 
     public void moveToNewCoordinates(Point3D point3D) {
-        //To change body of created methods use File | Settings | File Templates.
+        object.move(point3D);
     }
 
     public void rotate(RotationCoordinates rotationCoordinates) {
-        //To change body of created methods use File | Settings | File Templates.
+        object.rotate(rotationCoordinates);
     }
 
     public void scale(float scale) {
+        object.scale(scale);
     }
 
     public Point3D getCenter() {
