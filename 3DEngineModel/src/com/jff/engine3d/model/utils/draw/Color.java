@@ -13,10 +13,14 @@ public class Color {
     public static final Color COLOR4 = null;
     public static final Color BLUE = null;
 
-    private int color;
+    public int red;
+    public int green;
+    public int blue;
 
-    public Color(int color) {
-        this.color = color;
+    public Color(int red, int green, int blue) {
+        this.red = red;
+        this.green = green;
+        this.blue = blue;
     }
 
 }

@@ -1,9 +1,18 @@
 package com.jff.engine3d.model.utils.draw;
 
-import com.jff.engine3d.model.primitives.AbstractObject;
+import com.jff.engine3d.model.PaintEdge;
+import com.jff.engine3d.model.PaintPolygon;
+import com.jff.engine3d.model.PaintVertex;
+
+import java.util.List;
 
 public interface IEngineCanvas {
-    void addObject(AbstractObject object);
 
-    void removeObject(AbstractObject object);
+    public void setPaintVertexes(List<PaintVertex> vertexes);
+
+    public void setPaintEdges(List<PaintEdge> edges);
+
+    public void setPaintPolygons(List<PaintPolygon> polygons);
+
+    public void redraw();
 }

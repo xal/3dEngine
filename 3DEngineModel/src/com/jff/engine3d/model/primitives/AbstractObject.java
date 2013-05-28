@@ -1,8 +1,6 @@
 package com.jff.engine3d.model.primitives;
 
 
-import com.jff.engine3d.model.Engine;
-import com.jff.engine3d.model.EngineManager;
 import com.jff.engine3d.model.utils.draw.*;
 
 import java.io.Serializable;
@@ -142,13 +140,13 @@ public abstract class AbstractObject implements Serializable {
         //initialize drawers
         drawers = new AbstractFaceDrawer[faces.length + 2];
 
-
-        EngineManager engineManager = EngineManager.getInstance();
-        Engine engine = engineManager.getEngine();
-
-        for (int i = 0; i < faces.length + 2; i++) {
-            drawers[i] = engine.createFaceDrawer();
-        }
+//
+//        EngineManager engineManager = EngineManager.getInstance();
+//        Engine engine = engineManager.getEngine();
+//
+//        for (int i = 0; i < faces.length + 2; i++) {
+//            drawers[i] = engine.createFaceDrawer();
+//        }
 
 
         //initialize background vertices
