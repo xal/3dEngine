@@ -1,15 +1,13 @@
 package com.jff.engine3d.model;
 
-import com.jff.engine3d.model.utils.draw.Point3D;
-import com.jff.engine3d.model.utils.draw.RotationCoordinates;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Scene implements Serializable {
 
-    private IEngineCanvas engineCanvas;
+    private transient IEngineCanvas engineCanvas;
+    private transient IEngineView engineView;
 
     private Camera camera;
     private ViewType viewType;
@@ -35,7 +33,7 @@ public class Scene implements Serializable {
         engineCanvas.clear();
 
         List<PaintPoint2D> vertices = new ArrayList<PaintPoint2D>();
-        List<PaintEdge> edges = new ArrayList<PaintEdge>();
+
         List<PaintTriangle> polygons = new ArrayList<PaintTriangle>();
 
         List<SceneObject> objectsInCamera = camera.chooseObjectsInCamera(objects);
@@ -51,7 +49,7 @@ public class Scene implements Serializable {
 
             camera.sortTrianglesByDistanceFromCamera(objectTriangles, objectVerticesInCameraCoordinates);
 
-            List<Triangle> faceTriangles = camera.chooseFaceTriangles(objectTriangles, objectVerticesInCameraCoordinates);
+            List<Triangle> faceTriangles = objectTriangles;
 
             List<PaintPoint2D> objectPaintVertices = camera.translateFrom3Dto2D(objectVerticesInCameraCoordinates);
 
@@ -63,11 +61,33 @@ public class Scene implements Serializable {
         }
 
 
-        engineCanvas.setPaintVertices(vertices);
-        engineCanvas.setPaintEdges(edges);
         engineCanvas.setPaintPolygons(polygons);
 
+        drawAxes();
         engineCanvas.redraw();
+        engineView.sceneChanged(this);
+    }
+
+    private void drawAxes() {
+
+        int length = 100;
+
+        Point3D centerPoint3d = new Point3D(0, 0, 0);
+        Point3D xAxysPoint3d = new Point3D(length, 0, 0);
+        Point3D yAxysPoint3d = new Point3D(0, length, 0);
+        Point3D zAxysPoint3d = new Point3D(0, 0, length);
+
+
+        PaintPoint2D centerPoint2D = camera.translateFrom3Dto2D(centerPoint3d);
+        PaintPoint2D xPoint2D = camera.translateFrom3Dto2D(xAxysPoint3d);
+        PaintPoint2D yPoint2D = camera.translateFrom3Dto2D(yAxysPoint3d);
+        PaintPoint2D zPoint2D = camera.translateFrom3Dto2D(zAxysPoint3d);
+
+        engineCanvas.setCenterCoordinates(centerPoint2D);
+
+        engineCanvas.setXAxisCoordinates(xPoint2D);
+        engineCanvas.setYAxisCoordinates(yPoint2D);
+        engineCanvas.setZAxisCoordinates(zPoint2D);
     }
 
     public boolean addObject(SceneObject sceneObject) {
@@ -94,17 +114,13 @@ public class Scene implements Serializable {
     public void init(Scene oldScene) {
         this.engineListeners.addAll(oldScene.engineListeners);
         this.engineCanvas = oldScene.engineCanvas;
+        this.engineView = oldScene.engineView;
     }
 
     public void setViewType(ViewType viewType) {
         this.viewType = viewType;
 
         fireSceneChanged();
-    }
-
-    public void startPanorama() {
-
-
     }
 
 
@@ -168,7 +184,13 @@ public class Scene implements Serializable {
     }
 
 
-    public void initializeCanvas(IEngineCanvas canvas) {
+    public void initializeView(IEngineCanvas canvas, IEngineView view) {
         this.engineCanvas = canvas;
+        this.engineView = view;
+    }
+
+    public void setCameraFocalLength(int focalLength) {
+        camera.setCameraFocalLength(focalLength);
+        fireSceneChanged();
     }
 }

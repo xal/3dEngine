@@ -3,35 +3,32 @@ package com.jff.engine3d.model.primitives;
 import com.jff.engine3d.model.Point3D;
 import com.jff.engine3d.model.TriangulateUtils;
 
-public class Box extends AbstractObject {
-
-    private final int width;
-    private final int length;
-    private final int height;
+public class Cylinder extends AbstractObject {
 
 
-    public Box(Point3D center, int width, int length, int height) {
-        super(center);
+    protected int upperRadius;
+    protected int lowerRadius;
+    protected int height;
 
-        this.width = width;
-        this.length = length;
+    public Cylinder(Point3D point3D, int upperRadius, int lowerRadius, int height) {
+        super(point3D);
+        this.upperRadius = upperRadius;
+        this.lowerRadius = lowerRadius;
         this.height = height;
 
         fireParametersChanged();
-
     }
 
+    public int getUpperRadius() {
+        return upperRadius;
+    }
 
-    public int getWidth() {
-        return width;
+    public int getLowerRadius() {
+        return lowerRadius;
     }
 
     public int getHeight() {
         return height;
-    }
-
-    public int getLength() {
-        return length;
     }
 
     @Override
@@ -44,4 +41,6 @@ public class Box extends AbstractObject {
     protected void computeTriangles() {
         triangles = TriangulateUtils.triangulate(this, vertexes);
     }
+
+
 }

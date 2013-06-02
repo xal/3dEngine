@@ -1,8 +1,5 @@
 package com.jff.engine3d.model;
 
-import com.jff.engine3d.model.utils.draw.Point3D;
-import com.jff.engine3d.model.utils.draw.RotationCoordinates;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -25,20 +22,21 @@ public class Camera implements Serializable {
             float secondDistance = distanceFromCameraToPoint(secondPoint3D);
 
             if (firstDistance < secondDistance) {
-                return 1;
+                return -1;
             } else if (firstDistance == secondDistance) {
                 return 0;
             } else {
-                return -1;
+                return 1;
             }
         }
     };
 
-    private static final Point3D DEFAULT_FROM_COORDINATES = new Point3D(100, 100, 100);
+    private static final Point3D DEFAULT_FROM_COORDINATES = new Point3D(1, 1, 1000);
     private static final Point3D DEFAULT_TO_COORDINATES = new Point3D(0, 0, 0);
-    private static final CameraRotateType DEFAULT_ROTATE_TYPE = CameraRotateType.AXYS;
+    private static final CameraRotateType DEFAULT_ROTATE_TYPE = CameraRotateType.FROM;
     private static final RotationCoordinates DEFAULT_ROTATION_COORDINATES = new RotationCoordinates(0, 0, 0);
-    private static final ProjectionType DEFAULT_PROJECTION_TYPE = ProjectionType.PARALLER;
+    private static final ProjectionType DEFAULT_PROJECTION_TYPE = ProjectionType.PARALLEL;
+    private static final int DEFAULT_FOCAL_LENGTH = 500;
 
     private CameraSettings cameraSettings;
     private AbstractCameraProjection projection;
@@ -47,7 +45,7 @@ public class Camera implements Serializable {
     public Camera() {
 
         cameraSettings = new CameraSettings(DEFAULT_TO_COORDINATES, DEFAULT_FROM_COORDINATES,
-                DEFAULT_ROTATE_TYPE, DEFAULT_ROTATION_COORDINATES);
+                DEFAULT_ROTATE_TYPE, DEFAULT_ROTATION_COORDINATES, DEFAULT_FOCAL_LENGTH);
         setProjectionType(DEFAULT_PROJECTION_TYPE);
     }
 
@@ -87,17 +85,18 @@ public class Camera implements Serializable {
             public int compare(Triangle triangle, Triangle triangle2) {
 
                 Point3D centroid1 = getTriangleCentroid(triangle, objectVerticesInCameraCoordinates);
-                Point3D centroid2 = getTriangleCentroid(triangle, objectVerticesInCameraCoordinates);
+                Point3D centroid2 = getTriangleCentroid(triangle2, objectVerticesInCameraCoordinates);
 
                 float firstDistance = distanceFromCameraToPoint(centroid1);
                 float secondDistance = distanceFromCameraToPoint(centroid2);
 
+
                 if (firstDistance < secondDistance) {
-                    return 1;
+                    return -1;
                 } else if (firstDistance == secondDistance) {
                     return 0;
                 } else {
-                    return -1;
+                    return 1;
                 }
             }
         };
@@ -116,9 +115,6 @@ public class Camera implements Serializable {
         return centroid;
     }
 
-    public List<Triangle> chooseFaceTriangles(List<Triangle> objectTriangles, List<Point3D> objectVertices) {
-        return projection.chooseFaceTriangles(objectTriangles, objectVertices);
-    }
 
     public List<PaintPoint2D> translateFrom3Dto2D(List<Point3D> objectVertexes) {
 
@@ -126,13 +122,17 @@ public class Camera implements Serializable {
 
 
         for (Point3D objectVertex : objectVertexes) {
-            PaintPoint2D paintPoint2D = new PaintPoint2D(objectVertex.x, objectVertex.y);
+            PaintPoint2D paintPoint2D = Point3dTo2d(objectVertex);
             paintPoint2Ds.add(paintPoint2D);
         }
 
 
         return paintPoint2Ds;
 
+    }
+
+    private PaintPoint2D Point3dTo2d(Point3D objectVertex) {
+        return new PaintPoint2D(objectVertex.x, objectVertex.y);
     }
 
     public List<PaintTriangle> translateTrianglesFrom3Dto2D(List<Triangle> faceTriangles, List<PaintPoint2D> objectPaintVertices) {
@@ -156,17 +156,17 @@ public class Camera implements Serializable {
 
 
     public void setToCoordinates(Point3D toCoordinates) {
-        this.cameraSettings.toCoordinates = toCoordinates;
+        this.cameraSettings.setToCoordinates(toCoordinates);
     }
 
 
     public void setFromCoordinates(Point3D fromCoordinates) {
-        this.cameraSettings.fromCoordinates = fromCoordinates;
+        this.cameraSettings.setFromCoordinates(fromCoordinates);
     }
 
     public void setRotation(CameraRotateType rotateType, RotationCoordinates rotationCoordinates) {
-        this.cameraSettings.rotateType = rotateType;
-        this.cameraSettings.rotationCoordinates = rotationCoordinates;
+        this.cameraSettings.setRotateType(rotateType);
+        this.cameraSettings.setRotationCoordinates(rotationCoordinates);
     }
 
     public void setProjectionType(ProjectionType projectionType) {
@@ -206,5 +206,15 @@ public class Camera implements Serializable {
 
         return objectsInCamera;
 
+    }
+
+    public void setCameraFocalLength(int focalLength) {
+        cameraSettings.setFocalLength(focalLength);
+    }
+
+    public PaintPoint2D translateFrom3Dto2D(Point3D point3d) {
+        Point3D newPoint3D = projection.convertToCameraCoordinateSystem(point3d);
+
+        return Point3dTo2d(newPoint3D);
     }
 }

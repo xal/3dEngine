@@ -1,11 +1,6 @@
 package com.jff.engine3d.model.java.components.settings;
 
-import com.jff.engine3d.model.CameraRotateType;
-import com.jff.engine3d.model.Controller;
-import com.jff.engine3d.model.EngineManager;
-import com.jff.engine3d.model.ProjectionType;
-import com.jff.engine3d.model.utils.draw.Point3D;
-import com.jff.engine3d.model.utils.draw.RotationCoordinates;
+import com.jff.engine3d.model.*;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -15,6 +10,26 @@ import org.eclipse.swt.widgets.*;
 
 public class CameraFragment extends Composite {
     private final Controller controller;
+    private Text toX;
+    private Text toY;
+    private Text toZ;
+
+    private Text fromX;
+    private Text fromY;
+    private Text fromZ;
+
+    private Text rotateX;
+    private Text rotateY;
+    private Text rotateZ;
+
+    private Text focalLength;
+
+    private Button fromRotate;
+    private Button toButton;
+
+    private Slider rotateXSlider;
+    private Slider rotateYSlider;
+    private Slider rotateZSlider;
 
     public CameraFragment(Composite parent) {
         super(parent, SWT.NONE);
@@ -34,6 +49,7 @@ public class CameraFragment extends Composite {
         createFromSettings();
         createToSettings();
         createRotateSettings();
+        createFocalLengthSettings();
 
     }
 
@@ -51,36 +67,30 @@ public class CameraFragment extends Composite {
         Button perspectiveButton = new Button(group, SWT.RADIO);
         perspectiveButton.setText("Perspective");
 
-        Button parallelButton = new Button(group, SWT.RADIO);
-        parallelButton.setText("Parallel");
+        final Button parallelProjection = new Button(group, SWT.RADIO);
+        parallelProjection.setText("Parallel");
 
-        perspectiveButton.setSelection(true);
+        parallelProjection.setSelection(true);
 
-        perspectiveButton.addSelectionListener(new SelectionListener() {
+
+        SelectionListener listener = new SelectionListener() {
             @Override
             public void widgetSelected(SelectionEvent selectionEvent) {
-                controller.setProjectionType(ProjectionType.PERSPECTIVE);
+                if (parallelProjection.getSelection()) {
+                    controller.setProjectionType(ProjectionType.PARALLEL);
+                } else {
 
+                    controller.setProjectionType(ProjectionType.PERSPECTIVE);
+                }
             }
 
             @Override
             public void widgetDefaultSelected(SelectionEvent selectionEvent) {
                 //To change body of implemented methods use File | Settings | File Templates.
             }
-        });
-
-        parallelButton.addSelectionListener(new SelectionListener() {
-            @Override
-            public void widgetSelected(SelectionEvent selectionEvent) {
-
-                controller.setProjectionType(ProjectionType.PARALLER);
-            }
-
-            @Override
-            public void widgetDefaultSelected(SelectionEvent selectionEvent) {
-                //To change body of implemented methods use File | Settings | File Templates.
-            }
-        });
+        };
+        parallelProjection.addSelectionListener(listener);
+        perspectiveButton.addSelectionListener(listener);
 
 
     }
@@ -99,18 +109,18 @@ public class CameraFragment extends Composite {
 
         Label textX = new Label(group, SWT.NONE);
         textX.setText("X");
-        final Text editX = new Text(group, SWT.NONE);
-        editX.addListener(SWT.Verify, Utils.createVerifyIntegerListener());
+        fromX = new Text(group, SWT.NONE);
+        fromX.addListener(SWT.Verify, Utils.createVerifyPositiveIntegerListener());
 
         Label textY = new Label(group, SWT.NONE);
         textY.setText("Y");
-        final Text editY = new Text(group, SWT.NONE);
-        editY.addListener(SWT.Verify, Utils.createVerifyIntegerListener());
+        fromY = new Text(group, SWT.NONE);
+        fromY.addListener(SWT.Verify, Utils.createVerifyPositiveIntegerListener());
 
         Label textZ = new Label(group, SWT.NONE);
         textZ.setText("Z");
-        final Text editZ = new Text(group, SWT.NONE);
-        editZ.addListener(SWT.Verify, Utils.createVerifyIntegerListener());
+        fromZ = new Text(group, SWT.NONE);
+        fromZ.addListener(SWT.Verify, Utils.createVerifyPositiveIntegerListener());
 
         Button buttonOk = new Button(group, SWT.NONE);
         buttonOk.setText("OK");
@@ -119,14 +129,60 @@ public class CameraFragment extends Composite {
             public void widgetSelected(SelectionEvent selectionEvent) {
 
                 try {
-                    int x = Utils.retrieveInteger(editX);
-                    int y = Utils.retrieveInteger(editY);
-                    int z = Utils.retrieveInteger(editZ);
+                    int x = Utils.retrieveInteger(fromX);
+                    int y = Utils.retrieveInteger(fromY);
+                    int z = Utils.retrieveInteger(fromZ);
 
                     Point3D point3D = new Point3D(x, y, z);
 
 
                     controller.setCameraFromCoordinates(point3D);
+
+                } catch (IllegalArgumentException e) {
+                    String message = e.getMessage();
+                    Utils.showMessage(message);
+                }
+
+
+            }
+
+            @Override
+            public void widgetDefaultSelected(SelectionEvent selectionEvent) {
+                //To change body of implemented methods use File | Settings | File Templates.
+            }
+        });
+
+    }
+
+
+    private void createFocalLengthSettings() {
+
+        Composite parent = this;
+        Group group = new Group(parent, SWT.NONE);
+
+        group.setText("FocalLength");
+
+        GridLayout gridLayout = new GridLayout(2, true);
+
+        group.setLayout(gridLayout);
+
+        Label textFocalLength = new Label(group, SWT.NONE);
+        textFocalLength.setText("Length");
+        focalLength = new Text(group, SWT.NONE);
+        focalLength.addListener(SWT.Verify, Utils.createVerifyPositiveIntegerListener());
+
+
+        Button buttonOk = new Button(group, SWT.NONE);
+        buttonOk.setText("OK");
+        buttonOk.addSelectionListener(new SelectionListener() {
+            @Override
+            public void widgetSelected(SelectionEvent selectionEvent) {
+
+                try {
+                    int focalLength = Utils.retrieveInteger(CameraFragment.this.focalLength);
+
+
+                    controller.setCameraFocalLength(focalLength);
 
                 } catch (IllegalArgumentException e) {
                     String message = e.getMessage();
@@ -157,18 +213,18 @@ public class CameraFragment extends Composite {
 
         Label textX = new Label(group, SWT.NONE);
         textX.setText("X");
-        final Text editX = new Text(group, SWT.NONE);
-        editX.addListener(SWT.Verify, Utils.createVerifyIntegerListener());
+        toX = new Text(group, SWT.NONE);
+        toX.addListener(SWT.Verify, Utils.createVerifyPositiveIntegerListener());
 
         Label textY = new Label(group, SWT.NONE);
         textY.setText("Y");
-        final Text editY = new Text(group, SWT.NONE);
-        editY.addListener(SWT.Verify, Utils.createVerifyIntegerListener());
+        toY = new Text(group, SWT.NONE);
+        toY.addListener(SWT.Verify, Utils.createVerifyPositiveIntegerListener());
 
         Label textZ = new Label(group, SWT.NONE);
         textZ.setText("Z");
-        final Text editZ = new Text(group, SWT.NONE);
-        editZ.addListener(SWT.Verify, Utils.createVerifyIntegerListener());
+        toZ = new Text(group, SWT.NONE);
+        toZ.addListener(SWT.Verify, Utils.createVerifyPositiveIntegerListener());
 
         Button buttonOk = new Button(group, SWT.NONE);
         buttonOk.setText("OK");
@@ -179,9 +235,9 @@ public class CameraFragment extends Composite {
                 try {
 
 
-                    int x = Utils.retrieveInteger(editX);
-                    int y = Utils.retrieveInteger(editY);
-                    int z = Utils.retrieveInteger(editZ);
+                    int x = Utils.retrieveInteger(toX);
+                    int y = Utils.retrieveInteger(toY);
+                    int z = Utils.retrieveInteger(toZ);
 
                     Point3D point3D = new Point3D(x, y, z);
 
@@ -211,41 +267,72 @@ public class CameraFragment extends Composite {
 
         group.setText("Rotate camera");
 
-        GridLayout gridLayout = new GridLayout(2, true);
+        GridLayout gridLayout = new GridLayout(2, false);
 
         group.setLayout(gridLayout);
 
 
-        final Button axisButton = new Button(group, SWT.RADIO);
-        axisButton.setText("Axis");
+        fromRotate = new Button(group, SWT.RADIO);
+        fromRotate.setText("From");
 
-        Button objectButton = new Button(group, SWT.RADIO);
-        objectButton.setText("Object");
+        toButton = new Button(group, SWT.RADIO);
+        toButton.setText("To");
 
-        axisButton.setSelection(true);
+        fromRotate.setSelection(true);
 
 
         parent = group;
         group = new Group(parent, SWT.NONE);
 
-        gridLayout = new GridLayout(2, true);
+        gridLayout = new GridLayout(3, false);
 
         group.setLayout(gridLayout);
 
         final Label textXZ = new Label(group, SWT.NONE);
-        textXZ.setText("XZ");
-        final Text editXZ = new Text(group, SWT.NONE);
-        editXZ.addListener(SWT.Verify, Utils.createVerifyIntegerListener());
+        textXZ.setText("X");
+        rotateX = new Text(group, SWT.NONE);
+        rotateX.addListener(SWT.Verify, Utils.createVerifyPositiveIntegerListener());
+
+        rotateXSlider = new Slider(group, SWT.NONE);
+        initRotateSlider(rotateXSlider);
+
 
         final Label textYZ = new Label(group, SWT.NONE);
-        textYZ.setText("YZ");
-        final Text editYZ = new Text(group, SWT.NONE);
-        editYZ.addListener(SWT.Verify, Utils.createVerifyIntegerListener());
+        textYZ.setText("Y");
+        rotateY = new Text(group, SWT.NONE);
+        rotateY.addListener(SWT.Verify, Utils.createVerifyPositiveIntegerListener());
+
+        rotateYSlider = new Slider(group, SWT.NONE);
+        initRotateSlider(rotateYSlider);
 
         final Label textXY = new Label(group, SWT.NONE);
-        textXY.setText("XY");
-        final Text editXY = new Text(group, SWT.NONE);
-        editXY.addListener(SWT.Verify, Utils.createVerifyIntegerListener());
+        textXY.setText("Z");
+        rotateZ = new Text(group, SWT.NONE);
+        rotateZ.addListener(SWT.Verify, Utils.createVerifyPositiveIntegerListener());
+
+        rotateZSlider = new Slider(group, SWT.NONE);
+        initRotateSlider(rotateZSlider);
+
+        SelectionListener sliderListener = new SelectionListener() {
+            @Override
+            public void widgetSelected(SelectionEvent selectionEvent) {
+                int x = rotateXSlider.getSelection();
+                int y = rotateYSlider.getSelection();
+                int z = rotateZSlider.getSelection();
+                applyCameraRotation(x, y, z);
+            }
+
+            @Override
+            public void widgetDefaultSelected(SelectionEvent selectionEvent) {
+                int x = rotateXSlider.getSelection();
+                int y = rotateYSlider.getSelection();
+                int z = rotateZSlider.getSelection();
+                applyCameraRotation(x, y, z);
+            }
+        };
+        rotateXSlider.addSelectionListener(sliderListener);
+        rotateYSlider.addSelectionListener(sliderListener);
+        rotateZSlider.addSelectionListener(sliderListener);
 
         Button buttonOk = new Button(group, SWT.NONE);
         buttonOk.setText("OK");
@@ -255,25 +342,16 @@ public class CameraFragment extends Composite {
 
                 try {
 
-                    CameraRotateType rotateType;
-                    if (axisButton.getSelection()) {
-                        rotateType = CameraRotateType.AXYS;
-                    } else {
-                        rotateType = CameraRotateType.OBJECT;
-                    }
 
-                    int xz = Utils.retrieveInteger(editXZ);
-                    int yz = Utils.retrieveInteger(editYZ);
-                    int xy = Utils.retrieveInteger(editXY);
+                    int x = Utils.retrieveInteger(rotateX);
+                    int y = Utils.retrieveInteger(rotateY);
+                    int z = Utils.retrieveInteger(rotateZ);
 
-                    Utils.checkDegrees(xz);
-                    Utils.checkDegrees(yz);
-                    Utils.checkDegrees(xy);
+                    Utils.checkDegrees(x);
+                    Utils.checkDegrees(y);
+                    Utils.checkDegrees(z);
 
-
-                    RotationCoordinates rotationCoordinates = new RotationCoordinates(xz, yz, xy);
-
-                    controller.setCameraRotation(rotateType, rotationCoordinates);
+                    applyCameraRotation(x, y, z);
 
                 } catch (IllegalArgumentException e) {
                     String message = e.getMessage();
@@ -291,5 +369,36 @@ public class CameraFragment extends Composite {
 
     }
 
+    private void applyCameraRotation(int x, int y, int z) {
+        CameraRotateType rotateType;
+        if (fromRotate.getSelection()) {
+            rotateType = CameraRotateType.FROM;
+        } else {
+            rotateType = CameraRotateType.TO;
+        }
 
+        RotationCoordinates rotationCoordinates = new RotationCoordinates(x, y, z);
+
+        controller.setCameraRotation(rotateType, rotationCoordinates);
+
+        rotateXSlider.setSelection(x);
+        rotateYSlider.setSelection(y);
+        rotateZSlider.setSelection(z);
+
+        rotateX.setText("" + x);
+        rotateY.setText("" + y);
+        rotateZ.setText("" + z);
+    }
+
+    private void initRotateSlider(Slider rotateSlider) {
+        rotateSlider.setMinimum(0);
+        rotateSlider.setMaximum(360);
+
+        rotateSlider.setSelection(0);
+    }
+
+
+    public void sceneChanged(Scene scene) {
+        //To change body of created methods use File | Settings | File Templates.
+    }
 }

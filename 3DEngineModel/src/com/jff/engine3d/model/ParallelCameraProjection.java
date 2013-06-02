@@ -1,12 +1,8 @@
 package com.jff.engine3d.model;
 
-import com.jff.engine3d.model.utils.draw.Point3D;
-
-import java.util.List;
-
 public class ParallelCameraProjection extends AbstractCameraProjection {
     public ParallelCameraProjection(CameraSettings cameraSettings) {
-        super(ProjectionType.PARALLER, cameraSettings);
+        super(ProjectionType.PARALLEL, cameraSettings);
     }
 
     @Override
@@ -21,7 +17,8 @@ public class ParallelCameraProjection extends AbstractCameraProjection {
     public float distanceFromCameraToPoint(Point3D point3D) {
         float distance;
 
-        distance = (float) Math.abs(cameraSettings.fromCoordinates.z - point3D.z);
+        Point3D fromCoordinates = cameraSettings.getRealFromCoordinates();
+        distance = (float) Math.abs(fromCoordinates.z - point3D.z);
 
         return distance;
     }
@@ -31,8 +28,4 @@ public class ParallelCameraProjection extends AbstractCameraProjection {
         return true;
     }
 
-    @Override
-    public List<Triangle> chooseFaceTriangles(List<Triangle> objectTriangles, List<Point3D> objectVertices) {
-        return objectTriangles;
-    }
 }

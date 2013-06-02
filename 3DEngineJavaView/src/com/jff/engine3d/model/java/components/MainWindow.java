@@ -55,6 +55,6 @@ public class MainWindow extends Composite {
 
         EngineManager engineManager = EngineManager.getInstance();
 
-        engineManager.init(engineCanvas);
+        engineManager.init(engineCanvas, settingsTabsFragment);
     }
 }

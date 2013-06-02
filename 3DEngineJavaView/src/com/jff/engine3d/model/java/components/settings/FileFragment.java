@@ -2,6 +2,7 @@ package com.jff.engine3d.model.java.components.settings;
 
 import com.jff.engine3d.model.Controller;
 import com.jff.engine3d.model.EngineManager;
+import com.jff.engine3d.model.Scene;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -91,5 +92,9 @@ public class FileFragment extends Composite {
                 //To change body of implemented methods use File | Settings | File Templates.
             }
         });
+    }
+
+    public void sceneChanged(Scene scene) {
+        //To change body of created methods use File | Settings | File Templates.
     }
 }

@@ -1,11 +1,19 @@
 package com.jff.engine3d.model.java.components.settings;
 
+import com.jff.engine3d.model.IEngineView;
+import com.jff.engine3d.model.Scene;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.*;
 
-public class SettingsTabsFragment extends Composite {
+public class SettingsTabsFragment extends Composite implements IEngineView {
+
+    private CreateFragment createFragment;
+    private ModifyFragment modifyFragment;
+    private CameraFragment cameraFragment;
+    private ViewFragment viewFragment;
+    private FileFragment fileFragment;
 
     public SettingsTabsFragment(Composite parent) {
         super(parent, SWT.NONE);
@@ -31,28 +39,28 @@ public class SettingsTabsFragment extends Composite {
 
 
         String title;
-        Control control;
+
 
         title = "Create";
-        control = new CreateFragment(tabFolder);
-        createTab(tabFolder, title, control);
+        createFragment = new CreateFragment(tabFolder);
+        createTab(tabFolder, title, createFragment);
 
 
         title = "Modify";
-        control = new ModifyFragment(tabFolder);
-        createTab(tabFolder, title, control);
+        modifyFragment = new ModifyFragment(tabFolder);
+        createTab(tabFolder, title, modifyFragment);
 
         title = "Camera";
-        control = new CameraFragment(tabFolder);
-        createTab(tabFolder, title, control);
+        cameraFragment = new CameraFragment(tabFolder);
+        createTab(tabFolder, title, cameraFragment);
 
         title = "View";
-        control = new ViewFragment(tabFolder);
-        createTab(tabFolder, title, control);
+        viewFragment = new ViewFragment(tabFolder);
+        createTab(tabFolder, title, viewFragment);
 
         title = "File";
-        control = new FileFragment(tabFolder);
-        createTab(tabFolder, title, control);
+        fileFragment = new FileFragment(tabFolder);
+        createTab(tabFolder, title, fileFragment);
     }
 
     private void createTab(TabFolder tabFolder, String title, Control control) {
@@ -61,126 +69,13 @@ public class SettingsTabsFragment extends Composite {
         item.setControl(control);
     }
 
+    @Override
+    public void sceneChanged(Scene scene) {
+        createFragment.sceneChanged(scene);
+        modifyFragment.sceneChanged(scene);
+        cameraFragment.sceneChanged(scene);
+        viewFragment.sceneChanged(scene);
+        fileFragment.sceneChanged(scene);
+    }
 
-    //
-//    private AbstractObject object;
-//
-//    private EditText xCoords;
-//    private EditText yCoords;
-//    private EditText zCoords;
-//
-//    private ImageButton removeButton;
-//    private EditText wheelsNumber;
-//    private LinearLayout wheelsNumberLayout;
-//
-//    private View fragment;
-//
-//    public OnPrimitiveChangingListener listener;
-//
-//    @Override
-//    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-//
-//        fragment = inflater.inflate(R.layout.object_settings, container, false);
-//        initializeViews();
-//
-//        return fragment;
-//    }
-//
-//    private void initializeViews(){
-//        xCoords = (EditText) fragment.findViewById(R.id.X);
-//        yCoords = (EditText) fragment.findViewById(R.id.Y);
-//        zCoords = (EditText) fragment.findViewById(R.id.Z);
-//
-//        removeButton = (ImageButton) fragment.findViewById(R.id.remove);
-//        wheelsNumber = (EditText) fragment.findViewById(R.id.wheelsNumber);
-//        wheelsNumberLayout = (LinearLayout) fragment.findViewById(R.id.wheelsNumberLayout);
-//
-//        wheelsNumberLayout.setVisibility(View.GONE);
-//
-//        updateCoordinates();
-//        initializeListeners();
-//    }
-//
-//    public void updateCoordinates() {
-//        try {
-//            xCoords.setText(((Double) object.center.getXz()).toString());
-//            yCoords.setText(((Double)object.center.getYz()).toString());
-//            zCoords.setText(((Double)object.center.getXy()).toString());
-//
-//            if (object instanceof Roller) {
-//                wheelsNumberLayout.setVisibility(View.VISIBLE);
-//                wheelsNumber.setText(((Integer)((Roller)object).getWheelsCount()).toString());
-//            }
-//            else
-//                wheelsNumberLayout.setVisibility(View.GONE);
-//        }
-//        catch (NullPointerException e) {
-//            Log.e("MyLogs", "Fragment is not attached");
-//        }
-//    }
-//
-//    private void initializeListeners() {
-//        xCoords.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-//            @Override
-//            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-//                Point3D coordsToMove = object.center.clone();
-//                coordsToMove.setXz(Double.parseDouble(v.getText().toString()));
-//                object.move(object.center, coordsToMove);
-//                return false;
-//            }
-//        });
-//        yCoords.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-//            @Override
-//            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-//                Point3D coordsToMove = object.center.clone();
-//                coordsToMove.setYz(Double.parseDouble(v.getText().toString()));
-//                object.move(object.center, coordsToMove);
-//                return false;
-//            }
-//        });
-//        zCoords.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-//            @Override
-//            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-//                Point3D coordsToMove = object.center.clone();
-//                coordsToMove.setXy(Double.parseDouble(v.getText().toString()));
-//                object.move(object.center, coordsToMove);
-//                return false;
-//            }
-//        });
-//
-//        removeButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                listener.onPrimitiveChanged(object);
-//            }
-//        });
-//
-//        wheelsNumber.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-//            @Override
-//            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-//                //save pre-edited object
-//                Point3D temp = object.center.clone();
-//                //set center which is non calculated
-//                object.center = ((Roller)object).oldCenter;
-//                //set new wheels count
-//                ((Roller)object).setWheelsCount(Integer.parseInt(v.getText().toString()));
-//                //reinitialize object
-//                object.initialize();
-//                //enable object
-//                object.setEnabled(true);
-//                //move and rotate object
-//                object.move(object.center, temp);
-//                object.rotate(new Point3D(object.ax, object.ay, object.az), object.center);
-//                return false;
-//            }
-//        });
-//    }
-//
-//    public void setObject(AbstractObject object) {
-//        this.object = object;
-//    }
-//
-//    public void setOnPrimitiveChangedListener(OnPrimitiveChangingListener listener) {
-//        this.listener = listener;
-//    }
 }

@@ -1,4 +1,4 @@
-package com.jff.engine3d.model.utils.draw;
+package com.jff.engine3d.model;
 
 public class Point3D {
     public double x;
@@ -11,6 +11,20 @@ public class Point3D {
         this.y = y;
         this.z = z;
 
+    }
+
+    public Point3D() {
+
+
+    }
+
+    @Override
+    public String toString() {
+        return "Point3D{" +
+                "x=" + x +
+                ", y=" + y +
+                ", z=" + z +
+                '}';
     }
 
     public Point3D move(Point3D offset) {

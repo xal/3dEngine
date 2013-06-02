@@ -1,8 +1,6 @@
 package com.jff.engine3d.model;
 
 import com.jff.engine3d.model.primitives.AbstractObject;
-import com.jff.engine3d.model.utils.draw.Point3D;
-import com.jff.engine3d.model.utils.draw.RotationCoordinates;
 
 import java.io.Serializable;
 import java.util.List;
@@ -64,5 +62,9 @@ public class SceneObject implements Serializable {
 
     public Point3D getCenter() {
         return object.getCenter();
+    }
+
+    public AbstractObject getObject() {
+        return object;
     }
 }

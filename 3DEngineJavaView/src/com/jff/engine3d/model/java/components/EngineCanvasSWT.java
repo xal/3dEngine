@@ -1,7 +1,6 @@
 package com.jff.engine3d.model.java.components;
 
 import com.jff.engine3d.model.IEngineCanvas;
-import com.jff.engine3d.model.PaintEdge;
 import com.jff.engine3d.model.PaintPoint2D;
 import com.jff.engine3d.model.PaintTriangle;
 import org.eclipse.swt.SWT;
@@ -19,11 +18,12 @@ import java.util.List;
 
 public class EngineCanvasSWT extends Canvas implements IEngineCanvas {
 
-
-    private List<PaintPoint2D> vertexes = new ArrayList<PaintPoint2D>();
-    private List<PaintEdge> edges = new ArrayList<PaintEdge>();
     private List<PaintTriangle> polygons = new ArrayList<PaintTriangle>();
-    private com.jff.engine3d.model.utils.draw.Color previousColor;
+    private com.jff.engine3d.model.Color previousColor;
+    private PaintPoint2D centerCoordinates = new PaintPoint2D(0, 0);
+    private PaintPoint2D xAxisCoordinates = new PaintPoint2D(0, 0);
+    private PaintPoint2D yAxisCoordinates = new PaintPoint2D(0, 0);
+    private PaintPoint2D zAxisCoordinates = new PaintPoint2D(0, 0);
 
     public EngineCanvasSWT(Composite parent) {
         super(parent, SWT.NONE);
@@ -43,60 +43,67 @@ public class EngineCanvasSWT extends Canvas implements IEngineCanvas {
             public void paintControl(PaintEvent paintEvent) {
 
                 GC gc = paintEvent.gc;
-                drawVertexes(gc);
-                drawEdges(gc);
+
+                drawAxes(gc);
+
                 drawPolygons(gc);
             }
         });
     }
 
-    private void drawVertexes(GC gc) {
+    private void drawAxes(GC gc) {
 
-        for (PaintPoint2D vertex : vertexes) {
-            com.jff.engine3d.model.utils.draw.Color color = vertex.color;
-            changeForegroundColor(gc, color);
+        PaintPoint2D newCenter = convertToCanvasCoordinates(centerCoordinates);
 
-            gc.drawPoint(vertex.x, vertex.y);
-        }
+        PaintPoint2D newXAxysCoordinate = convertToCanvasCoordinates(xAxisCoordinates);
+        PaintPoint2D newYAxysCoordinate = convertToCanvasCoordinates(yAxisCoordinates);
+        PaintPoint2D newZAxysCoordinate = convertToCanvasCoordinates(zAxisCoordinates);
 
-    }
 
-    private void changeForegroundColor(GC gc, com.jff.engine3d.model.utils.draw.Color color) {
-        color = com.jff.engine3d.model.utils.draw.Color.BLACK;
-        if (previousColor != null && previousColor.equals(color)) {
-            return;
-        } else {
+        int centerX = newCenter.x;
+        int centerY = newCenter.y;
 
-            this.previousColor = color;
 
-            Device device = Display.getCurrent();
-            Color swtColor = new Color(device, color.red, color.green, color.blue);
-            gc.setForeground(swtColor);
-            gc.setBackground(new Color(device, 100, 100, 100));
-        }
-    }
+        gc.drawLine(newCenter.x, newCenter.y, newXAxysCoordinate.x, newXAxysCoordinate.y);
+        gc.drawLine(newCenter.x, newCenter.y, newYAxysCoordinate.x, newYAxysCoordinate.y);
+        gc.drawLine(newCenter.x, newCenter.y, newZAxysCoordinate.x, newZAxysCoordinate.y);
 
-    private void drawEdges(GC gc) {
 
-        for (PaintEdge edge : edges) {
-
-            com.jff.engine3d.model.utils.draw.Color color = edge.color;
-            changeForegroundColor(gc, color);
-
-            gc.drawLine(edge.x1, edge.y1, edge.x2, edge.y2);
-
-        }
+        gc.drawText("X", newXAxysCoordinate.x, newXAxysCoordinate.y);
+        gc.drawText("Y", newYAxysCoordinate.x, newYAxysCoordinate.y);
+        gc.drawText("Z", newZAxysCoordinate.x, newZAxysCoordinate.y);
 
     }
+
+
+    private void changeForegroundColor(GC gc, com.jff.engine3d.model.Color color) {
+        color = com.jff.engine3d.model.Color.BLACK;
+//        if (previousColor != null && previousColor.equals(color)) {
+//            return;
+//        } else {
+
+        this.previousColor = color;
+
+        Device device = Display.getCurrent();
+        Color swtColor = new Color(device, color.red, color.green, color.blue);
+        gc.setForeground(swtColor);
+        gc.setBackground(new Color(device, 100, 100, 100));
+//        }
+    }
+
 
     private void drawPolygons(GC gc) {
-        for (PaintTriangle polygon : polygons) {
 
-            com.jff.engine3d.model.utils.draw.Color color = polygon.color;
+
+        List<PaintTriangle> paintPolygons = convertToCanvasCoordinates(polygons);
+        for (PaintTriangle polygon : paintPolygons) {
+
+
+            com.jff.engine3d.model.Color color = polygon.color;
             changeForegroundColor(gc, color);
 
 
-            int[] pointArray = new int[8];
+            int[] pointArray = new int[6];
 
             int counter = 0;
             pointArray[counter++] = polygon.firstPoint.x;
@@ -107,21 +114,50 @@ public class EngineCanvasSWT extends Canvas implements IEngineCanvas {
             pointArray[counter++] = polygon.thirdPoint.y;
 
 
+            Device device = Display.getCurrent();
+            gc.setBackground(new Color(device, 200, 100, 50));
+            gc.fillOval(polygon.firstPoint.x, polygon.firstPoint.y, 5, 5);
+            gc.fillOval(polygon.secondPoint.x, polygon.secondPoint.y, 5, 5);
+            gc.fillOval(polygon.thirdPoint.x, polygon.thirdPoint.y, 5, 5);
+
+            gc.setBackground(new Color(device, 100, 100, 100));
+//
+//
             gc.fillPolygon(pointArray);
+            gc.drawPolygon(pointArray);
         }
 
     }
 
+    private List<PaintTriangle> convertToCanvasCoordinates(List<PaintTriangle> polygons) {
 
-    @Override
-    public void setPaintVertices(List<PaintPoint2D> vertexes) {
-        this.vertexes = vertexes;
+
+        List<PaintTriangle> paintPolygons = new ArrayList<PaintTriangle>();
+
+        for (PaintTriangle polygon : polygons) {
+            PaintPoint2D firstPoint = convertToCanvasCoordinates(polygon.firstPoint);
+            PaintPoint2D secondPoint = convertToCanvasCoordinates(polygon.secondPoint);
+            PaintPoint2D thirdPoint = convertToCanvasCoordinates(polygon.thirdPoint);
+            PaintTriangle paintTriangle = new PaintTriangle(firstPoint, secondPoint, thirdPoint);
+
+            paintPolygons.add(paintTriangle);
+        }
+
+        return paintPolygons;
     }
 
-    @Override
-    public void setPaintEdges(List<PaintEdge> edges) {
-        this.edges = edges;
+    private PaintPoint2D convertToCanvasCoordinates(PaintPoint2D oldPoint) {
+        double x = oldPoint.x;
+        double y = oldPoint.y;
+
+        x += this.getClientArea().width / 2;
+        y += this.getClientArea().height / 2;
+
+        PaintPoint2D newPoint = new PaintPoint2D(x, y);
+
+        return newPoint;
     }
+
 
     @Override
     public void setPaintPolygons(List<PaintTriangle> polygons) {
@@ -134,9 +170,30 @@ public class EngineCanvasSWT extends Canvas implements IEngineCanvas {
 
     @Override
     public void clear() {
-        vertexes.clear();
-        edges.clear();
+
+
         polygons.clear();
+    }
+
+    @Override
+    public void setCenterCoordinates(PaintPoint2D paintPoint2D) {
+        this.centerCoordinates = paintPoint2D;
+
+    }
+
+    @Override
+    public void setXAxisCoordinates(PaintPoint2D xAxisCoordinates) {
+        this.xAxisCoordinates = xAxisCoordinates;
+    }
+
+    @Override
+    public void setYAxisCoordinates(PaintPoint2D yAxisCoordinates) {
+        this.yAxisCoordinates = yAxisCoordinates;
+    }
+
+    @Override
+    public void setZAxisCoordinates(PaintPoint2D zAxisCoordinates) {
+        this.zAxisCoordinates = zAxisCoordinates;
     }
 
 

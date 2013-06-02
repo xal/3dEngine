@@ -9,4 +9,12 @@ public class PaintPoint2D extends AbstractPaintObject {
         this.x = (int) x;
         this.y = (int) y;
     }
+
+    @Override
+    public String toString() {
+        return "PaintPoint2D{" +
+                "x=" + x +
+                ", y=" + y +
+                '}';
+    }
 }

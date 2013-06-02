@@ -1,4 +1,4 @@
-package com.jff.engine3d.model.utils.draw;
+package com.jff.engine3d.model;
 
 
 public class Color {

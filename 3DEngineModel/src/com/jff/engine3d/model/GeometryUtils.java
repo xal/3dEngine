@@ -1,7 +1,5 @@
 package com.jff.engine3d.model;
 
-import com.jff.engine3d.model.utils.draw.Point3D;
-
 public class GeometryUtils {
 
     public static Point3D getTriangleCentroid(Point3D firstPoint, Point3D secondPoint, Point3D thirdPoint) {
@@ -25,4 +23,5 @@ public class GeometryUtils {
 
         return centroid;
     }
+
 }

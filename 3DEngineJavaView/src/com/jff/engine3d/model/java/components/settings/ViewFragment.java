@@ -2,6 +2,7 @@ package com.jff.engine3d.model.java.components.settings;
 
 import com.jff.engine3d.model.Controller;
 import com.jff.engine3d.model.EngineManager;
+import com.jff.engine3d.model.Scene;
 import com.jff.engine3d.model.ViewType;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
@@ -126,4 +127,7 @@ public class ViewFragment extends Composite {
     }
 
 
+    public void sceneChanged(Scene scene) {
+        //To change body of created methods use File | Settings | File Templates.
+    }
 }

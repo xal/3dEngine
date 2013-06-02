@@ -2,12 +2,14 @@ package com.jff.engine3d.model.java.components.settings;
 
 import com.jff.engine3d.model.Controller;
 import com.jff.engine3d.model.EngineManager;
+import com.jff.engine3d.model.Point3D;
+import com.jff.engine3d.model.Scene;
 import com.jff.engine3d.model.object.AbstractObjectParams;
 import com.jff.engine3d.model.object.BicycleParams;
-import com.jff.engine3d.model.utils.draw.Point3D;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.*;
@@ -122,7 +124,7 @@ public class CreateFragment extends Composite {
     }
 
     private void addListeners(Text text) {
-        text.addListener(SWT.Verify, Utils.createVerifyIntegerListener());
+        text.addListener(SWT.Verify, Utils.createVerifyPositiveIntegerListener());
     }
 
     private void createButtonOk() {
@@ -180,7 +182,7 @@ public class CreateFragment extends Composite {
         Composite parent = this;
         Group group = new Group(parent, SWT.NONE);
 
-        group.setText("Point3D");
+        group.setText("Center");
 
         GridLayout gridLayout = new GridLayout(2, true);
 
@@ -202,5 +204,17 @@ public class CreateFragment extends Composite {
         centerZText.addListener(SWT.Verify, Utils.createVerifyIntegerListener());
 
 
+        applyLayoutData(centerXText);
+        applyLayoutData(centerYText);
+        applyLayoutData(centerZText);
+    }
+
+
+    private void applyLayoutData(Text editScale) {
+        editScale.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+    }
+
+    public void sceneChanged(Scene scene) {
+        //To change body of created methods use File | Settings | File Templates.
     }
 }

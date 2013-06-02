@@ -1,13 +1,10 @@
 package com.jff.engine3d.model.java.components.settings;
 
-import com.jff.engine3d.model.Controller;
-import com.jff.engine3d.model.EngineListener;
-import com.jff.engine3d.model.SceneObject;
-import com.jff.engine3d.model.utils.draw.Point3D;
-import com.jff.engine3d.model.utils.draw.RotationCoordinates;
+import com.jff.engine3d.model.*;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.*;
@@ -18,6 +15,17 @@ import java.util.List;
 public class ModifyFragment extends Composite {
 
     private Combo comboSelectedObjects;
+    private Slider sliderScale;
+    private Text editScale;
+    private Slider sliderRotateX;
+    private Slider sliderRotateY;
+    private Slider sliderRotateZ;
+    private Text editRotateX;
+    private Text editRotateY;
+    private Text editRotateZ;
+    private Text editX;
+    private Text editY;
+    private Text editZ;
 
     public ModifyFragment(Composite parent) {
         super(parent, SWT.NONE);
@@ -34,6 +42,8 @@ public class ModifyFragment extends Composite {
         createRotateSettings();
         createScaleSettings();
         createDeleteSettings();
+
+
     }
 
     private void createSelectedComboSettings() {
@@ -110,7 +120,7 @@ public class ModifyFragment extends Composite {
         Composite parent = this;
         Group group = new Group(parent, SWT.NONE);
 
-        group.setText("Point3D");
+        group.setText("Move");
 
         GridLayout gridLayout = new GridLayout(2, true);
 
@@ -118,18 +128,27 @@ public class ModifyFragment extends Composite {
 
         Label textX = new Label(group, SWT.NONE);
         textX.setText("X");
-        final Text editX = new Text(group, SWT.NONE);
+        editX = new Text(group, SWT.NONE);
         editX.addListener(SWT.Verify, Utils.createVerifyIntegerListener());
 
         Label textY = new Label(group, SWT.NONE);
         textY.setText("Y");
-        final Text editY = new Text(group, SWT.NONE);
+        editY = new Text(group, SWT.NONE);
         editY.addListener(SWT.Verify, Utils.createVerifyIntegerListener());
 
         Label textZ = new Label(group, SWT.NONE);
         textZ.setText("Z");
-        final Text editZ = new Text(group, SWT.NONE);
+        editZ = new Text(group, SWT.NONE);
         editZ.addListener(SWT.Verify, Utils.createVerifyIntegerListener());
+
+
+        editX.setText("0");
+        editY.setText("0");
+        editZ.setText("0");
+
+        applyLayoutData(editX);
+        applyLayoutData(editY);
+        applyLayoutData(editZ);
 
         Button buttonOk = new Button(group, SWT.NONE);
         buttonOk.setText("OK");
@@ -173,24 +192,63 @@ public class ModifyFragment extends Composite {
 
         group.setText("Rotate");
 
-        GridLayout gridLayout = new GridLayout(2, true);
+        GridLayout gridLayout = new GridLayout(3, true);
 
         group.setLayout(gridLayout);
 
         final Label textXZ = new Label(group, SWT.NONE);
-        textXZ.setText("XZ");
-        final Text editXZ = new Text(group, SWT.NONE);
-        editXZ.addListener(SWT.Verify, Utils.createVerifyIntegerListener());
+        textXZ.setText("X");
+        editRotateX = new Text(group, SWT.NONE);
+        editRotateX.addListener(SWT.Verify, Utils.createVerifyPositiveIntegerListener());
+
+        sliderRotateX = new Slider(group, SWT.NONE);
+        initSliderRotate(sliderRotateX);
 
         final Label textYZ = new Label(group, SWT.NONE);
-        textYZ.setText("YZ");
-        final Text editYZ = new Text(group, SWT.NONE);
-        editYZ.addListener(SWT.Verify, Utils.createVerifyIntegerListener());
+        textYZ.setText("Y");
+        editRotateY = new Text(group, SWT.NONE);
+        editRotateY.addListener(SWT.Verify, Utils.createVerifyPositiveIntegerListener());
+
+        sliderRotateY = new Slider(group, SWT.NONE);
+        initSliderRotate(sliderRotateY);
 
         final Label textXY = new Label(group, SWT.NONE);
-        textXY.setText("XY");
-        final Text editXY = new Text(group, SWT.NONE);
-        editXY.addListener(SWT.Verify, Utils.createVerifyIntegerListener());
+        textXY.setText("Z");
+        editRotateZ = new Text(group, SWT.NONE);
+        editRotateZ.addListener(SWT.Verify, Utils.createVerifyPositiveIntegerListener());
+
+        sliderRotateZ = new Slider(group, SWT.NONE);
+        initSliderRotate(sliderRotateZ);
+
+
+        editRotateZ.setText("0");
+        editRotateY.setText("0");
+        editRotateX.setText("0");
+
+        applyLayoutData(editRotateZ);
+        applyLayoutData(editRotateY);
+        applyLayoutData(editRotateX);
+
+
+        SelectionListener sliderListener = new SelectionListener() {
+            @Override
+            public void widgetSelected(SelectionEvent selectionEvent) {
+                int x = sliderRotateX.getSelection();
+                int y = sliderRotateY.getSelection();
+                int z = sliderRotateZ.getSelection();
+
+
+                applyRotate(x, y, z);
+            }
+
+            @Override
+            public void widgetDefaultSelected(SelectionEvent selectionEvent) {
+                //To change body of implemented methods use File | Settings | File Templates.
+            }
+        };
+        sliderRotateX.addSelectionListener(sliderListener);
+        sliderRotateY.addSelectionListener(sliderListener);
+        sliderRotateZ.addSelectionListener(sliderListener);
 
         Button buttonOk = new Button(group, SWT.NONE);
         buttonOk.setText("OK");
@@ -200,20 +258,16 @@ public class ModifyFragment extends Composite {
 
                 try {
 
-                    int xz = Utils.retrieveInteger(editXZ);
-                    int yz = Utils.retrieveInteger(editYZ);
-                    int xy = Utils.retrieveInteger(editXY);
+                    int x = Utils.retrieveInteger(editRotateX);
+                    int y = Utils.retrieveInteger(editRotateY);
+                    int z = Utils.retrieveInteger(editRotateZ);
 
-                    Utils.checkDegrees(xz);
-                    Utils.checkDegrees(yz);
-                    Utils.checkDegrees(xy);
+                    Utils.checkDegrees(x);
+                    Utils.checkDegrees(y);
+                    Utils.checkDegrees(z);
 
 
-                    SceneObject object = getCurrentSelectedObject();
-
-                    RotationCoordinates rotationCoordinates = new RotationCoordinates(xz, yz, xy);
-                    Controller controller = Utils.getController();
-                    controller.setRotationForObject(rotationCoordinates, object);
+                    applyRotate(x, y, z);
 
                 } catch (IllegalArgumentException e) {
                     String message = e.getMessage();
@@ -230,6 +284,31 @@ public class ModifyFragment extends Composite {
 
     }
 
+    private void applyRotate(int x, int y, int z) {
+        SceneObject object = getCurrentSelectedObject();
+
+        RotationCoordinates rotationCoordinates = new RotationCoordinates(x, y, z);
+        Controller controller = Utils.getController();
+        controller.setRotationForObject(rotationCoordinates, object);
+
+        sliderRotateX.setSelection(x);
+        sliderRotateY.setSelection(y);
+        sliderRotateZ.setSelection(z);
+
+        editRotateX.setText("" + x);
+        editRotateY.setText("" + y);
+        editRotateZ.setText("" + z);
+
+
+    }
+
+    private void initSliderRotate(Slider sliderRotateX) {
+        sliderRotateX.setMinimum(0);
+        sliderRotateX.setMaximum(369);
+
+        sliderRotateX.setSelection(0);
+    }
+
     private void createScaleSettings() {
 
         Composite parent = this;
@@ -237,15 +316,43 @@ public class ModifyFragment extends Composite {
 
         group.setText("Scale");
 
-        GridLayout gridLayout = new GridLayout(2, true);
+        GridLayout gridLayout = new GridLayout(3, true);
 
         group.setLayout(gridLayout);
 
         final Label textScale = new Label(group, SWT.NONE);
         textScale.setText("Scale");
-        final Text editScale = new Text(group, SWT.NONE);
+        editScale = new Text(group, SWT.NONE);
         editScale.addListener(SWT.Verify, Utils.createVerifyFloatListener());
 
+        applyLayoutData(editScale);
+
+
+        sliderScale = new Slider(group, SWT.NONE);
+
+        sliderScale.setMinimum(1);
+        sliderScale.setMaximum(200);
+
+        sliderScale.setSelection(100);
+
+        sliderScale.addSelectionListener(new SelectionListener() {
+            @Override
+            public void widgetSelected(SelectionEvent selectionEvent) {
+
+                float scale = sliderScale.getSelection();
+
+                scale = scale / 100;
+
+                changeScale(scale);
+            }
+
+            @Override
+            public void widgetDefaultSelected(SelectionEvent selectionEvent) {
+                //To change body of implemented methods use File | Settings | File Templates.
+            }
+        });
+
+        editScale.setText("1");
 
         Button buttonOk = new Button(group, SWT.NONE);
         buttonOk.setText("OK");
@@ -259,11 +366,7 @@ public class ModifyFragment extends Composite {
                     float scale = Utils.retrieveScale(editScale);
 
 
-                    SceneObject object = getCurrentSelectedObject();
-
-                    Controller controller = Utils.getController();
-
-                    controller.setScaleForObject(scale, object);
+                    changeScale(scale);
 
                 } catch (IllegalArgumentException e) {
                     String message = e.getMessage();
@@ -278,6 +381,21 @@ public class ModifyFragment extends Composite {
             }
         });
 
+    }
+
+    private void changeScale(float scale) {
+        SceneObject object = getCurrentSelectedObject();
+
+        Controller controller = Utils.getController();
+
+        controller.setScaleForObject(scale, object);
+
+        sliderScale.setSelection((int) (scale * 100));
+        editScale.setText("" + scale);
+    }
+
+    private void applyLayoutData(Text editScale) {
+        editScale.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
     }
 
     private void createDeleteSettings() {
@@ -313,4 +431,32 @@ public class ModifyFragment extends Composite {
             }
         });
     }
+
+    public void sceneChanged(Scene scene) {
+        fillSettings(scene);
+    }
+
+    private void fillSettings(Scene scene) {
+//        SceneObject currentSelectedObject = scene.getCurrentSelectedObject();
+//
+//        AbstractObject object = currentSelectedObject.getObject();
+//
+//        Point3D center = object.getCenter();
+//
+//        editX.setText(""+center.x);
+//        editY.setText(""+center.y);
+//        editZ.setText(""+center.z);
+//
+//        RotationCoordinates rotationCoordinates = object.getRotationCoordinates();
+//
+//        applyRotate((int)rotationCoordinates.getX(),(int)rotationCoordinates.getY(),(int) rotationCoordinates.getZ());
+//
+//
+//        double scale = object.getScale();
+//        editScale.setText(""+scale);
+//        sliderScale.setSelection((int) (scale * 100));
+
+    }
+
+
 }

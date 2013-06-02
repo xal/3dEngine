@@ -1,9 +1,5 @@
 package com.jff.engine3d.model;
 
-import com.jff.engine3d.model.utils.draw.Point3D;
-
-import java.util.List;
-
 public class PerspectiveCameraProjection extends AbstractCameraProjection {
 
 
@@ -12,10 +8,30 @@ public class PerspectiveCameraProjection extends AbstractCameraProjection {
     }
 
     @Override
+    public Point3D convertToCameraCoordinateSystem(Point3D point3D) {
+        Point3D converted = super.convertToCameraCoordinateSystem(point3D);
+
+
+        double focalLength = cameraSettings.getFocalLength();
+        double ratio = focalLength / converted.z;
+
+        double x = ratio * converted.x;
+        double y = ratio * converted.y;
+        double z = converted.z;
+
+        converted.x = x;
+        converted.y = y;
+        converted.z = z;
+
+        return converted;
+    }
+
+    @Override
     public float distanceFromCameraToPoint(Point3D point3D) {
         float distance;
 
-        distance = cameraSettings.fromCoordinates.distanceTo(point3D);
+        Point3D fromCoordinates = cameraSettings.getRealFromCoordinates();
+        distance = fromCoordinates.distanceTo(point3D);
 
         return distance;
     }
@@ -25,8 +41,5 @@ public class PerspectiveCameraProjection extends AbstractCameraProjection {
         return true;
     }
 
-    @Override
-    public List<Triangle> chooseFaceTriangles(List<Triangle> objectTriangles, List<Point3D> objectVertices) {
-        return objectTriangles;
-    }
+
 }

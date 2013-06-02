@@ -3,8 +3,6 @@ package com.jff.engine3d.model;
 import com.jff.engine3d.model.object.AbstractObjectParams;
 import com.jff.engine3d.model.primitives.AbstractObject;
 import com.jff.engine3d.model.primitives.Box;
-import com.jff.engine3d.model.utils.draw.Point3D;
-import com.jff.engine3d.model.utils.draw.RotationCoordinates;
 
 import java.util.List;
 
@@ -32,6 +30,7 @@ public class Controller {
 
     public void createObject(Point3D point3D, AbstractObjectParams objectParams) {
 
+        // AbstractObject object = new Cylinder(point3D, 30, 60,40);
         AbstractObject object = new Box(point3D, 100, 100, 100);
 
         SceneObject sceneObject = new SceneObject(object);
@@ -51,7 +50,7 @@ public class Controller {
     }
 
     public void startPanorama() {
-        scene.startPanorama();
+
     }
 
     public void setProjectionType(ProjectionType projectionType) {
@@ -117,7 +116,12 @@ public class Controller {
         }
     }
 
-    public void init(IEngineCanvas canvas) {
-        scene.initializeCanvas(canvas);
+    public void init(IEngineCanvas canvas, IEngineView view) {
+        scene.initializeView(canvas, view);
+    }
+
+    public void setCameraFocalLength(int focalLength) {
+        scene.setCameraFocalLength(focalLength);
+
     }
 }
