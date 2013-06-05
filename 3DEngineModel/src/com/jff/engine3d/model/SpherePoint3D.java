@@ -9,8 +9,14 @@ public class SpherePoint3D {
         SpherePoint3D spherePoint3D = new SpherePoint3D();
 
         spherePoint3D.r = Math.sqrt(Math.pow(point3D.x, 2) + Math.pow(point3D.y, 2) + Math.pow(point3D.z, 2));
-        spherePoint3D.theta = Math.acos(point3D.z / spherePoint3D.r);
-        spherePoint3D.phi = Math.atan(point3D.y / point3D.x);
+        if (spherePoint3D.r == 0) {
+            spherePoint3D.phi = 0;
+            spherePoint3D.theta = 0;
+        } else {
+
+            spherePoint3D.phi = Math.acos(point3D.z / spherePoint3D.r);
+            spherePoint3D.theta = Math.atan2(point3D.y, point3D.x);
+        }
 
         return spherePoint3D;
     }
@@ -34,4 +40,6 @@ public class SpherePoint3D {
                 ", phi=" + phi +
                 '}';
     }
+
+
 }

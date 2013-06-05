@@ -1,8 +1,6 @@
 package com.jff.engine3d.model.java.components;
 
-import com.jff.engine3d.model.IEngineCanvas;
-import com.jff.engine3d.model.PaintPoint2D;
-import com.jff.engine3d.model.PaintTriangle;
+import com.jff.engine3d.model.*;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
@@ -24,6 +22,8 @@ public class EngineCanvasSWT extends Canvas implements IEngineCanvas {
     private PaintPoint2D xAxisCoordinates = new PaintPoint2D(0, 0);
     private PaintPoint2D yAxisCoordinates = new PaintPoint2D(0, 0);
     private PaintPoint2D zAxisCoordinates = new PaintPoint2D(0, 0);
+    private Point3D cameraFrom;
+    private Point3D cameraTo;
 
     public EngineCanvasSWT(Composite parent) {
         super(parent, SWT.NONE);
@@ -46,9 +46,31 @@ public class EngineCanvasSWT extends Canvas implements IEngineCanvas {
 
                 drawAxes(gc);
 
+                drawCameraCoordinates(gc);
+
                 drawPolygons(gc);
             }
         });
+    }
+
+    private void drawCameraCoordinates(GC gc) {
+
+        if (cameraFrom != null && cameraTo != null) {
+
+            String fromString = "From ";
+
+            fromString += cameraFrom.x + " ";
+            fromString += cameraFrom.y + " ";
+            fromString += cameraFrom.z + " ";
+            String toString = "TO ";
+            toString += cameraTo.x + " ";
+            toString += cameraTo.y + " ";
+            toString += cameraTo.z + " ";
+
+
+            gc.drawText(fromString, 5, 5);
+            gc.drawText(toString, 5, 25);
+        }
     }
 
     private void drawAxes(GC gc) {
@@ -197,4 +219,12 @@ public class EngineCanvasSWT extends Canvas implements IEngineCanvas {
     }
 
 
+    @Override
+    public void sceneChanged(Scene scene) {
+        Camera camera = scene.getCamera();
+        CameraSettings settings = camera.getCameraSettings();
+
+        this.cameraFrom = settings.getRealFromCoordinates();
+        this.cameraTo = settings.getRealToCoordinates();
+    }
 }

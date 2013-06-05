@@ -25,7 +25,12 @@ public class ParallelCameraProjection extends AbstractCameraProjection {
 
     @Override
     public boolean isObjectInCamera(SceneObject object) {
-        return true;
+        Point3D center = object.getCenter();
+
+        Point3D inCamera = convertToCameraCoordinateSystem(center);
+
+        return inCamera.z >= 0;
+
     }
 
 }

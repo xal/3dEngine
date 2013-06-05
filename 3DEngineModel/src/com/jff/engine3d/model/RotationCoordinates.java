@@ -12,6 +12,15 @@ public class RotationCoordinates {
         this.z = z;
     }
 
+    @Override
+    public String toString() {
+        return "RotationCoordinates{" +
+                "x=" + x +
+                ", y=" + y +
+                ", z=" + z +
+                '}';
+    }
+
     public double getX() {
         return x;
     }

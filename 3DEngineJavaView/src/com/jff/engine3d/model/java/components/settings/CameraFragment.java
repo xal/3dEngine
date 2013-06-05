@@ -23,13 +23,17 @@ public class CameraFragment extends Composite {
     private Text rotateZ;
 
     private Text focalLength;
+    private Slider focalLengthSlider;
 
     private Button fromRotate;
-    private Button toButton;
+    private Button toRotate;
 
     private Slider rotateXSlider;
     private Slider rotateYSlider;
     private Slider rotateZSlider;
+
+    private Button perspectiveButton;
+    private Button parallelProjection;
 
     public CameraFragment(Composite parent) {
         super(parent, SWT.NONE);
@@ -64,10 +68,10 @@ public class CameraFragment extends Composite {
 
         group.setLayout(gridLayout);
 
-        Button perspectiveButton = new Button(group, SWT.RADIO);
+        perspectiveButton = new Button(group, SWT.RADIO);
         perspectiveButton.setText("Perspective");
 
-        final Button parallelProjection = new Button(group, SWT.RADIO);
+        parallelProjection = new Button(group, SWT.RADIO);
         parallelProjection.setText("Parallel");
 
         parallelProjection.setSelection(true);
@@ -110,17 +114,17 @@ public class CameraFragment extends Composite {
         Label textX = new Label(group, SWT.NONE);
         textX.setText("X");
         fromX = new Text(group, SWT.NONE);
-        fromX.addListener(SWT.Verify, Utils.createVerifyPositiveIntegerListener());
+        fromX.addListener(SWT.Verify, Utils.createVerifyIntegerListener());
 
         Label textY = new Label(group, SWT.NONE);
         textY.setText("Y");
         fromY = new Text(group, SWT.NONE);
-        fromY.addListener(SWT.Verify, Utils.createVerifyPositiveIntegerListener());
+        fromY.addListener(SWT.Verify, Utils.createVerifyIntegerListener());
 
         Label textZ = new Label(group, SWT.NONE);
         textZ.setText("Z");
         fromZ = new Text(group, SWT.NONE);
-        fromZ.addListener(SWT.Verify, Utils.createVerifyPositiveIntegerListener());
+        fromZ.addListener(SWT.Verify, Utils.createVerifyIntegerListener());
 
         Button buttonOk = new Button(group, SWT.NONE);
         buttonOk.setText("OK");
@@ -171,6 +175,24 @@ public class CameraFragment extends Composite {
         focalLength = new Text(group, SWT.NONE);
         focalLength.addListener(SWT.Verify, Utils.createVerifyPositiveIntegerListener());
 
+        focalLengthSlider = new Slider(group, SWT.NONE);
+        focalLengthSlider.setMinimum(1);
+        focalLengthSlider.setMaximum(1000);
+        focalLengthSlider.setSelection(500);
+
+        focalLengthSlider.addSelectionListener(new SelectionListener() {
+            @Override
+            public void widgetSelected(SelectionEvent selectionEvent) {
+                int focalLengthValue = focalLengthSlider.getSelection();
+
+                applyFocalLength(focalLengthValue);
+            }
+
+            @Override
+            public void widgetDefaultSelected(SelectionEvent selectionEvent) {
+                //To change body of implemented methods use File | Settings | File Templates.
+            }
+        });
 
         Button buttonOk = new Button(group, SWT.NONE);
         buttonOk.setText("OK");
@@ -182,7 +204,7 @@ public class CameraFragment extends Composite {
                     int focalLength = Utils.retrieveInteger(CameraFragment.this.focalLength);
 
 
-                    controller.setCameraFocalLength(focalLength);
+                    applyFocalLength(focalLength);
 
                 } catch (IllegalArgumentException e) {
                     String message = e.getMessage();
@@ -200,6 +222,13 @@ public class CameraFragment extends Composite {
 
     }
 
+    private void applyFocalLength(int focalLength) {
+        controller.setCameraFocalLength(focalLength);
+
+        this.focalLength.setText("" + focalLength);
+        focalLengthSlider.setSelection(focalLength);
+    }
+
     private void createToSettings() {
 
         Composite parent = this;
@@ -214,17 +243,17 @@ public class CameraFragment extends Composite {
         Label textX = new Label(group, SWT.NONE);
         textX.setText("X");
         toX = new Text(group, SWT.NONE);
-        toX.addListener(SWT.Verify, Utils.createVerifyPositiveIntegerListener());
+        toX.addListener(SWT.Verify, Utils.createVerifyIntegerListener());
 
         Label textY = new Label(group, SWT.NONE);
         textY.setText("Y");
         toY = new Text(group, SWT.NONE);
-        toY.addListener(SWT.Verify, Utils.createVerifyPositiveIntegerListener());
+        toY.addListener(SWT.Verify, Utils.createVerifyIntegerListener());
 
         Label textZ = new Label(group, SWT.NONE);
         textZ.setText("Z");
         toZ = new Text(group, SWT.NONE);
-        toZ.addListener(SWT.Verify, Utils.createVerifyPositiveIntegerListener());
+        toZ.addListener(SWT.Verify, Utils.createVerifyIntegerListener());
 
         Button buttonOk = new Button(group, SWT.NONE);
         buttonOk.setText("OK");
@@ -275,8 +304,8 @@ public class CameraFragment extends Composite {
         fromRotate = new Button(group, SWT.RADIO);
         fromRotate.setText("From");
 
-        toButton = new Button(group, SWT.RADIO);
-        toButton.setText("To");
+        toRotate = new Button(group, SWT.RADIO);
+        toRotate.setText("To");
 
         fromRotate.setSelection(true);
 
@@ -399,6 +428,59 @@ public class CameraFragment extends Composite {
 
 
     public void sceneChanged(Scene scene) {
-        //To change body of created methods use File | Settings | File Templates.
+        fillSettings(scene);
+    }
+
+    private void fillSettings(Scene scene) {
+        Camera camera = scene.getCamera();
+
+        AbstractCameraProjection projection = camera.getProjection();
+        switch (projection.getType()) {
+
+            case PARALLEL:
+                parallelProjection.setSelection(true);
+                break;
+            case PERSPECTIVE:
+                perspectiveButton.setSelection(true);
+                break;
+        }
+
+        CameraSettings cameraSettings = camera.getCameraSettings();
+
+        int focalLengthValue = cameraSettings.getFocalLength();
+        Point3D fromCoordinates = cameraSettings.getFromCoordinates();
+        Point3D toCoordinates = cameraSettings.getToCoordinates();
+        CameraRotateType rotateType = cameraSettings.getRotateType();
+        RotationCoordinates rotationCoordinates = cameraSettings.getRotationCoordinates();
+
+        this.focalLength.setText("" + focalLengthValue);
+        focalLengthSlider.setSelection(focalLengthValue);
+
+        rotateX.setText("" + (int) rotationCoordinates.getX());
+        rotateY.setText("" + (int) rotationCoordinates.getY());
+        rotateZ.setText("" + (int) rotationCoordinates.getZ());
+
+        rotateXSlider.setSelection((int) rotationCoordinates.getX());
+        rotateYSlider.setSelection((int) rotationCoordinates.getY());
+        rotateZSlider.setSelection((int) rotationCoordinates.getZ());
+
+        fromX.setText("" + (int) fromCoordinates.getX());
+        fromY.setText("" + (int) fromCoordinates.getY());
+        fromZ.setText("" + (int) fromCoordinates.getZ());
+
+        toX.setText("" + (int) toCoordinates.getX());
+        toY.setText("" + (int) toCoordinates.getY());
+        toZ.setText("" + (int) toCoordinates.getZ());
+
+        switch (rotateType) {
+
+            case TO:
+                toRotate.setSelection(true);
+                break;
+            case FROM:
+                fromRotate.setSelection(true);
+                break;
+        }
+
     }
 }

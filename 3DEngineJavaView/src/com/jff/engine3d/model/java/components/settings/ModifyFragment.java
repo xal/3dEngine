@@ -1,6 +1,7 @@
 package com.jff.engine3d.model.java.components.settings;
 
 import com.jff.engine3d.model.*;
+import com.jff.engine3d.model.primitives.AbstractObject;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -437,24 +438,34 @@ public class ModifyFragment extends Composite {
     }
 
     private void fillSettings(Scene scene) {
-//        SceneObject currentSelectedObject = scene.getCurrentSelectedObject();
-//
-//        AbstractObject object = currentSelectedObject.getObject();
-//
-//        Point3D center = object.getCenter();
-//
-//        editX.setText(""+center.x);
-//        editY.setText(""+center.y);
-//        editZ.setText(""+center.z);
-//
-//        RotationCoordinates rotationCoordinates = object.getRotationCoordinates();
-//
-//        applyRotate((int)rotationCoordinates.getX(),(int)rotationCoordinates.getY(),(int) rotationCoordinates.getZ());
-//
-//
-//        double scale = object.getScale();
-//        editScale.setText(""+scale);
-//        sliderScale.setSelection((int) (scale * 100));
+        SceneObject currentSelectedObject = scene.getCurrentSelectedObject();
+
+        AbstractObject object = currentSelectedObject.getObject();
+
+        Point3D center = object.getCenter();
+
+        editX.setText("" + center.x);
+        editY.setText("" + center.y);
+        editZ.setText("" + center.z);
+
+        RotationCoordinates rotationCoordinates = object.getRotationCoordinates();
+
+
+        int x = (int) rotationCoordinates.getX();
+        int y = (int) rotationCoordinates.getY();
+        int z = (int) rotationCoordinates.getZ();
+
+        sliderRotateX.setSelection(x);
+        sliderRotateY.setSelection(y);
+        sliderRotateZ.setSelection(z);
+
+        editRotateX.setText("" + x);
+        editRotateY.setText("" + y);
+        editRotateZ.setText("" + z);
+
+        double scale = object.getScale();
+        editScale.setText("" + scale);
+        sliderScale.setSelection((int) (scale * 100));
 
     }
 

@@ -27,24 +27,25 @@ public class CameraSettings {
     private void fireSettingsChanged() {
 
 
-        realFromCoordinates = rotateFrom();
-        realToCoordinates = rotateTo();
+        rotate();
+
 
         double x = realFromCoordinates.x - realToCoordinates.x;
         double y = realFromCoordinates.y - realToCoordinates.y;
         double z = realFromCoordinates.z - realToCoordinates.z;
 
-        System.out.println("realFrom " + realFromCoordinates);
-        System.out.println("realTo " + realToCoordinates);
+//
+//        System.out.println("realFrom " + realFromCoordinates);
+//        System.out.println("realTo " + realToCoordinates);
 
         Point3D point3D = new Point3D(x, y, z);
-
-        System.out.println("calc point " + point3D);
+//
+//        System.out.println("calc point " + point3D);
 
         SpherePoint3D spherePoint3D = SpherePoint3D.fromCartesian(point3D);
 
-        System.out.println("Sphere " + spherePoint3D);
-        System.out.println("");
+//        System.out.println("Sphere " + spherePoint3D);
+//        System.out.println("");
 
         theta = spherePoint3D.theta;
         phi = spherePoint3D.phi;
@@ -52,29 +53,24 @@ public class CameraSettings {
 
     }
 
-    private Point3D rotateTo() {
+    private Point3D rotate() {
+
+        System.out.println(rotateType + "" + rotationCoordinates);
+
         if (rotateType == CameraRotateType.FROM) {
-            Point3D rotateCenterPoint = realFromCoordinates;
+            Point3D rotateCenterPoint = fromCoordinates;
             realToCoordinates = rotate(rotateCenterPoint, toCoordinates, rotationCoordinates);
+            realFromCoordinates = fromCoordinates;
         } else {
+
+            Point3D rotateCenterPoint = toCoordinates;
+            realFromCoordinates = rotate(rotateCenterPoint, fromCoordinates, rotationCoordinates);
             realToCoordinates = toCoordinates;
         }
 
         return realToCoordinates;
     }
 
-    private Point3D rotateFrom() {
-
-        if (rotateType == CameraRotateType.TO) {
-
-            Point3D rotateCenterPoint = realToCoordinates;
-            realFromCoordinates = rotate(rotateCenterPoint, fromCoordinates, rotationCoordinates);
-        } else {
-            realFromCoordinates = fromCoordinates;
-        }
-
-        return realFromCoordinates;
-    }
 
     private Point3D rotate(Point3D rotateCenterPoint, Point3D rotatingPoint, RotationCoordinates rotationCoordinates) {
 

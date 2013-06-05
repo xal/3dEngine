@@ -54,9 +54,9 @@ public class SettingsTabsFragment extends Composite implements IEngineView {
         cameraFragment = new CameraFragment(tabFolder);
         createTab(tabFolder, title, cameraFragment);
 
-        title = "View";
-        viewFragment = new ViewFragment(tabFolder);
-        createTab(tabFolder, title, viewFragment);
+//        title = "View";
+//        viewFragment = new ViewFragment(tabFolder);
+//        createTab(tabFolder, title, viewFragment);
 
         title = "File";
         fileFragment = new FileFragment(tabFolder);
@@ -74,7 +74,7 @@ public class SettingsTabsFragment extends Composite implements IEngineView {
         createFragment.sceneChanged(scene);
         modifyFragment.sceneChanged(scene);
         cameraFragment.sceneChanged(scene);
-        viewFragment.sceneChanged(scene);
+//        viewFragment.sceneChanged(scene);
         fileFragment.sceneChanged(scene);
     }
 

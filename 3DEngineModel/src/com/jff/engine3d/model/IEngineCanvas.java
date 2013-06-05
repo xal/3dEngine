@@ -2,7 +2,7 @@ package com.jff.engine3d.model;
 
 import java.util.List;
 
-public interface IEngineCanvas {
+public interface IEngineCanvas extends IEngineView {
 
 
     public void setPaintPolygons(List<PaintTriangle> polygons);

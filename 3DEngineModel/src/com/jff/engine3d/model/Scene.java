@@ -66,6 +66,7 @@ public class Scene implements Serializable {
         drawAxes();
         engineCanvas.redraw();
         engineView.sceneChanged(this);
+        engineCanvas.sceneChanged(this);
     }
 
     private void drawAxes() {
@@ -192,5 +193,9 @@ public class Scene implements Serializable {
     public void setCameraFocalLength(int focalLength) {
         camera.setCameraFocalLength(focalLength);
         fireSceneChanged();
+    }
+
+    public Camera getCamera() {
+        return camera;
     }
 }

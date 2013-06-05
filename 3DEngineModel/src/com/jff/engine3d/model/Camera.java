@@ -31,8 +31,8 @@ public class Camera implements Serializable {
         }
     };
 
-    private static final Point3D DEFAULT_FROM_COORDINATES = new Point3D(1, 1, 1000);
-    private static final Point3D DEFAULT_TO_COORDINATES = new Point3D(0, 0, 0);
+    private static final Point3D DEFAULT_FROM_COORDINATES = new Point3D(200, 100, 100);
+    private static final Point3D DEFAULT_TO_COORDINATES = new Point3D(100, 100, 100);
     private static final CameraRotateType DEFAULT_ROTATE_TYPE = CameraRotateType.FROM;
     private static final RotationCoordinates DEFAULT_ROTATION_COORDINATES = new RotationCoordinates(0, 0, 0);
     private static final ProjectionType DEFAULT_PROJECTION_TYPE = ProjectionType.PARALLEL;
@@ -216,5 +216,13 @@ public class Camera implements Serializable {
         Point3D newPoint3D = projection.convertToCameraCoordinateSystem(point3d);
 
         return Point3dTo2d(newPoint3D);
+    }
+
+    public CameraSettings getCameraSettings() {
+        return cameraSettings;
+    }
+
+    public AbstractCameraProjection getProjection() {
+        return projection;
     }
 }
