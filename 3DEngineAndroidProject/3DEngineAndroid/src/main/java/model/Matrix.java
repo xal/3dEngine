@@ -1,4 +1,4 @@
-package com.jff.engine3d.model.java.main;
+package model;
 
 import java.util.Arrays;
 

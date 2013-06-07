@@ -1,38 +1,100 @@
-package com.jff.engine3d.model.java.main;
-
-import com.jff.engine3d.model.Point3D;
+package model;
 
 public class CameraMain {
 
     public static void main(String args[]) {
         System.out.println("go");
-
-        Point3D to = new Point3D(0, 0, -1);
-        Point3D from = new Point3D(0, 0, 3);
         Point3D up = new Point3D(0, 1, 0);
+        Point3D from;
+        Point3D to;
 
-        Point3D point3D = new Point3D(0, 0, 0);
+        Point3D point3D;
+        Point3D cameraPoint3D;
+
+        from = new Point3D(200, 100, 100);
+        to = new Point3D(199, 100, 100);
+
+        System.out.println();
+        System.out.println("from " + from);
+        System.out.println("to " + to);
+        System.out.println();
 
 
-        Point3D cameraPoint3D = convert(to, from, up, point3D);
+        point3D = new Point3D(0, 100, 0);
+        cameraPoint3D = convert2(from, to, up, point3D);
+        System.out.println("before " + point3D);
+        System.out.println("after " + cameraPoint3D);
+
+
+        from = new Point3D(200, 100, 100);
+        to = new Point3D(201, 100, 100);
+
+        System.out.println();
+        System.out.println("from " + from);
+        System.out.println("to " + to);
+        System.out.println();
+
+
+        point3D = new Point3D(0, 100, 0);
+        cameraPoint3D = convert2(from, to, up, point3D);
+        System.out.println("before " + point3D);
+        System.out.println("after " + cameraPoint3D);
 
 
     }
 
-    public static Point3D convert(Point3D to, Point3D from, Point3D up, Point3D point3D) {
+    public static Point3D convert2(Point3D eye, Point3D lookAt, Point3D up, Point3D point3D) {
+
+        double xe;
+        double ye;
+        double ze;
+
+        double xw = point3D.x;
+        double yw = point3D.y;
+        double zw = point3D.z;
+
+
+        double tx = lookAt.x - eye.x;
+        double ty = lookAt.y - eye.y;
+        double tz = lookAt.z - eye.z;
+
+        Point3D point3D1 = new Point3D(tx, ty, tz);
+        System.out.println(point3D1);
+        SpherePoint3D spherePoint3D = SpherePoint3D.fromCartesian(point3D1);
+        System.out.println(spherePoint3D);
+
+        double theta = spherePoint3D.theta;
+        double phi = spherePoint3D.phi;
+        double ro = spherePoint3D.r;
+
+        System.out.println("theta" + theta);
+        System.out.println("phi" + theta);
+
+        xe = -xw * Math.sin(theta) + yw * Math.cos(theta);
+        ye = -xw * Math.cos(phi) * Math.cos(theta) - yw * Math.cos(phi) * Math.sin(theta) + zw * Math.sin(phi);
+        ze = -xw * Math.sin(phi) * Math.cos(theta) - yw * Math.sin(phi) * Math.sin(theta) - zw * Math.cos(phi);
+
+        return new Point3D(xe, ye, ze);
+    }
+
+    public static Point3D convert(Point3D eye, Point3D lookAt, Point3D up, Point3D point3D) {
+
+
         Matrix mR = new Matrix(4);
         Matrix mT = new Matrix(4);
         Matrix m = new Matrix(4);
 
 
-        Vector vEye = convertPoint3d(to);
+        Vector vEye = convertPoint3d(eye);
+        Vector vLookAt = convertPoint3d(lookAt);
         Vector vUp = convertPoint3d(up);
 
-//        double[] z = {direction.x - eye.x, direction.y - eye.y, direction.z - eye.z, 1};
-        double[] z = {-from.x + to.x, -from.y + to.y, -from.z + to.z, 1};
+        double[] z = {lookAt.x - eye.x, lookAt.y - eye.y, lookAt.z - eye.z, 1};
+//        double[] z = {-from.x + eye.x, -from.y + eye.y, -from.z + eye.z, 1};
 //        double[] z = {eye.x, eye.y, eye.z, 1};
-//        double[] z = {direction.x , direction.y , direction.z , 1};
-        Vector vZ = new Vector(z);
+//        double[] z = {from.x , from.y , from.z , 1};
+        //Vector vZ = new Vector(z);
+        Vector vZ = new Vector(vLookAt.vector);
         Vector vX = new Vector(crossproduct(vZ.vector, vUp.vector));
         Vector vY = new Vector(crossproduct(vX.vector, vZ.vector));
 
@@ -72,17 +134,17 @@ public class CameraMain {
         mT.matrix[0][0] = 1;
         mT.matrix[0][1] = 0;
         mT.matrix[0][2] = 0;
-        mT.matrix[0][3] = -to.x;
+        mT.matrix[0][3] = -eye.x;
 
         mT.matrix[1][0] = 0;
         mT.matrix[1][1] = 1;
         mT.matrix[1][2] = 0;
-        mT.matrix[1][3] = -to.y;
+        mT.matrix[1][3] = -eye.y;
 
         mT.matrix[2][0] = 0;
         mT.matrix[2][1] = 0;
         mT.matrix[2][2] = 1;
-        mT.matrix[2][3] = -to.z;
+        mT.matrix[2][3] = eye.z;
 
         mT.matrix[3][0] = 0;
         mT.matrix[3][1] = 0;

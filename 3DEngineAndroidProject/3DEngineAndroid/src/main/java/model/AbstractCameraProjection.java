@@ -1,4 +1,4 @@
-package com.jff.engine3d.model;
+package model;
 
 public abstract class AbstractCameraProjection {
 
@@ -40,7 +40,7 @@ public abstract class AbstractCameraProjection {
         Point3D to = cameraSettings.getRealToCoordinates();
         Point3D from = cameraSettings.getRealFromCoordinates();
         Point3D up = new Point3D(1, 1, 1);
-        newPoint3D = CameraMain.convert2(from, to, point3D);
+        newPoint3D = CameraMain.convert2(from, to, up, point3D);
 //
 //
 //        System.out.println("before move = " + newPoint3D);

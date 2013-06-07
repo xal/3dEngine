@@ -3,6 +3,12 @@ package com.jff.engine3d.model;
 public class CameraMain {
 
     public static void main(String args[]) {
+        testAngle();
+
+
+    }
+
+    private static void testAngle() {
         System.out.println("go");
         Point3D up = new Point3D(0, 1, 0);
         Point3D from;
@@ -21,7 +27,7 @@ public class CameraMain {
 
 
         point3D = new Point3D(0, 100, 0);
-        cameraPoint3D = convert2(from, to, up, point3D);
+        cameraPoint3D = convert2(from, to, point3D);
         System.out.println("before " + point3D);
         System.out.println("after " + cameraPoint3D);
 
@@ -36,14 +42,38 @@ public class CameraMain {
 
 
         point3D = new Point3D(0, 100, 0);
-        cameraPoint3D = convert2(from, to, up, point3D);
+        cameraPoint3D = convert2(from, to, point3D);
+        System.out.println("before " + point3D);
+        System.out.println("after " + cameraPoint3D);
+    }
+
+    private static void testZ() {
+        System.out.println("go");
+
+        Point3D from;
+        Point3D to;
+
+        Point3D point3D;
+        Point3D cameraPoint3D;
+
+        from = new Point3D(200, 100, 100);
+        to = new Point3D(100, 100, 100);
+
+        System.out.println();
+        System.out.println("from " + from);
+        System.out.println("to " + to);
+        System.out.println();
+
+
+        point3D = new Point3D(0, 100, 0);
+        cameraPoint3D = convert2(from, to, point3D);
         System.out.println("before " + point3D);
         System.out.println("after " + cameraPoint3D);
 
 
     }
 
-    public static Point3D convert2(Point3D eye, Point3D lookAt, Point3D up, Point3D point3D) {
+    public static Point3D convert2(Point3D eye, Point3D lookAt, Point3D point3D) {
 
         double xe;
         double ye;
@@ -54,12 +84,16 @@ public class CameraMain {
         double zw = point3D.z;
 
 
+        xw -= eye.x;
+        yw -= eye.y;
+        zw -= eye.z;
+
         double tx = lookAt.x - eye.x;
         double ty = lookAt.y - eye.y;
         double tz = lookAt.z - eye.z;
 
         Point3D point3D1 = new Point3D(tx, ty, tz);
-        System.out.println(point3D1);
+        System.out.println("translated " + point3D1);
         SpherePoint3D spherePoint3D = SpherePoint3D.fromCartesian(point3D1);
         System.out.println(spherePoint3D);
 
@@ -72,7 +106,7 @@ public class CameraMain {
 
         xe = -xw * Math.sin(theta) + yw * Math.cos(theta);
         ye = -xw * Math.cos(phi) * Math.cos(theta) - yw * Math.cos(phi) * Math.sin(theta) + zw * Math.sin(phi);
-        ze = -xw * Math.sin(phi) * Math.cos(theta) - yw * Math.sin(phi) * Math.sin(theta) - zw * Math.cos(phi);
+        ze = -xw * Math.sin(phi) * Math.cos(theta) - yw * Math.sin(phi) * Math.sin(theta) - zw * Math.cos(phi) + ro;
 
         return new Point3D(xe, ye, ze);
     }
