@@ -2,7 +2,7 @@ package com.jff.engine3d.model;
 
 import com.jff.engine3d.model.object.AbstractObjectParams;
 import com.jff.engine3d.model.primitives.AbstractObject;
-import com.jff.engine3d.model.primitives.Cylinder;
+import com.jff.engine3d.model.primitives.FrustumCone;
 
 import java.util.List;
 
@@ -30,12 +30,24 @@ public class Controller {
 
     public void createObject(Point3D point3D, AbstractObjectParams objectParams) {
 
-        AbstractObject object = new Cylinder(point3D, 30, 60, 40);
         //AbstractObject object = new Box(point3D, 100, 100, 100);
+//        AbstractObject object = new Cylinder(new Point3D(100, 100, 100),  30, 60, 40);
+//        SceneObject sceneObject = new SceneObject(object);
+//        scene.addObject(sceneObject);
+//
+//        AbstractObject object1 = new Cylinder(new Point3D(200, 100, 100), 30, 30, 40);
+//        SceneObject sceneObject1 = new SceneObject(object1);
+//        scene.addObject(sceneObject1);
 
+        AbstractObject object = new FrustumCone(new Point3D(100, 100, 100), 30, 60, 40);
         SceneObject sceneObject = new SceneObject(object);
-
         scene.addObject(sceneObject);
+
+
+//        AbstractObject object2 = new Cylinder(new Point3D(300, 100, 100), 30, 40, 40);
+//        SceneObject sceneObject2 = new SceneObject(object2);
+//        scene.addObject(sceneObject2);
+
 
     }
 
