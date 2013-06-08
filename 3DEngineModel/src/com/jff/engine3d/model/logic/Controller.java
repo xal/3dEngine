@@ -180,4 +180,8 @@ public class Controller {
     public void deleteObjects(List<SceneObject> selectedObjects) {
         scene.deleteObjects(selectedObjects);
     }
+
+    public ViewType getViewType() {
+        return scene.getViewType();
+    }
 }

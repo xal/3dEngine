@@ -6,6 +6,7 @@ import com.jff.engine3d.model.entities.RotationCoordinates;
 import com.jff.engine3d.model.logic.Controller;
 import com.jff.engine3d.model.logic.EngineManager;
 import com.jff.engine3d.model.scene.Scene;
+import com.jff.engine3d.model.scene.ViewType;
 import com.jff.engine3d.view.java.components.utils.UIUtils;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
@@ -40,6 +41,8 @@ public class CameraFragment extends Composite {
 
     private Button perspectiveButton;
     private Button parallelButton;
+    private Button fillButton;
+    private Button edgeButton;
 
     public CameraFragment(Composite parent) {
         super(parent, SWT.NONE);
@@ -54,6 +57,7 @@ public class CameraFragment extends Composite {
         controller = engineManager.getController();
 
 
+        createViewSettings();
         createProjectionSettings();
 
         createFromSettings();
@@ -453,6 +457,20 @@ public class CameraFragment extends Composite {
                 break;
         }
 
+        ViewType viewType = controller.getViewType();
+        switch (viewType) {
+
+            case POLYGONS:
+                fillButton.setSelection(true);
+                edgeButton.setSelection(false);
+                break;
+            case EDGES:
+                fillButton.setSelection(false);
+                edgeButton.setSelection(true);
+                break;
+        }
+
+
         CameraSettings cameraSettings = camera.getCameraSettings();
 
         int focalLengthValue = cameraSettings.getFocalLength();
@@ -489,6 +507,49 @@ public class CameraFragment extends Composite {
                 fromRotate.setSelection(true);
                 break;
         }
+
+    }
+
+
+    private void createViewSettings() {
+
+        Composite parent = this;
+        Group group = new Group(parent, SWT.NONE);
+
+        group.setText("View");
+
+        GridLayout gridLayout = new GridLayout(2, true);
+
+        group.setLayout(gridLayout);
+
+        fillButton = new Button(group, SWT.RADIO);
+        fillButton.setText("Fill");
+
+        edgeButton = new Button(group, SWT.RADIO);
+        edgeButton.setText("Edges");
+
+        edgeButton.setSelection(true);
+
+
+        SelectionListener listener = new SelectionListener() {
+            @Override
+            public void widgetSelected(SelectionEvent selectionEvent) {
+                if (edgeButton.getSelection()) {
+                    controller.setViewType(ViewType.EDGES);
+                } else {
+
+                    controller.setViewType(ViewType.POLYGONS);
+                }
+            }
+
+            @Override
+            public void widgetDefaultSelected(SelectionEvent selectionEvent) {
+                //To change body of implemented methods use File | Settings | File Templates.
+            }
+        };
+        edgeButton.addSelectionListener(listener);
+        fillButton.addSelectionListener(listener);
+
 
     }
 }

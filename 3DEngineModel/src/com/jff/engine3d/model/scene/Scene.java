@@ -20,7 +20,7 @@ public class Scene implements Serializable {
     private transient IEngineView engineView;
 
     private Camera camera;
-    private ViewType viewType;
+    private ViewType viewType = ViewType.POLYGONS;
 
 
     private List<SceneObject> objects = new ArrayList<SceneObject>();
@@ -327,5 +327,9 @@ public class Scene implements Serializable {
     public void deleteObjects(List<SceneObject> selectedObjects) {
         objects.removeAll(selectedObjects);
         fireSceneChanged();
+    }
+
+    public ViewType getViewType() {
+        return viewType;
     }
 }

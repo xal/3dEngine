@@ -9,6 +9,8 @@ import com.jff.engine3d.model.logic.Controller;
 import com.jff.engine3d.model.logic.EngineManager;
 import com.jff.engine3d.model.logic.interfaces.IEngineCanvas;
 import com.jff.engine3d.model.scene.Scene;
+import com.jff.engine3d.model.scene.ViewType;
+import com.jff.engine3d.view.java.components.utils.UIUtils;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
@@ -129,6 +131,15 @@ public class EngineCanvasSWT extends Canvas implements IEngineCanvas {
 
     private void drawPolygons(GC gc) {
 
+        Controller controller = UIUtils.getController();
+
+        ViewType viewType = controller.getViewType();
+        boolean fillPolygons;
+        if (viewType != ViewType.POLYGONS) {
+            fillPolygons = false;
+        } else {
+            fillPolygons = true;
+        }
 
         List<PaintTriangle> paintPolygons = convertToCanvasCoordinates(polygons);
         for (PaintTriangle polygon : paintPolygons) {
@@ -154,7 +165,10 @@ public class EngineCanvasSWT extends Canvas implements IEngineCanvas {
             gc.setBackground(new Color(device, 100, 100, 100));
 //
 //
-            gc.fillPolygon(pointArray);
+            if (fillPolygons) {
+                gc.fillPolygon(pointArray);
+
+            }
             gc.drawPolygon(pointArray);
         }
 

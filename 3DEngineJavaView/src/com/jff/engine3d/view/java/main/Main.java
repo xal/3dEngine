@@ -13,7 +13,7 @@ public class Main {
         final Display display = new Display();
         final Shell shell = new Shell(display);
 
-        shell.setSize(1100, 700);
+        shell.setSize(1100, 770);
         FillLayout layout = new FillLayout();
         shell.setLayout(layout);
 
