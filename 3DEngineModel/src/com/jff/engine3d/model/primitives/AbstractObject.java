@@ -9,7 +9,7 @@ import com.jff.engine3d.model.utils.IDUtils;
 import java.io.Serializable;
 import java.util.List;
 
-public class AbstractObject implements Serializable {
+public abstract class AbstractObject implements Serializable {
 
 
     private static final Point3D DEFAULT_MOVE = new Point3D(0, 0, 0);
@@ -136,17 +136,11 @@ public class AbstractObject implements Serializable {
 
     }
 
-    protected void computeVertices() {
+    protected abstract void computeVertices();
 
-    }
+    protected abstract void computeTriangles();
 
-    protected void computeTriangles() {
-
-    }
-
-    protected double computeBorderSphereRadius() {
-        return 0;
-    }
+    protected abstract double computeBorderSphereRadius();
 
     public void setScale(float scale) {
         this.scale = scale;

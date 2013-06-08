@@ -1,0 +1,70 @@
+package com.jff.engine3d.model.object.params;
+
+import com.jff.engine3d.model.entities.Point3D;
+import com.jff.engine3d.model.primitives.AbstractObject;
+
+public class TrafficLightParams extends AbstractObjectParams {
+
+
+    public int diameterPoleConeLower;
+    public int heightPoleCone;
+
+    public int diameterPoleConeUpper;
+
+    public int heightPoleCylinderLower;
+    public int diameterPoleCylinderLower;
+
+    public int heightPoleCylinderUpper;
+    public int diameterPoleCylinderUpper;
+
+
+    public int heightBase;
+    public int widthBase;
+    public int lengthBase;
+
+    //огни
+    public int diameterLight;
+
+
+    public int lengthLight;
+
+
+    public int numberLights;
+
+
+    public int heightVisor;
+    public int widthVisor;
+    public int lengthVisor;
+
+    public int numberVisors;
+
+    public TrafficLightParams(int heightPoleCone, int diameterPoleConeLower, int heightPoleCylinderLower, int diameterPoleCylinderLower, int heightPoleCylinderUpper, int diameterPoleCylinderUpper, int heightBase, int widthBase, int lengthBase, int diameterLight, int lengthLight, int numberLights, int heightVisor, int widthVisor, int lengthVisor) {
+        this.heightPoleCone = heightPoleCone;
+        this.diameterPoleConeUpper = diameterPoleCylinderLower;
+        this.diameterPoleConeLower = diameterPoleConeLower;
+        this.heightPoleCylinderLower = heightPoleCylinderLower;
+        this.diameterPoleCylinderLower = diameterPoleCylinderLower;
+        this.heightPoleCylinderUpper = heightPoleCylinderUpper;
+        this.diameterPoleCylinderUpper = diameterPoleCylinderUpper;
+        this.heightBase = heightBase;
+        this.widthBase = widthBase;
+        this.lengthBase = lengthBase;
+        this.diameterLight = diameterLight;
+        this.lengthLight = lengthLight;
+        this.numberLights = numberLights;
+        this.heightVisor = heightVisor;
+        this.widthVisor = widthVisor;
+        this.lengthVisor = lengthVisor;
+        this.numberVisors = numberLights;
+    }
+
+    @Override
+    public boolean verifyParams() throws Exception {
+        return true;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public AbstractObject createObject(Point3D center) {
+        return new com.jff.engine3d.model.objec.primitives.TrafficLight(center, this);
+    }
+}

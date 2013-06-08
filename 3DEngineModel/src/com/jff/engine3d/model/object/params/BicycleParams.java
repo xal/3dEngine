@@ -1,21 +1,25 @@
 package com.jff.engine3d.model.object.params;
 
+import com.jff.engine3d.model.entities.Point3D;
+import com.jff.engine3d.model.objec.primitives.Bicycle;
+import com.jff.engine3d.model.primitives.AbstractObject;
+
 public class BicycleParams extends AbstractObjectParams {
 
-    private int widthWheel;
-    private int diameterWheel;
+    public int widthWheel;
+    public int diameterWheel;
 
-    private int widthBush;
-    private int diameterBush;
+    public int widthBush;
+    public int diameterBush;
 
-    private int widthHelm;
-    private int diameterHelm;
+    public int widthHelm;
+    public int diameterHelm;
 
-    private int widthSeat;
-    private int heightSeat;
+    public int widthSeat;
+    public int heightSeat;
 
-    private int widthPedal;
-    private int heightPedal;
+    public int widthPedal;
+    public int heightPedal;
 
 
     public BicycleParams(int widthWheel, int diameterWheel, int widthBush, int diameterBush,
@@ -35,6 +39,11 @@ public class BicycleParams extends AbstractObjectParams {
 
     @Override
     public boolean verifyParams() throws Exception {
-        return false;  //To change body of implemented methods use File | Settings | File Templates.
+        return true;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public AbstractObject createObject(Point3D center) {
+        return new Bicycle(center, this);
     }
 }

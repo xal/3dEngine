@@ -44,25 +44,41 @@ public class TriangulateUtils {
         return vertices;
     }
 
-    public static List<Triangle> triangulate(Box box, List<Point3D> vertices) {
+    public static List<Triangle> triangulate(Box box, List<Point3D> vertices, int indexOffset) {
 
         List<Triangle> triangles = new ArrayList<Triangle>();
 
 
-        triangles.add(createTriangle(vertices, 0, 1, 2));
-        triangles.add(createTriangle(vertices, 0, 2, 3));
-        triangles.add(createTriangle(vertices, 1, 5, 6));
-        triangles.add(createTriangle(vertices, 1, 6, 2));
-        triangles.add(createTriangle(vertices, 5, 4, 7));
-        triangles.add(createTriangle(vertices, 5, 7, 6));
-        triangles.add(createTriangle(vertices, 4, 0, 3));
-        triangles.add(createTriangle(vertices, 4, 3, 7));
-        triangles.add(createTriangle(vertices, 0, 4, 5));
-        triangles.add(createTriangle(vertices, 0, 5, 1));
-        triangles.add(createTriangle(vertices, 3, 2, 6));
-        triangles.add(createTriangle(vertices, 3, 6, 7));
+        triangles.add(createTriangle(vertices, indexOffset + 0, indexOffset + 1, indexOffset + 2));
+        triangles.add(createTriangle(vertices, indexOffset + 0, indexOffset + 2, indexOffset + 3));
+        triangles.add(createTriangle(vertices, indexOffset + 1, indexOffset + 5, indexOffset + 6));
+        triangles.add(createTriangle(vertices, indexOffset + 1, indexOffset + 6, indexOffset + 2));
+        triangles.add(createTriangle(vertices, indexOffset + 5, indexOffset + 4, indexOffset + 7));
+        triangles.add(createTriangle(vertices, indexOffset + 5, indexOffset + 7, indexOffset + 6));
+        triangles.add(createTriangle(vertices, indexOffset + 4, indexOffset + 0, indexOffset + 3));
+        triangles.add(createTriangle(vertices, indexOffset + 4, indexOffset + 3, indexOffset + 7));
+        triangles.add(createTriangle(vertices, indexOffset + 0, indexOffset + 4, indexOffset + 5));
+        triangles.add(createTriangle(vertices, indexOffset + 0, indexOffset + 5, indexOffset + 1));
+        triangles.add(createTriangle(vertices, indexOffset + 3, indexOffset + 2, indexOffset + 6));
+        triangles.add(createTriangle(vertices, indexOffset + 3, indexOffset + 6, indexOffset + 7));
 
         return triangles;
+    }
+
+    public static List<Triangle> triangulate(Box box, List<Point3D> vertices) {
+        return triangulate(box, vertices, 0);
+    }
+
+    public static List<Triangle> triangulate(Cylinder cylinder, List<Point3D> vertices) {
+        return triangulate(cylinder, vertices, 0);
+    }
+
+    public static List<Triangle> triangulate(FrustumCone frustumCone, List<Point3D> vertices) {
+        return triangulate(frustumCone, vertices, 0);
+    }
+
+    public static List<Triangle> triangulate(Tor tor, List<Point3D> vertices) {
+        return triangulate(tor, vertices, 0);
     }
 
     private static Triangle createTriangle(List<Point3D> vertices,
@@ -134,7 +150,7 @@ public class TriangulateUtils {
         return vertices;
     }
 
-    public static List<Triangle> triangulate(Cylinder cylinder, List<Point3D> vertexes) {
+    public static List<Triangle> triangulate(Cylinder cylinder, List<Point3D> vertexes, int indexOffset) {
 
 
         int BASE_LOWER_CENTER_INDEX = 0;
@@ -183,6 +199,10 @@ public class TriangulateUtils {
                         FIRST_LOWER_BASE_POINT;
             }
 
+            firstIndex += indexOffset;
+            secondIndex += indexOffset;
+            thirdIndex += indexOffset;
+
             Triangle triangle = new Triangle(firstIndex, secondIndex, thirdIndex);
 
             faces.add(triangle);
@@ -195,7 +215,7 @@ public class TriangulateUtils {
         return null;
     }
 
-    public static List<Triangle> triangulate(Tor tor, List<Point3D> vertexes) {
+    public static List<Triangle> triangulate(Tor tor, List<Point3D> vertexes, int indexOffset) {
         return null;
 
     }
@@ -259,7 +279,7 @@ public class TriangulateUtils {
     }
 
 
-    public static List<Triangle> triangulate(FrustumCone frustumCone, List<Point3D> vertexes) {
+    public static List<Triangle> triangulate(FrustumCone frustumCone, List<Point3D> vertexes, int indexOffset) {
 
         int BASE_LOWER_CENTER_INDEX = 0;
         int BASE_UPPER_CENTER_INDEX = 1;
@@ -311,10 +331,15 @@ public class TriangulateUtils {
                         FIRST_UPPER_BASE_POINT;
             }
 
+            first += indexOffset;
+            second += indexOffset;
+            third += indexOffset;
+
             Triangle triangle = new Triangle(first, second, third);
             faces.add(triangle);
         }
 
         return faces;
     }
+
 }

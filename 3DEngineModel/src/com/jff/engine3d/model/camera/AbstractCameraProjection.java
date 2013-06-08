@@ -90,7 +90,7 @@ public abstract class AbstractCameraProjection {
 
         ze *= -1;
 
-        if (Double.compare(theta, Math.PI) == 0) {
+        if (Double.compare(theta, Math.PI) <= 0) {
 
             xe *= -1;
 

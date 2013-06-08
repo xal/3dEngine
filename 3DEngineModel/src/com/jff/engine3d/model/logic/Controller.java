@@ -10,7 +10,6 @@ import com.jff.engine3d.model.logic.interfaces.IEngineCanvas;
 import com.jff.engine3d.model.logic.interfaces.IEngineView;
 import com.jff.engine3d.model.object.params.AbstractObjectParams;
 import com.jff.engine3d.model.primitives.AbstractObject;
-import com.jff.engine3d.model.primitives.FrustumCone;
 import com.jff.engine3d.model.scene.Scene;
 import com.jff.engine3d.model.scene.SceneObject;
 import com.jff.engine3d.model.scene.ViewType;
@@ -51,10 +50,15 @@ public class Controller {
 //        SceneObject sceneObject1 = new SceneObject(object1);
 //        scene.addObject(sceneObject1);
 
-        AbstractObject object = new FrustumCone(point3D, 30, 60, 40);
-        SceneObject sceneObject = new SceneObject(object);
-        scene.addObject(sceneObject);
-        scene.setCurrentSelectedObject(sceneObject);
+        try {
+
+            AbstractObject object = objectParams.createObject(point3D);
+            SceneObject sceneObject = new SceneObject(object);
+            scene.addObject(sceneObject);
+            scene.setCurrentSelectedObject(sceneObject);
+        } catch (IllegalArgumentException ex) {
+            throw ex;
+        }
 
 
 //        AbstractObject object2 = new Cylinder(new Point3D(300, 100, 100), 30, 40, 40);

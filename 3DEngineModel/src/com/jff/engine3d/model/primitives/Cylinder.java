@@ -23,6 +23,11 @@ public class Cylinder extends AbstractObject {
         super();
     }
 
+    public Cylinder(Point3D currentCenter, int radius, int height) {
+        this(currentCenter, radius, radius, height);
+    }
+
+
     public int getUpperRadius() {
         return upperRadius;
     }

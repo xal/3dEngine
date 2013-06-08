@@ -9,7 +9,7 @@ import org.eclipse.swt.widgets.*;
 
 public class SettingsTabsFragment extends Composite implements IEngineView {
 
-    private CreateFragment createFragment;
+    private TrafficLightCreateFragment createFragment;
     private ModifyFragment modifyFragment;
     private CameraFragment cameraFragment;
     private ViewFragment viewFragment;
@@ -42,7 +42,7 @@ public class SettingsTabsFragment extends Composite implements IEngineView {
 
 
         title = "Create";
-        createFragment = new CreateFragment(tabFolder);
+        createFragment = new TrafficLightCreateFragment(tabFolder);
         createTab(tabFolder, title, createFragment);
 
 
