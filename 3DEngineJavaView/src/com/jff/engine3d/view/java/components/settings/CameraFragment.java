@@ -308,10 +308,10 @@ public class CameraFragment extends Composite {
 
 
         fromRotate = new Button(group, SWT.RADIO);
-        fromRotate.setText("From");
+        fromRotate.setText("Axes");
 
         toRotate = new Button(group, SWT.RADIO);
-        toRotate.setText("To");
+        toRotate.setText("Orbit");
 
         fromRotate.setSelection(true);
 
@@ -427,7 +427,7 @@ public class CameraFragment extends Composite {
 
     private void initRotateSlider(Slider rotateSlider) {
         rotateSlider.setMinimum(0);
-        rotateSlider.setMaximum(360);
+        rotateSlider.setMaximum(370);
 
         rotateSlider.setSelection(0);
     }

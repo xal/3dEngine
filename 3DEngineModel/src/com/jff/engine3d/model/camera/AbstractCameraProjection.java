@@ -89,12 +89,12 @@ public abstract class AbstractCameraProjection {
         ze = -xw * Math.sin(phi) * Math.cos(theta) - yw * Math.sin(phi) * Math.sin(theta) - zw * Math.cos(phi);
 
         ze *= -1;
-//
-//        if(Double.compare(theta, Math.PI) >= 0 || theta <0) {
-//
-//            xe *=-1;
-//           ye *=-1;
-//        }
+
+        if (Double.compare(theta, Math.PI) == 0) {
+
+            xe *= -1;
+
+        }
 
 
         return new Point3D(xe, ye, ze);
