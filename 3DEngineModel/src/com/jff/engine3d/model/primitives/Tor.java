@@ -36,4 +36,12 @@ public class Tor extends AbstractObject {
         return borderRadius;
 
     }
+
+    @Override
+    public String toString() {
+        return "Tor{" +
+                "radiusInner=" + radiusInner +
+                ", radiusOuter=" + radiusOuter +
+                "} " + super.toString();
+    }
 }

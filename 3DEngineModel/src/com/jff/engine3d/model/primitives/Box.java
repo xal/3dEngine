@@ -56,4 +56,13 @@ public class Box extends AbstractObject {
         return borderRadius;
 
     }
+
+    @Override
+    public String toString() {
+        return "Box{" +
+                "width=" + width +
+                ", length=" + length +
+                ", height=" + height +
+                "} " + super.toString();
+    }
 }

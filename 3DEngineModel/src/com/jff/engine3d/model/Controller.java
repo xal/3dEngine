@@ -28,7 +28,7 @@ public class Controller {
     }
 
 
-    public void createObject(Point3D point3D, AbstractObjectParams objectParams) {
+    public void createObject(Point3D point3D, AbstractObjectParams objectParams) throws CollisionDetectedException {
 
         //AbstractObject object = new Box(point3D, 100, 100, 100);
 //        AbstractObject object = new Cylinder(new Point3D(100, 100, 100),  30, 60, 40);
@@ -39,7 +39,7 @@ public class Controller {
 //        SceneObject sceneObject1 = new SceneObject(object1);
 //        scene.addObject(sceneObject1);
 
-        AbstractObject object = new FrustumCone(new Point3D(100, 100, 100), 30, 60, 40);
+        AbstractObject object = new FrustumCone(point3D, 30, 60, 40);
         SceneObject sceneObject = new SceneObject(object);
         scene.addObject(sceneObject);
 
@@ -91,7 +91,7 @@ public class Controller {
         return currentSelectedObject;
     }
 
-    public void setCoordinatesForObject(Point3D point3D, SceneObject object) {
+    public void setMoveCoordinatesForObject(Point3D point3D, SceneObject object) throws CollisionDetectedException {
         scene.setCoordinatesForObject(point3D, object);
     }
 
@@ -99,7 +99,7 @@ public class Controller {
         scene.setRotationForObject(rotationCoordinates, object);
     }
 
-    public void setScaleForObject(float scale, SceneObject object) {
+    public void setScaleForObject(float scale, SceneObject object) throws CollisionDetectedException {
         scene.setScaleForObject(scale, object);
     }
 

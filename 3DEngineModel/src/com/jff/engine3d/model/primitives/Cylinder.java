@@ -54,4 +54,12 @@ public class Cylinder extends AbstractObject {
 
     }
 
+    @Override
+    public String toString() {
+        return "Cylinder{" +
+                "upperRadius=" + upperRadius +
+                ", lowerRadius=" + lowerRadius +
+                ", height=" + height +
+                "} " + super.toString();
+    }
 }

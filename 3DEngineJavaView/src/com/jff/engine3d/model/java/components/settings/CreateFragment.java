@@ -161,7 +161,8 @@ public class CreateFragment extends Composite {
                     Controller controller = engineManager.getController();
                     controller.createObject(point3D, objectParams);
 
-                } catch (IllegalArgumentException e) {
+                } catch (Exception e) {
+                    e.printStackTrace();
                     String message = e.getMessage();
                     Utils.showMessage(message);
                 }

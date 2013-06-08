@@ -1,5 +1,7 @@
 package com.jff.engine3d.model;
 
+import com.jff.engine3d.model.primitives.AbstractObject;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -91,10 +93,23 @@ public class Scene implements Serializable {
         engineCanvas.setZAxisCoordinates(zPoint2D);
     }
 
-    public boolean addObject(SceneObject sceneObject) {
-        boolean add = objects.add(sceneObject);
-        fireSceneChanged();
-        return add;
+    public void addObject(SceneObject object) throws CollisionDetectedException {
+
+
+        AbstractObject geometryObject = object.getGeometryObject();
+
+
+        SceneObject sceneObject = checkForCollision(object);
+        if (sceneObject != null) {
+
+
+            throw new CollisionDetectedException(object.getGeometryObject(), sceneObject.getGeometryObject());
+        } else {
+            objects.add(object);
+            fireSceneChanged();
+        }
+
+
     }
 
 
@@ -163,9 +178,25 @@ public class Scene implements Serializable {
         return currentSelectedObject;
     }
 
-    public void setCoordinatesForObject(Point3D point3D, SceneObject object) {
+    public void setCoordinatesForObject(Point3D point3D, SceneObject object) throws CollisionDetectedException {
+
+
+        AbstractObject geometryObject = object.getGeometryObject();
+
+
+        Point3D oldMove = geometryObject.getMovePoint3D();
         object.moveToNewCoordinates(point3D);
-        fireSceneChanged();
+        SceneObject sceneObject = checkForCollision(object);
+        if (sceneObject != null) {
+
+            geometryObject.move(oldMove);
+            throw new CollisionDetectedException(object.getGeometryObject(), sceneObject.getGeometryObject());
+        } else {
+
+            fireSceneChanged();
+        }
+
+
     }
 
     public void setRotationForObject(RotationCoordinates rotationCoordinates, SceneObject object) {
@@ -174,9 +205,46 @@ public class Scene implements Serializable {
         fireSceneChanged();
     }
 
-    public void setScaleForObject(float scale, SceneObject object) {
+    public void setScaleForObject(float scale, SceneObject object) throws CollisionDetectedException {
+
+        AbstractObject geometryObject = object.getGeometryObject();
+
+        float oldScale = geometryObject.getScale();
         object.scale(scale);
-        fireSceneChanged();
+        SceneObject sceneObject = checkForCollision(object);
+        if (sceneObject != null) {
+
+            geometryObject.setScale(oldScale);
+            throw new CollisionDetectedException(object.getGeometryObject(), sceneObject.getGeometryObject());
+        } else {
+
+            fireSceneChanged();
+        }
+    }
+
+    private SceneObject checkForCollision(SceneObject object) {
+        SceneObject objectWithCollision = null;
+
+        Point3D myObjectCenter = object.getCenter();
+        double myObjectBorderRadius = object.getGeometryObject().getBorderSphereRadius();
+
+        for (SceneObject sceneObject : objects) {
+            if (sceneObject != object) {
+                Point3D currentObjectCenter = sceneObject.getCenter();
+                double currentObjectBorderRadius = sceneObject.getGeometryObject().getBorderSphereRadius();
+
+
+                float distance = myObjectCenter.distanceTo(currentObjectCenter);
+
+                if (distance < myObjectBorderRadius + currentObjectBorderRadius) {
+                    objectWithCollision = sceneObject;
+                    break;
+                }
+            }
+        }
+
+
+        return objectWithCollision;
     }
 
     public void setProjectionType(ProjectionType projectionType) {

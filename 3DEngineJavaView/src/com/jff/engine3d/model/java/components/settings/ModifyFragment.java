@@ -168,13 +168,12 @@ public class ModifyFragment extends Composite {
                     SceneObject object = getCurrentSelectedObject();
 
                     Controller controller = Utils.getController();
-                    controller.setCoordinatesForObject(point3D, object);
+                    controller.setMoveCoordinatesForObject(point3D, object);
 
-                } catch (IllegalArgumentException e) {
+                } catch (Exception e) {
                     String message = e.getMessage();
                     Utils.showMessage(message);
                 }
-
 
             }
 
@@ -389,7 +388,11 @@ public class ModifyFragment extends Composite {
 
         Controller controller = Utils.getController();
 
-        controller.setScaleForObject(scale, object);
+        try {
+            controller.setScaleForObject(scale, object);
+        } catch (CollisionDetectedException e) {
+            Utils.showMessage(e.getMessage());
+        }
 
         sliderScale.setSelection((int) (scale * 100));
         editScale.setText("" + scale);

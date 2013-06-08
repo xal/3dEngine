@@ -142,7 +142,7 @@ public abstract class AbstractObject implements Serializable {
 
     protected abstract double computeBorderSphereRadius();
 
-    public void scale(float scale) {
+    public void setScale(float scale) {
         this.scale = scale;
         fireParametersChanged();
     }
@@ -241,5 +241,16 @@ public abstract class AbstractObject implements Serializable {
 
     public float getScale() {
         return scale;
+    }
+
+    @Override
+    public String toString() {
+        return "AbstractObject{" +
+                "scale=" + scale +
+                ", centerPoint3D=" + centerPoint3D +
+                ", movePoint3D=" + movePoint3D +
+                ", rotationCoordinates=" + rotationCoordinates +
+                ", borderSphereRadius=" + borderSphereRadius +
+                "} " + super.toString();
     }
 }

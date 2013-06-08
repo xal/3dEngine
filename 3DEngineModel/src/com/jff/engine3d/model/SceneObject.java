@@ -57,7 +57,7 @@ public class SceneObject implements Serializable {
     }
 
     public void scale(float scale) {
-        object.scale(scale);
+        object.setScale(scale);
     }
 
     public Point3D getCenter() {
@@ -67,4 +67,5 @@ public class SceneObject implements Serializable {
     public AbstractObject getGeometryObject() {
         return object;
     }
+
 }

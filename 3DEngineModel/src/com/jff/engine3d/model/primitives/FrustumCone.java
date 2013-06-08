@@ -20,4 +20,6 @@ public class FrustumCone extends Cylinder {
     protected void computeTriangles() {
         triangles = TriangulateUtils.triangulate(this, vertexes);
     }
+
+
 }

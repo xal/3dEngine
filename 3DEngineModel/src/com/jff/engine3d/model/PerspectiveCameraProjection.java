@@ -17,8 +17,8 @@ public class PerspectiveCameraProjection extends AbstractCameraProjection {
         double focalLength = cameraSettings.getFocalLength();
         double ratio = focalLength / converted.z;
 
-        double x = ratio * converted.x;
-        double y = ratio * converted.y;
+        double x = converted.x * ratio;
+        double y = converted.y * ratio;
         double z = converted.z;
 
         converted.x = x;
