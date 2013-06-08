@@ -12,7 +12,7 @@ public class SceneObject implements Serializable {
 
     private AbstractObject object;
 
-    private boolean selected = true;
+    private boolean selected;
 
     public SceneObject(AbstractObject object) {
         this.object = object;

@@ -54,6 +54,7 @@ public class Controller {
         AbstractObject object = new FrustumCone(point3D, 30, 60, 40);
         SceneObject sceneObject = new SceneObject(object);
         scene.addObject(sceneObject);
+        scene.setCurrentSelectedObject(sceneObject);
 
 
 //        AbstractObject object2 = new Cylinder(new Point3D(300, 100, 100), 30, 40, 40);
@@ -158,5 +159,21 @@ public class Controller {
 
     public void setCurrentSelectedObject(SceneObject sceneObject) {
         scene.setCurrentSelectedObject(sceneObject);
+    }
+
+    public List<SceneObject> getObjects() {
+        return scene.getObjects();
+    }
+
+    public void setIsAllSelected(boolean allSelected) {
+        scene.setIsAllObjectsSelected(allSelected);
+    }
+
+    public boolean isAllSelected() {
+        return scene.isAllObjectsSelected();
+    }
+
+    public void deleteObjects(List<SceneObject> selectedObjects) {
+        scene.deleteObjects(selectedObjects);
     }
 }

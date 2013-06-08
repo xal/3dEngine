@@ -27,10 +27,20 @@ public class Scene implements Serializable {
     private transient SceneObject currentSelectedObject;
     private transient List<EngineListener> engineListeners = new ArrayList<EngineListener>();
 
+    private boolean isAllObjectsSelected;
+
 
     public Scene() {
         camera = new Camera();
 
+    }
+
+    public boolean isAllObjectsSelected() {
+        return isAllObjectsSelected;
+    }
+
+    public void setAllObjectsSelected(boolean allObjectsSelected) {
+        isAllObjectsSelected = allObjectsSelected;
     }
 
     public void removeObject(SceneObject sceneObject) {
@@ -174,9 +184,14 @@ public class Scene implements Serializable {
 
     public List<SceneObject> getSelectedObjects() {
         List<SceneObject> selectedObjects = new ArrayList<SceneObject>();
-        for (SceneObject object : objects) {
-            if (object.isSelected()) {
-                selectedObjects.add(object);
+        if (isAllObjectsSelected) {
+            selectedObjects = objects;
+        } else {
+
+            for (SceneObject object : objects) {
+                if (object.isSelected()) {
+                    selectedObjects.add(object);
+                }
             }
         }
 
@@ -189,7 +204,7 @@ public class Scene implements Serializable {
             List<SceneObject> selectedObjects = getSelectedObjects();
             if (selectedObjects.size() > 0) {
                 currentSelectedObject = selectedObjects.get(0);
-                currentSelectedObject.setSelected(true);
+                setCurrentSelectedObject(currentSelectedObject);
             }
         }
 
@@ -291,9 +306,26 @@ public class Scene implements Serializable {
     }
 
     public void setCurrentSelectedObject(SceneObject currentSelectedObject) {
-        this.currentSelectedObject.setSelected(false);
+        if (this.currentSelectedObject != null) {
+
+            this.currentSelectedObject.setSelected(false);
+        }
         this.currentSelectedObject = currentSelectedObject;
         this.currentSelectedObject.setSelected(true);
+        fireSceneChanged();
+    }
+
+    public List<SceneObject> getObjects() {
+        return objects;
+    }
+
+    public void setIsAllObjectsSelected(boolean allSelected) {
+        this.isAllObjectsSelected = allSelected;
+        fireSceneChanged();
+    }
+
+    public void deleteObjects(List<SceneObject> selectedObjects) {
+        objects.removeAll(selectedObjects);
         fireSceneChanged();
     }
 }

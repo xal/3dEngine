@@ -34,6 +34,7 @@ public class ModifyFragment extends Composite {
     private Text editX;
     private Text editY;
     private Text editZ;
+    private Button isAllSelectedCheckBox;
 
     public ModifyFragment(Composite parent) {
         super(parent, SWT.NONE);
@@ -56,9 +57,20 @@ public class ModifyFragment extends Composite {
 
     private void createSelectedComboSettings() {
 
-        Composite parent = this;
+        Group group = new Group(this, SWT.NONE);
+        Composite parent = group;
+
+
+        GridLayout gridLayout = new GridLayout(1, false);
+
+        group.setLayout(gridLayout);
+
+
+        group.setText("Select");
+
 
         comboSelectedObjects = new Combo(parent, SWT.NONE);
+        comboSelectedObjects.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
         comboSelectedObjects.addSelectionListener(new SelectionListener() {
             @Override
@@ -68,7 +80,7 @@ public class ModifyFragment extends Composite {
                 int index = comboSelectedObjects.getSelectionIndex();
 
                 Controller controller = UIUtils.getController();
-                List<SceneObject> sceneObjects = controller.getSelectedObjects();
+                List<SceneObject> sceneObjects = controller.getObjects();
                 SceneObject sceneObject = sceneObjects.get(index);
 
                 controller.setCurrentSelectedObject(sceneObject);
@@ -96,11 +108,29 @@ public class ModifyFragment extends Composite {
                 updateCurrentSelectedObject();
             }
         });
+
+        isAllSelectedCheckBox = new Button(parent, SWT.CHECK);
+
+
+        isAllSelectedCheckBox.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+        isAllSelectedCheckBox.setText("IsAllSelected");
+        isAllSelectedCheckBox.addSelectionListener(new SelectionListener() {
+            @Override
+            public void widgetSelected(SelectionEvent selectionEvent) {
+                Controller controller = UIUtils.getController();
+                controller.setIsAllSelected(isAllSelectedCheckBox.getSelection());
+            }
+
+            @Override
+            public void widgetDefaultSelected(SelectionEvent selectionEvent) {
+                //To change body of implemented methods use File | Settings | File Templates.
+            }
+        });
     }
 
     private void updateSelectedObjectCombo() {
         Controller controller = UIUtils.getController();
-        List<SceneObject> sceneObjects = controller.getSelectedObjects();
+        List<SceneObject> sceneObjects = controller.getObjects();
 
         String[] items = new String[sceneObjects.size()];
 
@@ -112,12 +142,18 @@ public class ModifyFragment extends Composite {
         comboSelectedObjects.setItems(items);
 
 
+        boolean isAllSelected = controller.isAllSelected();
+
+
+        comboSelectedObjects.setEnabled(!isAllSelected);
+
+
         updateCurrentSelectedObject();
     }
 
     private void updateCurrentSelectedObject() {
         Controller controller = UIUtils.getController();
-        List<SceneObject> sceneObjects = controller.getSelectedObjects();
+        List<SceneObject> sceneObjects = controller.getObjects();
         SceneObject sceneObject = getCurrentSelectedObject();
 
         int index = sceneObjects.indexOf(sceneObject);
@@ -185,6 +221,12 @@ public class ModifyFragment extends Composite {
 
                     Controller controller = UIUtils.getController();
                     controller.setMoveCoordinatesForObject(point3D, object);
+
+                    List<SceneObject> selectedObjects = controller.getSelectedObjects();
+                    for (SceneObject selectedObject : selectedObjects) {
+
+                        controller.setMoveCoordinatesForObject(point3D, selectedObject);
+                    }
 
                 } catch (Exception e) {
                     String message = e.getMessage();
@@ -305,7 +347,13 @@ public class ModifyFragment extends Composite {
 
         RotationCoordinates rotationCoordinates = new RotationCoordinates(x, y, z);
         Controller controller = UIUtils.getController();
-        controller.setRotationForObject(rotationCoordinates, object);
+        List<SceneObject> selectedObjects = controller.getSelectedObjects();
+
+        for (SceneObject selectedObject : selectedObjects) {
+
+            controller.setRotationForObject(rotationCoordinates, selectedObject);
+        }
+
 
         sliderRotateX.setSelection(x);
         sliderRotateY.setSelection(y);
@@ -404,11 +452,18 @@ public class ModifyFragment extends Composite {
 
         Controller controller = UIUtils.getController();
 
-        try {
-            controller.setScaleForObject(scale, object);
-        } catch (CollisionDetectedException e) {
-            UIUtils.showMessage(e.getMessage());
+
+        List<SceneObject> selectedObjects = controller.getSelectedObjects();
+        for (SceneObject selectedObject : selectedObjects) {
+
+            try {
+                controller.setScaleForObject(scale, selectedObject);
+            } catch (CollisionDetectedException e) {
+                UIUtils.showMessage(e.getMessage());
+            }
+
         }
+
 
         sliderScale.setSelection((int) (scale * 100));
         editScale.setText("" + scale);
@@ -433,10 +488,11 @@ public class ModifyFragment extends Composite {
                 try {
 
 
-                    SceneObject object = getCurrentSelectedObject();
-
                     Controller controller = UIUtils.getController();
-                    controller.deleteObject(object);
+                    List<SceneObject> selectedObjects = controller.getSelectedObjects();
+
+                    controller.deleteObjects(selectedObjects);
+
 
                 } catch (IllegalArgumentException e) {
                     String message = e.getMessage();
@@ -459,6 +515,7 @@ public class ModifyFragment extends Composite {
     private void fillSettings(Scene scene) {
 
         updateSelectedObjectCombo();
+        updateIsAllSelectedCheckbox();
         SceneObject currentSelectedObject = scene.getCurrentSelectedObject();
 
         if (currentSelectedObject != null) {
@@ -492,6 +549,16 @@ public class ModifyFragment extends Composite {
 
         }
 
+
+    }
+
+    private void updateIsAllSelectedCheckbox() {
+
+        Controller controller = UIUtils.getController();
+
+        boolean isAllSelected = controller.isAllSelected();
+
+        isAllSelectedCheckBox.setSelection(isAllSelected);
 
     }
 
