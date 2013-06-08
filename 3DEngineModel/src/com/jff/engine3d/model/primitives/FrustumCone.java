@@ -1,8 +1,8 @@
 package com.jff.engine3d.model.primitives;
 
 
-import com.jff.engine3d.model.Point3D;
-import com.jff.engine3d.model.TriangulateUtils;
+import com.jff.engine3d.model.entities.Point3D;
+import com.jff.engine3d.model.math.TriangulateUtils;
 
 public class FrustumCone extends Cylinder {
 

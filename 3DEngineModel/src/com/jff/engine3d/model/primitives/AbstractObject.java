@@ -1,10 +1,10 @@
 package com.jff.engine3d.model.primitives;
 
 
-import com.jff.engine3d.model.IDUtils;
-import com.jff.engine3d.model.Point3D;
-import com.jff.engine3d.model.RotationCoordinates;
-import com.jff.engine3d.model.Triangle;
+import com.jff.engine3d.model.entities.Point3D;
+import com.jff.engine3d.model.entities.RotationCoordinates;
+import com.jff.engine3d.model.entities.Triangle;
+import com.jff.engine3d.model.utils.IDUtils;
 
 import java.io.Serializable;
 import java.util.List;
