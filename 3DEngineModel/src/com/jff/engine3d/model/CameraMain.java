@@ -3,7 +3,7 @@ package com.jff.engine3d.model;
 public class CameraMain {
 
     public static void main(String args[]) {
-        testZ();
+        testAngle();
 
 
     }
@@ -18,7 +18,7 @@ public class CameraMain {
         Point3D cameraPoint3D;
 
         from = new Point3D(200, 100, 100);
-        to = new Point3D(199, 100, 100);
+        to = new Point3D(198, 99, 100);
 
         System.out.println();
         System.out.println("from " + from);
@@ -26,14 +26,14 @@ public class CameraMain {
         System.out.println();
 
 
-        point3D = new Point3D(0, 100, 0);
+        point3D = new Point3D(0, 0, 0);
         cameraPoint3D = convert2(from, to, point3D);
         System.out.println("before " + point3D);
         System.out.println("after " + cameraPoint3D);
 
 
         from = new Point3D(200, 100, 100);
-        to = new Point3D(201, 100, 100);
+        to = new Point3D(100, 100, 100);
 
         System.out.println();
         System.out.println("from " + from);
@@ -41,7 +41,7 @@ public class CameraMain {
         System.out.println();
 
 
-        point3D = new Point3D(0, 100, 0);
+        point3D = new Point3D(0, 0, 0);
         cameraPoint3D = convert2(from, to, point3D);
         System.out.println("before " + point3D);
         System.out.println("after " + cameraPoint3D);
@@ -105,15 +105,21 @@ public class CameraMain {
         double theta = spherePoint3D.theta;
         double phi = spherePoint3D.phi;
         double ro = spherePoint3D.r;
-
-        System.out.println("theta" + theta);
-        System.out.println("phi" + theta);
+//
+//        System.out.println("theta" + theta);
+//        System.out.println("phi" + theta);
 
         xe = -xw * Math.sin(theta) + yw * Math.cos(theta);
         ye = -xw * Math.cos(phi) * Math.cos(theta) - yw * Math.cos(phi) * Math.sin(theta) + zw * Math.sin(phi);
         ze = -xw * Math.sin(phi) * Math.cos(theta) - yw * Math.sin(phi) * Math.sin(theta) - zw * Math.cos(phi);
 
         ze *= -1;
+//
+//        if(Double.compare(theta, Math.PI) >= 0 || theta <0) {
+//
+//            xe *=-1;
+//           ye *=-1;
+//        }
 
 
         return new Point3D(xe, ye, ze);
