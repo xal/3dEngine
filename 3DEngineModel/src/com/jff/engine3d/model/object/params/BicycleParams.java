@@ -38,12 +38,13 @@ public class BicycleParams extends AbstractObjectParams {
     }
 
     @Override
-    public boolean verifyParams() throws Exception {
+    public boolean verifyParams() {
         return true;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
     public AbstractObject createObject(Point3D center) {
+        verifyParams();
         return new Bicycle(center, this);
     }
 }

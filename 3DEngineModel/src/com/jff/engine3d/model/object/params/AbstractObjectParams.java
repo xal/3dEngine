@@ -5,7 +5,7 @@ import com.jff.engine3d.model.primitives.AbstractObject;
 
 public abstract class AbstractObjectParams {
 
-    public abstract boolean verifyParams() throws Exception;
+    public abstract boolean verifyParams();
 
     public abstract AbstractObject createObject(Point3D center);
 }

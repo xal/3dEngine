@@ -59,12 +59,19 @@ public class TrafficLightParams extends AbstractObjectParams {
     }
 
     @Override
-    public boolean verifyParams() throws Exception {
-        return true;  //To change body of implemented methods use File | Settings | File Templates.
+    public boolean verifyParams() {
+        boolean result = true;
+
+        if (diameterPoleConeLower < diameterPoleCylinderLower) {
+            throw new IllegalArgumentException("diameterPoleConeLower < diameterPoleCylinderLower");
+        }
+
+        return result;
     }
 
     @Override
     public AbstractObject createObject(Point3D center) {
+        verifyParams();
         return new com.jff.engine3d.model.objec.primitives.TrafficLight(center, this);
     }
 }
