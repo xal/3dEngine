@@ -1,6 +1,9 @@
 package com.jff.engine3d.model;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.typeadapters.RuntimeTypeAdapterFactory;
+import com.jff.engine3d.model.primitives.*;
 
 import java.io.*;
 
@@ -31,7 +34,9 @@ public class StorageHelper {
 
         OutputStream os = getOutputStreamForFile(path);
 
-        Gson gson = new Gson();
+
+        Gson gson = createGson();
+
 
         String json = gson.toJson(scene);
 
@@ -48,7 +53,7 @@ public class StorageHelper {
 
         InputStream is = getInputStreamForFile(path);
 
-        Gson gson = new Gson();
+        Gson gson = createGson();
 
         Reader reader = new InputStreamReader(is);
         Scene scene = gson.fromJson(reader, Scene.class);
@@ -57,5 +62,26 @@ public class StorageHelper {
         is.close();
 
         return scene;
+    }
+
+    private Gson createGson() {
+        Gson gson;
+
+        RuntimeTypeAdapterFactory<AbstractObject> rta;
+        rta = RuntimeTypeAdapterFactory.of(
+                AbstractObject.class)
+                .registerSubtype(Box.class)
+                .registerSubtype(Cylinder.class)
+
+
+                .registerSubtype(FrustumCone.class)
+
+                .registerSubtype(Tor.class);
+
+
+        gson = new GsonBuilder().registerTypeAdapterFactory(rta).setPrettyPrinting().create();
+
+
+        return gson;
     }
 }

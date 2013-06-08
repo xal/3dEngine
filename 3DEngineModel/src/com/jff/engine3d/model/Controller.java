@@ -113,6 +113,9 @@ public class Controller {
             oldScene.clean();
 
             scene = newScene;
+
+            scene.fireSceneChanged();
+            ;
         } catch (Exception e) {
             e.printStackTrace();
             throw new IllegalArgumentException("Error on load");
@@ -135,5 +138,9 @@ public class Controller {
     public void setCameraFocalLength(int focalLength) {
         scene.setCameraFocalLength(focalLength);
 
+    }
+
+    public void changeCameraBounds(int width, int height) {
+        scene.changeCameraBounds(width, height);
     }
 }

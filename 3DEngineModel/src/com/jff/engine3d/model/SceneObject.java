@@ -15,6 +15,10 @@ public class SceneObject implements Serializable {
         this.object = object;
     }
 
+    public SceneObject() {
+
+    }
+
     public String getDescription() {
         return toString();
     }

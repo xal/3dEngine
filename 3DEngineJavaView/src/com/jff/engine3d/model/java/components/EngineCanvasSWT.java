@@ -7,9 +7,8 @@ import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Device;
 import org.eclipse.swt.graphics.GC;
-import org.eclipse.swt.widgets.Canvas;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.widgets.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +36,28 @@ public class EngineCanvasSWT extends Canvas implements IEngineCanvas {
         Color backgroundColor = display.getSystemColor(SWT.COLOR_WHITE);
 
         setBackground(backgroundColor);
+
+
+        Listener listener = new Listener() {
+
+            public void handleEvent(Event e) {
+
+                Rectangle rect = EngineCanvasSWT.this.getBounds();
+
+                int width = rect.width;
+                int height = rect.height;
+
+                EngineManager engineManager = EngineManager.getInstance();
+                Controller controller = engineManager.getController();
+                controller.changeCameraBounds(width, height);
+
+            }
+
+        };
+
+
+        this.addListener(SWT.Resize, listener);
+
 
         this.addPaintListener(new PaintListener() {
             @Override

@@ -8,6 +8,10 @@ public class Tor extends AbstractObject {
     private int radiusInner;
     private int radiusOuter;
 
+    public Tor() {
+        super();
+    }
+
     public Tor(Point3D point3D, int radiusInner, int radiusOuter) {
         super(point3D);
         this.radiusInner = radiusInner;
@@ -32,6 +36,7 @@ public class Tor extends AbstractObject {
 
         borderRadius = radiusInner + radiusOuter;
 
+        borderRadius /= 2;
 
         return borderRadius;
 

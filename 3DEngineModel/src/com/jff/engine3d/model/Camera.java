@@ -8,7 +8,9 @@ import java.util.List;
 
 public class Camera implements Serializable {
 
-    private final Comparator<SceneObject> CENTER_POINT_SCENE_OBJECT_COMPARATOR = new Comparator<SceneObject>() {
+    private transient Comparator<SceneObject> CENTER_POINT_SCENE_OBJECT_COMPARATOR = new Comparator<SceneObject>() {
+
+
         @Override
         public int compare(SceneObject object, SceneObject object2) {
 
@@ -39,7 +41,8 @@ public class Camera implements Serializable {
     private static final int DEFAULT_FOCAL_LENGTH = 500;
 
     private CameraSettings cameraSettings;
-    private AbstractCameraProjection projection;
+    private transient AbstractCameraProjection projection;
+    private ProjectionType projectionType;
 
 
     public Camera() {
@@ -172,6 +175,7 @@ public class Camera implements Serializable {
     public void setProjectionType(ProjectionType projectionType) {
         this.projection = AbstractCameraProjection.createProjection(projectionType, cameraSettings);
 
+        this.projectionType = projectionType;
     }
 
     public List<Point3D> translateToCameraCoordinates(List<Point3D> objectVertexes) {
@@ -224,5 +228,14 @@ public class Camera implements Serializable {
 
     public AbstractCameraProjection getProjection() {
         return projection;
+    }
+
+    public void changeCameraBounds(int width, int height) {
+        cameraSettings.changeCameraBounds(width, height);
+    }
+
+    public void fireSettingsChanged() {
+        setProjectionType(this.projectionType);
+        cameraSettings.fireSettingsChanged();
     }
 }

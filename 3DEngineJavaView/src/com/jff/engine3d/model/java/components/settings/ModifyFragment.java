@@ -443,32 +443,35 @@ public class ModifyFragment extends Composite {
     private void fillSettings(Scene scene) {
         SceneObject currentSelectedObject = scene.getCurrentSelectedObject();
 
-        AbstractObject object = currentSelectedObject.getGeometryObject();
+        if (currentSelectedObject != null) {
+            AbstractObject object = currentSelectedObject.getGeometryObject();
 
-        Point3D center = object.getCenter();
+            Point3D center = object.getCenter();
 
-        editX.setText("" + center.x);
-        editY.setText("" + center.y);
-        editZ.setText("" + center.z);
+            editX.setText("" + center.x);
+            editY.setText("" + center.y);
+            editZ.setText("" + center.z);
 
-        RotationCoordinates rotationCoordinates = object.getRotationCoordinates();
+            RotationCoordinates rotationCoordinates = object.getRotationCoordinates();
 
 
-        int x = (int) rotationCoordinates.getX();
-        int y = (int) rotationCoordinates.getY();
-        int z = (int) rotationCoordinates.getZ();
+            int x = (int) rotationCoordinates.getX();
+            int y = (int) rotationCoordinates.getY();
+            int z = (int) rotationCoordinates.getZ();
 
-        sliderRotateX.setSelection(x);
-        sliderRotateY.setSelection(y);
-        sliderRotateZ.setSelection(z);
+            sliderRotateX.setSelection(x);
+            sliderRotateY.setSelection(y);
+            sliderRotateZ.setSelection(z);
 
-        editRotateX.setText("" + x);
-        editRotateY.setText("" + y);
-        editRotateZ.setText("" + z);
+            editRotateX.setText("" + x);
+            editRotateY.setText("" + y);
+            editRotateZ.setText("" + z);
 
-        double scale = object.getScale();
-        editScale.setText("" + scale);
-        sliderScale.setSelection((int) (scale * 100));
+            double scale = object.getScale();
+            editScale.setText("" + scale);
+            sliderScale.setSelection((int) (scale * 100));
+        }
+
 
     }
 

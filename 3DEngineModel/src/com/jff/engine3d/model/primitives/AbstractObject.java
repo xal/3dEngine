@@ -9,7 +9,7 @@ import com.jff.engine3d.model.Triangle;
 import java.io.Serializable;
 import java.util.List;
 
-public abstract class AbstractObject implements Serializable {
+public class AbstractObject implements Serializable {
 
 
     private static final Point3D DEFAULT_MOVE = new Point3D(0, 0, 0);
@@ -23,13 +23,13 @@ public abstract class AbstractObject implements Serializable {
     private RotationCoordinates rotationCoordinates;
     private float scale;
 
-    protected List<Point3D> vertexes;
-    protected List<Triangle> triangles;
+    protected transient List<Point3D> vertexes;
+    protected transient List<Triangle> triangles;
 
-    protected double borderSphereRadius;
+    protected transient double borderSphereRadius;
 
 
-    protected AbstractObject(Point3D centerPoint3D) {
+    public AbstractObject(Point3D centerPoint3D) {
         this();
         this.centerPoint3D = centerPoint3D;
 
@@ -40,7 +40,7 @@ public abstract class AbstractObject implements Serializable {
         return borderSphereRadius;
     }
 
-    private AbstractObject() {
+    public AbstractObject() {
         id = IDUtils.generateID();
 
         movePoint3D = DEFAULT_MOVE;
@@ -61,7 +61,7 @@ public abstract class AbstractObject implements Serializable {
         return triangles;
     }
 
-    protected void fireParametersChanged() {
+    public void fireParametersChanged() {
 
 
         computeVertices();
@@ -136,11 +136,17 @@ public abstract class AbstractObject implements Serializable {
 
     }
 
-    protected abstract void computeVertices();
+    protected void computeVertices() {
 
-    protected abstract void computeTriangles();
+    }
 
-    protected abstract double computeBorderSphereRadius();
+    protected void computeTriangles() {
+
+    }
+
+    protected double computeBorderSphereRadius() {
+        return 0;
+    }
 
     public void setScale(float scale) {
         this.scale = scale;

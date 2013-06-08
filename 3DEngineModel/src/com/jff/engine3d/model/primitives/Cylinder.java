@@ -19,6 +19,10 @@ public class Cylinder extends AbstractObject {
         fireParametersChanged();
     }
 
+    public Cylinder() {
+        super();
+    }
+
     public int getUpperRadius() {
         return upperRadius;
     }
@@ -47,8 +51,9 @@ public class Cylinder extends AbstractObject {
 
         double borderRadius;
 
-        borderRadius = Math.max(upperRadius, lowerRadius);
-        borderRadius = Math.max(borderRadius, height);
+        double maxRadius = Math.max(upperRadius, lowerRadius);
+        borderRadius = Math.sqrt(maxRadius * maxRadius / 4 + height * height / 4);
+
 
         return borderRadius;
 

@@ -5,9 +5,9 @@ import com.jff.engine3d.model.TriangulateUtils;
 
 public class Box extends AbstractObject {
 
-    private final int width;
-    private final int length;
-    private final int height;
+    private int width;
+    private int length;
+    private int height;
 
 
     public Box(Point3D center, int width, int length, int height) {
@@ -21,6 +21,9 @@ public class Box extends AbstractObject {
 
     }
 
+    public Box() {
+        super();
+    }
 
     public int getWidth() {
         return width;
@@ -50,8 +53,8 @@ public class Box extends AbstractObject {
 
         double borderRadius;
 
-        borderRadius = Math.max(width, height);
-        borderRadius = Math.max(borderRadius, length);
+
+        borderRadius = Math.sqrt(width + height + length) / 2;
 
         return borderRadius;
 

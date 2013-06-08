@@ -33,7 +33,7 @@ public class CameraFragment extends Composite {
     private Slider rotateZSlider;
 
     private Button perspectiveButton;
-    private Button parallelProjection;
+    private Button parallelButton;
 
     public CameraFragment(Composite parent) {
         super(parent, SWT.NONE);
@@ -71,16 +71,16 @@ public class CameraFragment extends Composite {
         perspectiveButton = new Button(group, SWT.RADIO);
         perspectiveButton.setText("Perspective");
 
-        parallelProjection = new Button(group, SWT.RADIO);
-        parallelProjection.setText("Parallel");
+        parallelButton = new Button(group, SWT.RADIO);
+        parallelButton.setText("Parallel");
 
-        parallelProjection.setSelection(true);
+        parallelButton.setSelection(true);
 
 
         SelectionListener listener = new SelectionListener() {
             @Override
             public void widgetSelected(SelectionEvent selectionEvent) {
-                if (parallelProjection.getSelection()) {
+                if (parallelButton.getSelection()) {
                     controller.setProjectionType(ProjectionType.PARALLEL);
                 } else {
 
@@ -93,7 +93,7 @@ public class CameraFragment extends Composite {
                 //To change body of implemented methods use File | Settings | File Templates.
             }
         };
-        parallelProjection.addSelectionListener(listener);
+        parallelButton.addSelectionListener(listener);
         perspectiveButton.addSelectionListener(listener);
 
 
@@ -438,10 +438,12 @@ public class CameraFragment extends Composite {
         switch (projection.getType()) {
 
             case PARALLEL:
-                parallelProjection.setSelection(true);
+                parallelButton.setSelection(true);
+                perspectiveButton.setSelection(false);
                 break;
             case PERSPECTIVE:
                 perspectiveButton.setSelection(true);
+                parallelButton.setSelection(false);
                 break;
         }
 

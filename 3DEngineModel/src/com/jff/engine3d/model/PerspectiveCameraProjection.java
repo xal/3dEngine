@@ -63,10 +63,10 @@ public class PerspectiveCameraProjection extends AbstractCameraProjection {
             double realWidth = width / ratio;
             double realHeight = height / ratio;
 
-            if (center.x + borderSphereRadius > realWidth / 2) {
+            if (inCamera.x + borderSphereRadius > realWidth / 2) {
                 inCameraView = false;
             }
-            if (center.y + borderSphereRadius > realHeight / 2) {
+            if (inCamera.y + borderSphereRadius > realHeight / 2) {
                 inCameraView = false;
             }
         }

@@ -29,7 +29,7 @@ public class CameraSettings {
         fireSettingsChanged();
     }
 
-    private void fireSettingsChanged() {
+    public void fireSettingsChanged() {
 
 
         rotate();
@@ -249,5 +249,11 @@ public class CameraSettings {
 
     public int getCameraHeight() {
         return cameraHeight;
+    }
+
+    public void changeCameraBounds(int width, int height) {
+        this.cameraWidth = width;
+        this.cameraHeight = height;
+        fireSettingsChanged();
     }
 }

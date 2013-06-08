@@ -11,6 +11,10 @@ public class FrustumCone extends Cylinder {
         super(coordinates, upperBaseRadius, lowerBaseRadius, cilinderHeight);
     }
 
+    public FrustumCone() {
+        super();
+    }
+
     @Override
     protected void computeVertices() {
         vertexes = TriangulateUtils.createVertices(this);

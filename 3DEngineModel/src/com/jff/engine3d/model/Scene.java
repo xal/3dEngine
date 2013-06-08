@@ -16,7 +16,7 @@ public class Scene implements Serializable {
 
 
     private List<SceneObject> objects = new ArrayList<SceneObject>();
-    private SceneObject currentSelectedObject;
+    private transient SceneObject currentSelectedObject;
     private transient List<EngineListener> engineListeners = new ArrayList<EngineListener>();
 
 
@@ -30,7 +30,7 @@ public class Scene implements Serializable {
         fireSceneChanged();
     }
 
-    private void fireSceneChanged() {
+    public void fireSceneChanged() {
 
         engineCanvas.clear();
 
@@ -131,6 +131,15 @@ public class Scene implements Serializable {
         this.engineListeners.addAll(oldScene.engineListeners);
         this.engineCanvas = oldScene.engineCanvas;
         this.engineView = oldScene.engineView;
+
+        for (SceneObject object : objects) {
+            object.getGeometryObject().fireParametersChanged();
+        }
+
+
+        camera.fireSettingsChanged();
+
+
     }
 
     public void setViewType(ViewType viewType) {
@@ -265,5 +274,10 @@ public class Scene implements Serializable {
 
     public Camera getCamera() {
         return camera;
+    }
+
+    public void changeCameraBounds(int width, int height) {
+        camera.changeCameraBounds(width, height);
+        fireSceneChanged();
     }
 }

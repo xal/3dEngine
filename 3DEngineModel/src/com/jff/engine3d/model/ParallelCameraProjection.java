@@ -42,10 +42,10 @@ public class ParallelCameraProjection extends AbstractCameraProjection {
 
             int width = cameraSettings.getCameraWidth();
             int height = cameraSettings.getCameraHeight();
-            if (center.x + borderSphereRadius > width / 2) {
+            if (inCamera.x + borderSphereRadius > width / 2) {
                 inCameraView = false;
             }
-            if (center.y + borderSphereRadius > height / 2) {
+            if (inCamera.y + borderSphereRadius > height / 2) {
                 inCameraView = false;
             }
         }
