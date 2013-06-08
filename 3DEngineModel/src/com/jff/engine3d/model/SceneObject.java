@@ -64,7 +64,7 @@ public class SceneObject implements Serializable {
         return object.getCenter();
     }
 
-    public AbstractObject getObject() {
+    public AbstractObject getGeometryObject() {
         return object;
     }
 }

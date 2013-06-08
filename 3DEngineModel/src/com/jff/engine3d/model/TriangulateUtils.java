@@ -1,6 +1,9 @@
 package com.jff.engine3d.model;
 
-import com.jff.engine3d.model.primitives.*;
+import com.jff.engine3d.model.primitives.Box;
+import com.jff.engine3d.model.primitives.Cylinder;
+import com.jff.engine3d.model.primitives.FrustumCone;
+import com.jff.engine3d.model.primitives.Tor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -193,121 +196,6 @@ public class TriangulateUtils {
     public static List<Triangle> triangulate(Tor tor, List<Point3D> vertexes) {
         return null;
 
-    }
-
-
-    public static List<Point3D> createVertices(HalfFrustCone halfFrustCone) {
-
-        Point3D center = halfFrustCone.getCenter();
-        int BASE_LOWER_CENTER_INDEX = 0;
-        int BASE_UPPER_CENTER_INDEX = 1;
-        int FIRST_LOWER_BASE_POINT = 2;
-
-
-        int FIRST_UPPER_BASE_POINT = QUALITY / 2 + FIRST_LOWER_BASE_POINT + 1;
-
-        //base lower center vertice
-        List<Point3D> vertexes = new ArrayList<Point3D>();
-        int cilinderHeight = halfFrustCone.getHeight();
-        double lowerBaseRadius = halfFrustCone.getLowerRadius();
-        double upperBaseRadius = halfFrustCone.getUpperRadius();
-        vertexes.add(new Point3D(center.getX(), center.getY(), center.getZ() - cilinderHeight / 2));
-        //base upper center vertice
-        vertexes.add(new Point3D(center.getX(), center.getY(), center.getZ() + cilinderHeight / 2));
-
-        double angle = 0;
-        double x;
-        double y;
-        double z;
-
-        //first lower base point vertexe
-        vertexes.add(new Point3D(center.getX() + lowerBaseRadius, center.getY(), center.getZ() - cilinderHeight / 2));
-
-        //add vertexes for lower base
-        for (int i = 0; i < (QUALITY) / 2; i++) {
-
-            angle += 360.0 / QUALITY;
-
-            x = center.getX() + lowerBaseRadius * Math.cos(Math.toRadians(angle));
-            y = center.getY() + lowerBaseRadius * Math.sin(Math.toRadians(angle));
-            z = vertexes.get(BASE_LOWER_CENTER_INDEX).z;
-
-            vertexes.add(new Point3D(x, y, z));
-        }
-
-        angle = 0;
-        //first upper base point vertice
-        vertexes.add(new Point3D(center.getX() + upperBaseRadius, center.getY(), center.getZ() + cilinderHeight / 2));
-
-        //add vertexes for upper base
-        for (int i = 0; i < (QUALITY) / 2; i++) {
-
-            angle += 360.0 / QUALITY;
-
-            x = center.getX() + upperBaseRadius * Math.cos(Math.toRadians(angle));
-            y = center.getY() + upperBaseRadius * Math.sin(Math.toRadians(angle));
-            z = vertexes.get(BASE_UPPER_CENTER_INDEX).z;
-
-            vertexes.add(new Point3D(x, y, z));
-        }
-
-        return vertexes;
-    }
-
-
-    public static List<Triangle> triangulate(HalfFrustCone halfFrustCone, List<Point3D> vertexes) {
-
-        int BASE_LOWER_CENTER_INDEX = 0;
-        int BASE_UPPER_CENTER_INDEX = 1;
-        int FIRST_LOWER_BASE_POINT = 2;
-        int FIRST_UPPER_BASE_POINT = QUALITY / 2 + FIRST_LOWER_BASE_POINT + 1;
-
-        int size = QUALITY * 2 + 4;
-        List<Triangle> faces = new ArrayList<Triangle>(size);
-
-
-        for (int i = 0; i < size; i++) {
-
-            int first;
-            int second;
-            int third;
-
-            int index = i + 2;
-            //faces of lower base
-            if (i <= QUALITY / 2) {
-                first = BASE_LOWER_CENTER_INDEX;
-                second = index;
-                third = (i != QUALITY / 2) ? index + 1 : FIRST_LOWER_BASE_POINT;
-            }
-            //faces of upper base
-            else if (i <= QUALITY + 1) {
-                first = BASE_UPPER_CENTER_INDEX;
-                second = index;
-                third = (i != QUALITY + 1) ? index + 1 : FIRST_UPPER_BASE_POINT;
-            }
-            //faces of body from lower base
-            else if (i <= QUALITY * 3 / 2 + 2) {
-
-                first = index - QUALITY / 2 - 1;
-                second = index - QUALITY - 2;
-                third = (i != QUALITY * 3 / 2 + 2) ? index - QUALITY - 1 :
-                        FIRST_LOWER_BASE_POINT;
-
-            }
-            //faces of body from upper base
-            else {
-                first = (i != QUALITY * 2 + 3) ? index - QUALITY * 3 / 2 - 2 :
-                        FIRST_LOWER_BASE_POINT;
-                second = index - QUALITY - 2;
-                third = (i != QUALITY * 2 + 3) ? index - QUALITY - 1 :
-                        FIRST_UPPER_BASE_POINT;
-            }
-
-            Triangle triangle = new Triangle(first, second, third);
-            faces.add(triangle);
-        }
-
-        return faces;
     }
 
     public static List<Point3D> createVertices(FrustumCone frustumCone) {

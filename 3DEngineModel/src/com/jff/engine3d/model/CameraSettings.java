@@ -13,6 +13,8 @@ public class CameraSettings {
     public Point3D realFromCoordinates;
     public double theta;
     public double phi;
+    private int cameraWidth;
+    private int cameraHeight;
 
     public CameraSettings(Point3D toCoordinates, Point3D fromCoordinates, CameraRotateType rotateType, RotationCoordinates rotationCoordinates, int focalLength) {
         this.toCoordinates = toCoordinates;
@@ -20,6 +22,9 @@ public class CameraSettings {
         this.rotateType = rotateType;
         this.rotationCoordinates = rotationCoordinates;
         this.focalLength = focalLength;
+
+        this.cameraWidth = 100000;
+        this.cameraHeight = 100000;
 
         fireSettingsChanged();
     }
@@ -238,4 +243,11 @@ public class CameraSettings {
     }
 
 
+    public int getCameraWidth() {
+        return cameraWidth;
+    }
+
+    public int getCameraHeight() {
+        return cameraHeight;
+    }
 }

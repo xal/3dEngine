@@ -44,4 +44,16 @@ public class Box extends AbstractObject {
     protected void computeTriangles() {
         triangles = TriangulateUtils.triangulate(this, vertexes);
     }
+
+    @Override
+    protected double computeBorderSphereRadius() {
+
+        double borderRadius;
+
+        borderRadius = Math.max(width, height);
+        borderRadius = Math.max(borderRadius, length);
+
+        return borderRadius;
+
+    }
 }

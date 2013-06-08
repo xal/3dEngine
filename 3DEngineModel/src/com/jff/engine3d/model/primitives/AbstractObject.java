@@ -26,12 +26,18 @@ public abstract class AbstractObject implements Serializable {
     protected List<Point3D> vertexes;
     protected List<Triangle> triangles;
 
+    protected double borderSphereRadius;
 
-    public AbstractObject(Point3D point3D) {
+
+    protected AbstractObject(Point3D centerPoint3D) {
         this();
-        this.centerPoint3D = point3D;
+        this.centerPoint3D = centerPoint3D;
 
 
+    }
+
+    public double getBorderSphereRadius() {
+        return borderSphereRadius;
     }
 
     private AbstractObject() {
@@ -56,8 +62,14 @@ public abstract class AbstractObject implements Serializable {
     }
 
     protected void fireParametersChanged() {
+
+
         computeVertices();
         computeTriangles();
+
+        borderSphereRadius = computeBorderSphereRadius();
+
+        borderSphereRadius *= scale;
 
         applyTransform();
     }
@@ -127,6 +139,8 @@ public abstract class AbstractObject implements Serializable {
     protected abstract void computeVertices();
 
     protected abstract void computeTriangles();
+
+    protected abstract double computeBorderSphereRadius();
 
     public void scale(float scale) {
         this.scale = scale;

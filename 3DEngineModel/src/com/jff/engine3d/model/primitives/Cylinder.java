@@ -42,5 +42,16 @@ public class Cylinder extends AbstractObject {
         triangles = TriangulateUtils.triangulate(this, vertexes);
     }
 
+    @Override
+    protected double computeBorderSphereRadius() {
+
+        double borderRadius;
+
+        borderRadius = Math.max(upperRadius, lowerRadius);
+        borderRadius = Math.max(borderRadius, height);
+
+        return borderRadius;
+
+    }
 
 }

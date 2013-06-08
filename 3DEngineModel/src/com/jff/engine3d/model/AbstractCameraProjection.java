@@ -39,7 +39,7 @@ public abstract class AbstractCameraProjection {
 
         Point3D to = cameraSettings.getRealToCoordinates();
         Point3D from = cameraSettings.getRealFromCoordinates();
-        Point3D up = new Point3D(1, 1, 1);
+
         newPoint3D = CameraMain.convert2(from, to, point3D);
 //
 //

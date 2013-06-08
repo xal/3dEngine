@@ -440,7 +440,7 @@ public class ModifyFragment extends Composite {
     private void fillSettings(Scene scene) {
         SceneObject currentSelectedObject = scene.getCurrentSelectedObject();
 
-        AbstractObject object = currentSelectedObject.getObject();
+        AbstractObject object = currentSelectedObject.getGeometryObject();
 
         Point3D center = object.getCenter();
 

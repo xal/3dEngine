@@ -24,4 +24,16 @@ public class Tor extends AbstractObject {
     protected void computeTriangles() {
         triangles = TriangulateUtils.triangulate(this, vertexes);
     }
+
+    @Override
+    protected double computeBorderSphereRadius() {
+
+        double borderRadius;
+
+        borderRadius = radiusInner + radiusOuter;
+
+
+        return borderRadius;
+
+    }
 }

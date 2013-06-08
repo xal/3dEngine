@@ -3,7 +3,7 @@ package com.jff.engine3d.model;
 public class CameraMain {
 
     public static void main(String args[]) {
-        testAngle();
+        testZ();
 
 
     }
@@ -70,6 +70,11 @@ public class CameraMain {
         System.out.println("before " + point3D);
         System.out.println("after " + cameraPoint3D);
 
+        point3D = new Point3D(300, 100, 0);
+        cameraPoint3D = convert2(from, to, point3D);
+        System.out.println("before " + point3D);
+        System.out.println("after " + cameraPoint3D);
+
 
     }
 
@@ -106,7 +111,10 @@ public class CameraMain {
 
         xe = -xw * Math.sin(theta) + yw * Math.cos(theta);
         ye = -xw * Math.cos(phi) * Math.cos(theta) - yw * Math.cos(phi) * Math.sin(theta) + zw * Math.sin(phi);
-        ze = -xw * Math.sin(phi) * Math.cos(theta) - yw * Math.sin(phi) * Math.sin(theta) - zw * Math.cos(phi) + ro;
+        ze = -xw * Math.sin(phi) * Math.cos(theta) - yw * Math.sin(phi) * Math.sin(theta) - zw * Math.cos(phi);
+
+        ze *= -1;
+
 
         return new Point3D(xe, ye, ze);
     }
