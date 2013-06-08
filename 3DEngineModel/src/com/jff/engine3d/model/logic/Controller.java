@@ -155,4 +155,8 @@ public class Controller {
     public void changeCameraBounds(int width, int height) {
         scene.changeCameraBounds(width, height);
     }
+
+    public void setCurrentSelectedObject(SceneObject sceneObject) {
+        scene.setCurrentSelectedObject(sceneObject);
+    }
 }

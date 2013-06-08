@@ -75,4 +75,7 @@ public class SceneObject implements Serializable {
         return object;
     }
 
+    public void setSelected(boolean selected) {
+        this.selected = selected;
+    }
 }

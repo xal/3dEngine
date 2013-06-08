@@ -189,6 +189,7 @@ public class Scene implements Serializable {
             List<SceneObject> selectedObjects = getSelectedObjects();
             if (selectedObjects.size() > 0) {
                 currentSelectedObject = selectedObjects.get(0);
+                currentSelectedObject.setSelected(true);
             }
         }
 
@@ -286,6 +287,13 @@ public class Scene implements Serializable {
 
     public void changeCameraBounds(int width, int height) {
         camera.changeCameraBounds(width, height);
+        fireSceneChanged();
+    }
+
+    public void setCurrentSelectedObject(SceneObject currentSelectedObject) {
+        this.currentSelectedObject.setSelected(false);
+        this.currentSelectedObject = currentSelectedObject;
+        this.currentSelectedObject.setSelected(true);
         fireSceneChanged();
     }
 }

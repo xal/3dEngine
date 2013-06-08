@@ -65,6 +65,15 @@ public class ModifyFragment extends Composite {
             public void widgetSelected(SelectionEvent selectionEvent) {
 
 
+                int index = comboSelectedObjects.getSelectionIndex();
+
+                Controller controller = UIUtils.getController();
+                List<SceneObject> sceneObjects = controller.getSelectedObjects();
+                SceneObject sceneObject = sceneObjects.get(index);
+
+                controller.setCurrentSelectedObject(sceneObject);
+
+
             }
 
             @Override
@@ -448,6 +457,8 @@ public class ModifyFragment extends Composite {
     }
 
     private void fillSettings(Scene scene) {
+
+        updateSelectedObjectCombo();
         SceneObject currentSelectedObject = scene.getCurrentSelectedObject();
 
         if (currentSelectedObject != null) {
@@ -477,6 +488,8 @@ public class ModifyFragment extends Composite {
             double scale = object.getScale();
             editScale.setText("" + scale);
             sliderScale.setSelection((int) (scale * 100));
+
+
         }
 
 

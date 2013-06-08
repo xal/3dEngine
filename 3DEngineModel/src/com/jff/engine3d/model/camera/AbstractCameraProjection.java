@@ -44,7 +44,7 @@ public abstract class AbstractCameraProjection {
         Point3D to = cameraSettings.getRealToCoordinates();
         Point3D from = cameraSettings.getRealFromCoordinates();
 
-        newPoint3D = convertToCameraCoordinates(from, to, point3D);
+        newPoint3D = convertWorldCoordinatesToCameraCoordinates(from, to, point3D);
 
 
         return newPoint3D;
@@ -56,7 +56,7 @@ public abstract class AbstractCameraProjection {
     public abstract boolean isObjectInCamera(SceneObject object);
 
 
-    public Point3D convertToCameraCoordinates(Point3D eye, Point3D lookAt, Point3D point3D) {
+    public Point3D convertWorldCoordinatesToCameraCoordinates(Point3D eye, Point3D lookAt, Point3D point3D) {
 
         double xe;
         double ye;
