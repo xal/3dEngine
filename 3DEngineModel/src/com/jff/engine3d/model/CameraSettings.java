@@ -90,9 +90,9 @@ public class CameraSettings {
         double yAngle = rotationCoordinates.getY();
         double zAngle = rotationCoordinates.getZ();
 
-        rotateX(vertex, xAngle);
-        rotateY(vertex, yAngle);
-        rotateZ(vertex, zAngle);
+        vertex = vertex.rotateX(xAngle);
+        vertex = vertex.rotateY(yAngle);
+        vertex = vertex.rotateZ(zAngle);
 
 
         vertex.x += centerPoint3D.x;
@@ -166,80 +166,6 @@ public class CameraSettings {
 
     public double getPhi() {
         return phi;
-    }
-
-    /**
-     * [(cos(a),-sin(a),0),
-     * (sin(a),cos(a) ,0),
-     * (0     ,0      ,1)]
-     *
-     * @param point
-     * @param theta
-     * @return
-     */
-    public Point3D rotateZ(Point3D point, double theta) {
-
-        theta = Math.toRadians(theta);
-        double cos = Math.cos(theta);
-        double sin = Math.sin(theta);
-
-        double x = point.getX() * cos + point.getY() * -sin;
-        double y = point.getX() * sin + point.getY() * cos;
-        double z = point.getZ();
-
-        point.x = x;
-        point.y = y;
-        point.z = z;
-
-        return point;
-    }
-
-    /**
-     * [(cos(a) ,0      ,sin(a)),
-     * (0      ,1      ,0),
-     * (-sin(a),0      ,cos(a))]
-     *
-     * @param point
-     * @param theta
-     * @return
-     */
-    public Point3D rotateY(Point3D point, double theta) {
-
-        theta = Math.toRadians(theta);
-        double x = point.getX() * Math.cos(theta) + point.getZ() * Math.sin(theta);
-        double y = point.getY();
-        double z = point.getX() * -Math.sin(theta) + point.getZ() * Math.cos(theta);
-
-
-        point.x = x;
-        point.y = y;
-        point.z = z;
-
-        return point;
-    }
-
-
-    /**
-     * [(1      ,0      ,0),
-     * (0      ,cos(a) ,-sin(a)),
-     * (0      ,sin(a) ,cos(a))]
-     *
-     * @param point
-     * @param theta
-     * @return
-     */
-    public Point3D rotateX(Point3D point, double theta) {
-
-        theta = Math.toRadians(theta);
-        double x = point.getX();
-        double y = point.getY() * Math.cos(theta) + point.getZ() * -Math.sin(theta);
-        double z = point.getY() * Math.sin(theta) + point.getZ() * Math.cos(theta);
-
-        point.x = x;
-        point.y = y;
-        point.z = z;
-
-        return point;
     }
 
 
