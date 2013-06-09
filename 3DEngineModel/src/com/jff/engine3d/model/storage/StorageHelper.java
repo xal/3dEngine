@@ -3,6 +3,10 @@ package com.jff.engine3d.model.storage;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.typeadapters.RuntimeTypeAdapterFactory;
+import com.jff.engine3d.model.objec.primitives.TrafficLight;
+import com.jff.engine3d.model.object.params.AbstractObjectParams;
+import com.jff.engine3d.model.object.params.BicycleParams;
+import com.jff.engine3d.model.object.params.TrafficLightParams;
 import com.jff.engine3d.model.primitives.*;
 import com.jff.engine3d.model.scene.Scene;
 
@@ -68,19 +72,30 @@ public class StorageHelper {
     private Gson createGson() {
         Gson gson;
 
-        RuntimeTypeAdapterFactory<AbstractObject> rta;
-        rta = RuntimeTypeAdapterFactory.of(
+        RuntimeTypeAdapterFactory<AbstractObject> rta1;
+        RuntimeTypeAdapterFactory<AbstractObjectParams> rta2;
+
+        rta1 = RuntimeTypeAdapterFactory.of(
                 AbstractObject.class)
                 .registerSubtype(Box.class)
                 .registerSubtype(Cylinder.class)
 
-
                 .registerSubtype(FrustumCone.class)
 
+
+                .registerSubtype(TrafficLight.class)
                 .registerSubtype(Tor.class);
+        rta2 = RuntimeTypeAdapterFactory.of(
+                AbstractObjectParams.class)
+                .registerSubtype(TrafficLightParams.class)
+                .registerSubtype(BicycleParams.class);
 
 
-        gson = new GsonBuilder().registerTypeAdapterFactory(rta).setPrettyPrinting().create();
+        gson = new GsonBuilder()
+                .registerTypeAdapterFactory(rta1)
+                .registerTypeAdapterFactory(rta2)
+                .setPrettyPrinting().
+                        create();
 
 
         return gson;
