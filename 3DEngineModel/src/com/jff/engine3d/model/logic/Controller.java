@@ -49,7 +49,7 @@ public class Controller {
 //        AbstractObject object1 = new Cylinder(new Point3D(200, 100, 100), 30, 30, 40);
 //        SceneObject sceneObject1 = new SceneObject(object1);
 //        scene.addObject(sceneObject1);
-
+//
         try {
 
             AbstractObject object = objectParams.createObject(point3D);
@@ -61,7 +61,7 @@ public class Controller {
         }
 
 
-//        AbstractObject object2 = new Cylinder(new Point3D(300, 100, 100), 30, 40, 40);
+//        AbstractObject object2 = new Tor(point3D, 100, 20);
 //        SceneObject sceneObject2 = new SceneObject(object2);
 //        scene.addObject(sceneObject2);
 

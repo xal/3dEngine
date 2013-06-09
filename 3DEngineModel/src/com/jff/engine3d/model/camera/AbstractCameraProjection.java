@@ -58,9 +58,6 @@ public abstract class AbstractCameraProjection {
 
     public Point3D convertWorldCoordinatesToCameraCoordinates(Point3D eye, Point3D lookAt, Point3D point3D) {
 
-        double xe;
-        double ye;
-        double ze;
 
         double xw = point3D.x;
         double yw = point3D.y;
@@ -84,20 +81,30 @@ public abstract class AbstractCameraProjection {
         double phi = spherePoint3D.phi;
         double ro = spherePoint3D.r;
 
+
+        double xe;
+        double ye;
+        double ze;
+
         xe = -xw * Math.sin(theta) + yw * Math.cos(theta);
         ye = -xw * Math.cos(phi) * Math.cos(theta) - yw * Math.cos(phi) * Math.sin(theta) + zw * Math.sin(phi);
         ze = -xw * Math.sin(phi) * Math.cos(theta) - yw * Math.sin(phi) * Math.sin(theta) - zw * Math.cos(phi);
 
         ze *= -1;
 
-        if (Double.compare(theta, Math.PI) <= 0) {
+
+        if (Double.compare(theta, Math.PI) == 0) {
 
             xe *= -1;
+            ye *= -1;
 
         }
 
+        Point3D result = new Point3D(xe, ye, ze);
 
-        return new Point3D(xe, ye, ze);
+
+        System.out.println("result " + result);
+        return result;
     }
 
 }

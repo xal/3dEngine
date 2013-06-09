@@ -5,17 +5,19 @@ import com.jff.engine3d.model.math.TriangulateUtils;
 
 public class Tor extends AbstractObject {
 
-    private int radiusInner;
-    private int radiusOuter;
+    private int radiusCircle;
+    private int radiusThickness;
 
     public Tor() {
         super();
     }
 
-    public Tor(Point3D point3D, int radiusInner, int radiusOuter) {
+    public Tor(Point3D point3D, int radiusCircle, int radiusThickness) {
         super(point3D);
-        this.radiusInner = radiusInner;
-        this.radiusOuter = radiusOuter;
+        this.radiusCircle = radiusCircle;
+        this.radiusThickness = radiusThickness;
+
+        fireParametersChanged();
     }
 
     @Override
@@ -34,7 +36,7 @@ public class Tor extends AbstractObject {
 
         double borderRadius;
 
-        borderRadius = radiusInner + radiusOuter;
+        borderRadius = radiusCircle + radiusThickness;
 
         borderRadius /= 2;
 
@@ -45,8 +47,16 @@ public class Tor extends AbstractObject {
     @Override
     public String toString() {
         return "Tor{" +
-                "radiusInner=" + radiusInner +
-                ", radiusOuter=" + radiusOuter +
+                "radiusCircle=" + radiusCircle +
+                ", radiusThickness=" + radiusThickness +
                 "} " + super.toString();
+    }
+
+    public int getCircleRadius() {
+        return radiusCircle;
+    }
+
+    public int getThicknessRadius() {
+        return radiusThickness;
     }
 }

@@ -3,6 +3,7 @@ package com.jff.engine3d.model.storage;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.typeadapters.RuntimeTypeAdapterFactory;
+import com.jff.engine3d.model.objec.primitives.Bicycle;
 import com.jff.engine3d.model.objec.primitives.TrafficLight;
 import com.jff.engine3d.model.object.params.AbstractObjectParams;
 import com.jff.engine3d.model.object.params.BicycleParams;
@@ -84,6 +85,7 @@ public class StorageHelper {
 
 
                 .registerSubtype(TrafficLight.class)
+                .registerSubtype(Bicycle.class)
                 .registerSubtype(Tor.class);
         rta2 = RuntimeTypeAdapterFactory.of(
                 AbstractObjectParams.class)

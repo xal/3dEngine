@@ -13,7 +13,10 @@ public class CollisionDetectedException extends Exception {
 
     @Override
     public String getMessage() {
-        String message = "Collision between " + firstObject + " and " + secondObject;
+        String message = "Collision between " +
+                firstObject.getClass().getSimpleName() + " Center :" + firstObject.getCenter()
+                + " and " +
+                secondObject.getClass().getSimpleName() + " Center :" + secondObject.getCenter();
         return message;
     }
 }

@@ -27,8 +27,6 @@ public class CameraSettings {
         this.rotationCoordinates = rotationCoordinates;
         this.focalLength = focalLength;
 
-        this.cameraWidth = 100000;
-        this.cameraHeight = 100000;
 
         fireSettingsChanged();
     }

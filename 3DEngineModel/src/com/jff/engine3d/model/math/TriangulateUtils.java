@@ -1,6 +1,7 @@
 package com.jff.engine3d.model.math;
 
 import com.jff.engine3d.model.entities.Point3D;
+import com.jff.engine3d.model.entities.SpherePoint3D;
 import com.jff.engine3d.model.entities.Triangle;
 import com.jff.engine3d.model.primitives.Box;
 import com.jff.engine3d.model.primitives.Cylinder;
@@ -212,12 +213,133 @@ public class TriangulateUtils {
     }
 
     public static List<Point3D> createVertices(Tor tor) {
-        return null;
+
+        Point3D center = tor.getCenter();
+
+        int thicknessRadius = tor.getThicknessRadius();
+        int circleRadius = tor.getCircleRadius();
+
+        List<Point3D> vertexes = new ArrayList<Point3D>();
+
+        int thicknessSegmentsCount = 360 / (QUALITY * 4);
+        int circleSegmentsCount = thicknessSegmentsCount * 2;
+
+        double thicknessSegmentStep = 360 / thicknessSegmentsCount;
+        double circleSegmentStep = 360 / circleSegmentsCount;
+
+        for (int i = 0; i < thicknessSegmentsCount; i++) {
+
+            double currentThicknessStep = i * thicknessSegmentStep;
+
+
+            SpherePoint3D currentThicknessSpherePoint = new SpherePoint3D();
+            currentThicknessSpherePoint.r = thicknessRadius;
+            currentThicknessSpherePoint.theta = Math.PI / 2;
+            currentThicknessSpherePoint.phi = Math.toRadians(currentThicknessStep);
+
+            Point3D thicknessPoint3D = SpherePoint3D.toCartesian(currentThicknessSpherePoint);
+
+
+            double zOffset = thicknessPoint3D.x;
+            double radiusOffset = thicknessPoint3D.y;
+            double currentRadius = circleRadius + radiusOffset;
+
+            for (int j = 0; j < circleSegmentsCount; j++) {
+                double currentCircleStep = j * circleSegmentStep;
+
+                SpherePoint3D currentCircleSpherePoint = new SpherePoint3D();
+                currentCircleSpherePoint.r = currentRadius;
+                currentCircleSpherePoint.theta = Math.PI / 2;
+                currentCircleSpherePoint.phi = Math.toRadians(currentCircleStep);
+
+                Point3D circlePoint3D = SpherePoint3D.toCartesian(currentCircleSpherePoint);
+
+                circlePoint3D.z += zOffset;
+
+                circlePoint3D.x += center.x;
+                circlePoint3D.y += center.y;
+                circlePoint3D.z += center.z;
+
+                vertexes.add(circlePoint3D);
+
+
+            }
+        }
+
+
+        return vertexes;
     }
 
     public static List<Triangle> triangulate(Tor tor, List<Point3D> vertexes, int indexOffset) {
-        return null;
+        int thicknessRadius = tor.getThicknessRadius();
+        int circleRadius = tor.getCircleRadius();
 
+        List<Triangle> triangles = new ArrayList<Triangle>();
+
+        int thicknessSegmentsCount = 360 / (QUALITY * 4);
+        int circleSegmentsCount = thicknessSegmentsCount * 2;
+
+        double thicknessSegmentStep = 360 / thicknessSegmentsCount;
+        double circleSegmentStep = 360 / circleSegmentsCount;
+
+        for (int i = 0; i < thicknessSegmentsCount; i++) {
+
+            for (int j = 0; j < circleSegmentsCount; j++) {
+
+                Triangle triangle;
+
+                triangle = createFirstTorTriangle(indexOffset, thicknessSegmentsCount, circleSegmentsCount, i, j);
+                triangles.add(triangle);
+                triangle = createSecondTorTriangle(indexOffset, thicknessSegmentsCount, circleSegmentsCount, i, j);
+                triangles.add(triangle);
+            }
+        }
+
+
+        return triangles;
+
+    }
+
+    private static Triangle createFirstTorTriangle(int indexOffset, int thicknessSegmentsCount, int circleSegmentsCount, int i, int j) {
+        int baseIndex = i * circleSegmentsCount;
+
+        int firstIndex = j;
+        int secondIndex = (j + 1) % circleSegmentsCount;
+        int thirdIndex = j + circleSegmentsCount;
+
+        firstIndex += baseIndex;
+        secondIndex += baseIndex;
+        thirdIndex += baseIndex;
+
+        thirdIndex %= thicknessSegmentsCount * circleSegmentsCount;
+
+        firstIndex += indexOffset;
+        secondIndex += indexOffset;
+        thirdIndex += indexOffset;
+
+        return new Triangle(firstIndex, secondIndex, thirdIndex);
+    }
+
+    private static Triangle createSecondTorTriangle(int indexOffset, int thicknessSegmentsCount, int circleSegmentsCount, int i, int j) {
+        int baseIndex = i * circleSegmentsCount;
+
+        int secondIndex = (j + 1) % circleSegmentsCount;
+        int firstIndex = secondIndex + circleSegmentsCount;
+        int thirdIndex = j + circleSegmentsCount;
+
+
+        firstIndex += baseIndex;
+        secondIndex += baseIndex;
+        thirdIndex += baseIndex;
+
+        thirdIndex %= thicknessSegmentsCount * circleSegmentsCount;
+        firstIndex %= thicknessSegmentsCount * circleSegmentsCount;
+
+        firstIndex += indexOffset;
+        secondIndex += indexOffset;
+        thirdIndex += indexOffset;
+
+        return new Triangle(firstIndex, secondIndex, thirdIndex);
     }
 
     public static List<Point3D> createVertices(FrustumCone frustumCone) {
