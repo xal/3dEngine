@@ -317,7 +317,7 @@ public class CameraFragment extends Composite {
         toRotate = new Button(group, SWT.RADIO);
         toRotate.setText("Orbit");
 
-        fromRotate.setSelection(true);
+        toRotate.setSelection(true);
 
 
         parent = group;

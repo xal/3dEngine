@@ -9,10 +9,10 @@ import org.eclipse.swt.widgets.*;
 
 public class SettingsTabsFragment extends Composite implements IEngineView {
 
-    private TrafficLightCreateFragment createFragment;
+    private IEngineView createFragment;
     private ModifyFragment modifyFragment;
     private CameraFragment cameraFragment;
-    private ViewFragment viewFragment;
+
     private FileFragment fileFragment;
 
     public SettingsTabsFragment(Composite parent) {
@@ -42,8 +42,9 @@ public class SettingsTabsFragment extends Composite implements IEngineView {
 
 
         title = "Create";
-        createFragment = new TrafficLightCreateFragment(tabFolder);
-        createTab(tabFolder, title, createFragment);
+//        createFragment = new TrafficLightCreateFragment(tabFolder);
+        createFragment = new BicycleCreateFragment(tabFolder);
+        createTab(tabFolder, title, (Control) createFragment);
 
 
         title = "Modify";
@@ -54,9 +55,6 @@ public class SettingsTabsFragment extends Composite implements IEngineView {
         cameraFragment = new CameraFragment(tabFolder);
         createTab(tabFolder, title, cameraFragment);
 
-//        title = "View";
-//        viewFragment = new ViewFragment(tabFolder);
-//        createTab(tabFolder, title, viewFragment);
 
         title = "File";
         fileFragment = new FileFragment(tabFolder);

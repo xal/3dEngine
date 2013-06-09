@@ -39,7 +39,7 @@ public class Camera implements Serializable {
 
     private static final Point3D DEFAULT_FROM_COORDINATES = new Point3D(100, 100, -1000);
     private static final Point3D DEFAULT_TO_COORDINATES = new Point3D(100, 100, 100);
-    private static final CameraRotateType DEFAULT_ROTATE_TYPE = CameraRotateType.FROM;
+    private static final CameraRotateType DEFAULT_ROTATE_TYPE = CameraRotateType.TO;
     private static final RotationCoordinates DEFAULT_ROTATION_COORDINATES = new RotationCoordinates(0, 0, 0);
     private static final ProjectionType DEFAULT_PROJECTION_TYPE = ProjectionType.PARALLEL;
     private static final int DEFAULT_FOCAL_LENGTH = 500;

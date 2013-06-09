@@ -3,6 +3,7 @@ package com.jff.engine3d.view.java.components.settings;
 import com.jff.engine3d.model.entities.Point3D;
 import com.jff.engine3d.model.logic.Controller;
 import com.jff.engine3d.model.logic.EngineManager;
+import com.jff.engine3d.model.logic.interfaces.IEngineView;
 import com.jff.engine3d.model.object.params.AbstractObjectParams;
 import com.jff.engine3d.model.object.params.TrafficLightParams;
 import com.jff.engine3d.model.scene.Scene;
@@ -15,7 +16,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.*;
 
-public class TrafficLightCreateFragment extends Composite {
+public class TrafficLightCreateFragment extends Composite implements IEngineView {
     private Text centerXText;
     private Text centerYText;
     private Text centerZText;
