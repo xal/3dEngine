@@ -104,66 +104,86 @@ public class TrafficLightCreateFragment extends Composite {
 
         new Label(group, SWT.NONE).setText("Height cone");
         heightPoleCone = new Text(group, SWT.NONE);
-        addListeners(heightPoleCone);
 
         new Label(group, SWT.NONE).setText("Diameter cone");
         diameterPoleConeLower = new Text(group, SWT.NONE);
-        addListeners(diameterPoleConeLower);
 
         new Label(group, SWT.NONE).setText("Diameter lower cylinder");
         diameterPoleCylinderLower = new Text(group, SWT.NONE);
-        addListeners(diameterPoleCylinderLower);
 
         new Label(group, SWT.NONE).setText("Height lower cylinder");
         heightPoleCylinderLower = new Text(group, SWT.NONE);
-        addListeners(heightPoleCylinderLower);
 
         new Label(group, SWT.NONE).setText("Height upper cylinder");
         heightPoleCylinderUpper = new Text(group, SWT.NONE);
-        addListeners(heightPoleCylinderUpper);
 
         new Label(group, SWT.NONE).setText("Diameter lower cylinder");
         diameterPoleCylinderUpper = new Text(group, SWT.NONE);
-        addListeners(diameterPoleCylinderUpper);
 
         new Label(group, SWT.NONE).setText("Height base");
         heightBase = new Text(group, SWT.NONE);
-        addListeners(heightBase);
 
         new Label(group, SWT.NONE).setText("Width base");
         widthBase = new Text(group, SWT.NONE);
-        addListeners(widthBase);
 
 
         new Label(group, SWT.NONE).setText("Length base");
         lengthBase = new Text(group, SWT.NONE);
-        addListeners(lengthBase);
 
         new Label(group, SWT.NONE).setText("Diameter  lights");
         diameterLight = new Text(group, SWT.NONE);
-        addListeners(diameterLight);
 
         new Label(group, SWT.NONE).setText("Length light");
         lengthLight = new Text(group, SWT.NONE);
-        addListeners(lengthLight);
 
         new Label(group, SWT.NONE).setText("Height visor");
         heightVisor = new Text(group, SWT.NONE);
-        addListeners(heightVisor);
 
         new Label(group, SWT.NONE).setText("Width visor");
         widthVisor = new Text(group, SWT.NONE);
-        addListeners(widthVisor);
 
         new Label(group, SWT.NONE).setText("Length visor");
         lengthVisor = new Text(group, SWT.NONE);
-        addListeners(lengthVisor);
 
         new Label(group, SWT.NONE).setText("Number lights");
         numberLights = new Text(group, SWT.NONE);
+
+        addListeners(heightPoleCone);
+        addListeners(diameterPoleConeLower);
+        addListeners(diameterPoleCylinderLower);
+        addListeners(heightPoleCylinderLower);
+        addListeners(heightPoleCylinderUpper);
+        addListeners(diameterPoleCylinderUpper);
+        addListeners(heightBase);
+        addListeners(widthBase);
+        addListeners(lengthBase);
+        addListeners(diameterLight);
+        addListeners(lengthLight);
+        addListeners(heightVisor);
+        addListeners(widthVisor);
+        addListeners(lengthVisor);
         addListeners(numberLights);
 
+        addLayoutData(heightPoleCone);
+        addLayoutData(diameterPoleConeLower);
+        addLayoutData(diameterPoleCylinderLower);
+        addLayoutData(heightPoleCylinderLower);
+        addLayoutData(heightPoleCylinderUpper);
+        addLayoutData(diameterPoleCylinderUpper);
+        addLayoutData(heightBase);
+        addLayoutData(widthBase);
+        addLayoutData(lengthBase);
+        addLayoutData(diameterLight);
+        addLayoutData(lengthLight);
+        addLayoutData(heightVisor);
+        addLayoutData(widthVisor);
+        addLayoutData(lengthVisor);
+        addLayoutData(numberLights);
 
+    }
+
+    private void addLayoutData(Text text) {
+        text.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
     }
 
     private void addListeners(Text text) {

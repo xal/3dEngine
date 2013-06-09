@@ -124,12 +124,14 @@ public class TrafficLight extends AbstractObject {
         visorsIndexOffset = allVertexes.size();
         for (int i = 0; i < visors.length; i++) {
 
+            visors[i].fireParametersChanged();
             allVertexes.addAll(visors[i].getVertexes());
 
         }
         visorsCountIndex = (allVertexes.size() - visorsIndexOffset) / visors.length;
         lightsIndexOffset = allVertexes.size();
         for (int i = 0; i < lights.length; i++) {
+            lights[i].fireParametersChanged();
             allVertexes.addAll(lights[i].getVertexes());
         }
         lightsCountIndex = (allVertexes.size() - lightsIndexOffset) / lights.length;
