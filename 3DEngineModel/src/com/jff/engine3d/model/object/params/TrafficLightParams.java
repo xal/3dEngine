@@ -65,6 +65,30 @@ public class TrafficLightParams extends AbstractObjectParams {
         if (diameterPoleConeLower < diameterPoleCylinderLower) {
             throw new IllegalArgumentException("diameterPoleConeLower < diameterPoleCylinderLower");
         }
+        if (diameterPoleCylinderLower < diameterPoleCylinderUpper) {
+            throw new IllegalArgumentException("diameterPoleCylinderLower < diameterPoleCylinderUpper");
+        }
+        if (diameterPoleCylinderUpper > widthBase) {
+            throw new IllegalArgumentException("diameterPoleCylinderUpper > widthBase");
+        }
+        if (diameterPoleCylinderUpper > lengthBase) {
+            throw new IllegalArgumentException("diameterPoleCylinderUpper > lengthBase");
+        }
+
+        if (diameterLight > widthBase) {
+            throw new IllegalArgumentException("diameterLight > widthBase");
+        }
+        if (diameterLight > lengthBase) {
+            throw new IllegalArgumentException("diameterLight  > lengthBase");
+        }
+
+        if (widthVisor > widthBase) {
+            throw new IllegalArgumentException("widthVisor > widthBase");
+        }
+
+        if (heightBase < numberVisors * heightVisor + numberLights * diameterLight) {
+            throw new IllegalArgumentException("heightBase < numberVisors * heightVisor + numberLights + diameterLight");
+        }
 
         return result;
     }
