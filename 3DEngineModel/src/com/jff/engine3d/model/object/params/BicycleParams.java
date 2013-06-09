@@ -58,7 +58,27 @@ public class BicycleParams extends AbstractObjectParams {
 
     @Override
     public boolean verifyParams() {
-        return true;  //To change body of implemented methods use File | Settings | File Templates.
+
+        String error = "Not valid parameters. ";
+        if (diameterWheel <= widthWheel) {
+
+            throw new IllegalArgumentException(error + "diameterWheel <= widthWheel");
+        }
+        if (diameterWheel <= diameterFrame) {
+            throw new IllegalArgumentException(error + "diameterWheel <= diameterFrame");
+        }
+
+        if (diameterWheel > 150) {
+            throw new IllegalArgumentException(error + "diameterWheel > 150");
+        }
+        if (diameterWheel < 20) {
+            throw new IllegalArgumentException(error + "diameterWheel < 20");
+        }
+        if (widthWheel < 10) {
+            throw new IllegalArgumentException(error + "widthWheel <10");
+        }
+
+        return true;
     }
 
     @Override
