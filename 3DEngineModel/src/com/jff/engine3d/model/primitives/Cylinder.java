@@ -8,9 +8,9 @@ public class Cylinder extends AbstractObject {
 
     protected int upperRadius;
     protected int lowerRadius;
-    protected int height;
+    protected double height;
 
-    public Cylinder(Point3D point3D, int upperRadius, int lowerRadius, int height) {
+    public Cylinder(Point3D point3D, int upperRadius, int lowerRadius, double height) {
         super(point3D);
         this.upperRadius = upperRadius;
         this.lowerRadius = lowerRadius;
@@ -23,7 +23,7 @@ public class Cylinder extends AbstractObject {
         super();
     }
 
-    public Cylinder(Point3D currentCenter, int radius, int height) {
+    public Cylinder(Point3D currentCenter, int radius, double height) {
         this(currentCenter, radius, radius, height);
     }
 
@@ -36,7 +36,7 @@ public class Cylinder extends AbstractObject {
         return lowerRadius;
     }
 
-    public int getHeight() {
+    public double getHeight() {
         return height;
     }
 

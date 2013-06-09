@@ -29,32 +29,32 @@ public class Bicycle extends AbstractObject {
     private Cylinder leftPedalBush;
     private Cylinder rightPedalBush;
 
-    private Cylinder leftBackWheelPedalBush = new Cylinder(new Point3D(0, 0, 0), 10, 10);
-    private Cylinder rightBackWheelPedalBush = new Cylinder(new Point3D(0, 0, 0), 10, 10);
-    ;
+    private Cylinder leftBackWheelPedalBush;
+    private Cylinder rightBackWheelPedalBush;
 
-    private Cylinder leftBackWheelSeatBush = new Cylinder(new Point3D(0, 0, 0), 10, 10);
-    ;
-    private Cylinder rightBackWheelSeatBush = new Cylinder(new Point3D(0, 0, 0), 10, 10);
-    ;
+
+//    private Cylinder leftBackWheelSeatBush = new Cylinder(new Point3D(0, 0, 0), 10, 10);
+//
+//    private Cylinder rightBackWheelSeatBush = new Cylinder(new Point3D(0, 0, 0), 10, 10);
+//    private Cylinder pedalHelmBush = new Cylinder(new Point3D(0, 0, 0), 10, 10);
+
 
     private Cylinder seatHelmBush;
-    private Cylinder pedalHelmBush = new Cylinder(new Point3D(0, 0, 0), 10, 10);
-    ;
+
 
     private Cylinder pedalSeatBush;
 
     private Cylinder helm;
     private Cylinder helmBush;
 
-    private Cylinder leftFrontWheelHelmBush = new Cylinder(new Point3D(0, 0, 0), 10, 10);
-    ;
-    private Cylinder middleFrontWheelHelmBush = new Cylinder(new Point3D(0, 0, 0), 10, 10);
-    ;
-    private Cylinder rightFrontWheelHelmBush = new Cylinder(new Point3D(0, 0, 0), 10, 10);
-    ;
+    private Cylinder leftFrontWheelHelmBush;
 
-    private Cylinder helmFrontWheelBush = new Cylinder(new Point3D(0, 0, 0), 10, 10);
+    private Cylinder middleFrontWheelHelmBush;
+
+    private Cylinder rightFrontWheelHelmBush;
+
+
+    private Cylinder helmFrontWheelBush;
 
     private Box seat;
 
@@ -102,18 +102,19 @@ public class Bicycle extends AbstractObject {
 
         Point3D leftPedalCenter = new Point3D(leftPedalBushCenter.x,
                 leftPedalBushCenter.y - bicycleParams.leftPedalBushHeight / 2 - bicycleParams.heightPedal / 2,
-                leftPedalBushCenter.z - bicycleParams.middlePedalBushHeight / 2);
+                leftPedalBushCenter.z);
         Point3D rightPedalCenter = new Point3D(rightPedalBushCenter.x,
                 rightPedalBushCenter.y + bicycleParams.rightPedalBushHeight / 2 + bicycleParams.heightPedal / 2,
-                rightPedalBushCenter.z + bicycleParams.middlePedalBushHeight / 2);
+                rightPedalBushCenter.z);
 
-        Point3D helmBushCenter = new Point3D(center.x + bicycleParams.seatHelmBushHeight / 2,
-                center.y + bicycleParams.pedalSeatBush, center.z);
+        Point3D seatHelmBushCenter = new Point3D(center.x + bicycleParams.seatHelmBushHeight / 2,
+                center.y + bicycleParams.pedalSeatBush / 2 - bicycleParams.heightPedal * 2, center.z);
 
-        Point3D seatHelmBushCenter = new Point3D(helmBushCenter.x + bicycleParams.seatHelmBushHeight / 2,
-                helmBushCenter.y + bicycleParams.widthHelmBush / 2, center.z);
-        Point3D helmCenter = new Point3D(seatHelmBushCenter.x,
+        Point3D helmBushCenter = new Point3D(seatHelmBushCenter.x + bicycleParams.seatHelmBushHeight / 2,
                 seatHelmBushCenter.y + bicycleParams.widthHelmBush / 2, seatHelmBushCenter.z);
+
+        Point3D helmCenter = new Point3D(helmBushCenter.x,
+                helmBushCenter.y + bicycleParams.widthHelmBush / 2, helmBushCenter.z);
 
         Point3D frontWheelCenter = new Point3D(center.x + bicycleParams.seatHelmBushHeight,
                 center.y - bicycleParams.pedalSeatBush / 2, center.z);
@@ -154,11 +155,55 @@ public class Bicycle extends AbstractObject {
 
 
         helm = new Cylinder(helmCenter, bicycleParams.diameterFrame / 2, bicycleParams.widthHelm);
-        helm.rotate(new RotationCoordinates(90, 0, 90));
 
         helmBush = new Cylinder(helmBushCenter, bicycleParams.diameterFrame / 2, bicycleParams.widthHelmBush);
+        helmBush.rotate(new RotationCoordinates(0, 90, 90));
 
         seatHelmBush = new Cylinder(seatHelmBushCenter, bicycleParams.diameterFrame / 2, bicycleParams.seatHelmBushHeight);
+        seatHelmBush.rotate(new RotationCoordinates(90, 90, 90));
+
+        int helmFrontWheelBushHeight = bicycleParams.widthHelmBush;
+        Point3D helmFrontWheelBushCenter = new Point3D(helmBushCenter);
+        helmFrontWheelBushCenter.y -= helmFrontWheelBushHeight;
+
+        Point3D frontWheelUpperBushCenter = new Point3D(helmFrontWheelBushCenter);
+        frontWheelUpperBushCenter.y -= helmFrontWheelBushHeight / 2 + bicycleParams.diameterFrame / 2;
+
+        double frontBushHeight = Math.abs(frontWheelBushCenter.y + frontWheelUpperBushCenter.y);
+
+        Point3D leftFrontWheelHelmBushCenter = new Point3D(frontWheelUpperBushCenter);
+        Point3D rightFrontWheelHelmBushCenter = new Point3D(frontWheelUpperBushCenter);
+        leftFrontWheelHelmBushCenter.z += bicycleParams.wheelBushHeight / 2;
+        rightFrontWheelHelmBushCenter.z -= bicycleParams.wheelBushHeight / 2;
+        leftFrontWheelHelmBushCenter.y -= frontBushHeight / 2;
+        rightFrontWheelHelmBushCenter.y -= frontBushHeight / 2;
+
+
+        leftFrontWheelHelmBush = new Cylinder(leftFrontWheelHelmBushCenter, bicycleParams.diameterFrame / 2, frontBushHeight);
+        rightFrontWheelHelmBush = new Cylinder(rightFrontWheelHelmBushCenter, bicycleParams.diameterFrame / 2, frontBushHeight);
+        leftFrontWheelHelmBush.rotate(new RotationCoordinates(0, 90, 90));
+        rightFrontWheelHelmBush.rotate(new RotationCoordinates(0, 90, 90));
+
+        middleFrontWheelHelmBush = new Cylinder(frontWheelUpperBushCenter, bicycleParams.diameterFrame / 2, bicycleParams.wheelBushHeight);
+
+
+        helmFrontWheelBush = new Cylinder(helmFrontWheelBushCenter, bicycleParams.diameterFrame / 2, helmFrontWheelBushHeight);
+        helmFrontWheelBush.rotate(new RotationCoordinates(0, 90, 90));
+
+
+        int backWheelPedalBushHeight = (int) Math.abs(backWheelBushCenter.x - middlePedalBushCenter.x);
+        Point3D leftBackWheelPedalBushCenter = new Point3D(middlePedalBushCenter);
+        leftBackWheelPedalBushCenter.x -= backWheelPedalBushHeight / 2;
+        leftBackWheelPedalBushCenter.z -= bicycleParams.middlePedalBushHeight / 2;
+
+        Point3D rightBackWheelPedalBushCenter = new Point3D(middlePedalBushCenter);
+        rightBackWheelPedalBushCenter.x -= backWheelPedalBushHeight / 2;
+        rightBackWheelPedalBushCenter.z += bicycleParams.middlePedalBushHeight / 2;
+
+        leftBackWheelPedalBush = new Cylinder(leftBackWheelPedalBushCenter, bicycleParams.diameterFrame / 2, backWheelPedalBushHeight);
+        rightBackWheelPedalBush = new Cylinder(rightBackWheelPedalBushCenter, bicycleParams.diameterFrame / 2, backWheelPedalBushHeight);
+        leftBackWheelPedalBush.rotate(new RotationCoordinates(90, 0, 90));
+        rightBackWheelPedalBush.rotate(new RotationCoordinates(90, 0, 90));
 
 
         this.rotate(new RotationCoordinates(180, 0, 90));
@@ -204,9 +249,9 @@ public class Bicycle extends AbstractObject {
 
         seatHelmBush.fireParametersChanged();
         allVertexes.addAll(seatHelmBush.getVertexes());
-        pedalHelmBushIndexOffset = allVertexes.size();
-        pedalHelmBush.fireParametersChanged();
-        allVertexes.addAll(pedalHelmBush.getVertexes());
+//        pedalHelmBushIndexOffset = allVertexes.size();
+//        pedalHelmBush.fireParametersChanged();
+//        allVertexes.addAll(pedalHelmBush.getVertexes());
         pedalSeatBushIndexOffset = allVertexes.size();
 
         pedalSeatBush.fireParametersChanged();
@@ -225,9 +270,9 @@ public class Bicycle extends AbstractObject {
 
         leftBackWheelPedalBush.fireParametersChanged();
         allVertexes.addAll(leftBackWheelPedalBush.getVertexes());
-        leftBackWheelSeatBushIndexOffset = allVertexes.size();
-        leftBackWheelSeatBush.fireParametersChanged();
-        allVertexes.addAll(leftBackWheelSeatBush.getVertexes());
+//        leftBackWheelSeatBushIndexOffset = allVertexes.size();
+//        leftBackWheelSeatBush.fireParametersChanged();
+//        allVertexes.addAll(leftBackWheelSeatBush.getVertexes());
         leftFrontWheelHelmBushIndexOffset = allVertexes.size();
         leftFrontWheelHelmBush.fireParametersChanged();
         allVertexes.addAll(leftFrontWheelHelmBush.getVertexes());
@@ -236,9 +281,9 @@ public class Bicycle extends AbstractObject {
 
         rightBackWheelPedalBush.fireParametersChanged();
         allVertexes.addAll(rightBackWheelPedalBush.getVertexes());
-        rightBackWheelSeatBushIndexOffset = allVertexes.size();
-        rightBackWheelSeatBush.fireParametersChanged();
-        allVertexes.addAll(rightBackWheelSeatBush.getVertexes());
+//        rightBackWheelSeatBushIndexOffset = allVertexes.size();
+//        rightBackWheelSeatBush.fireParametersChanged();
+//        allVertexes.addAll(rightBackWheelSeatBush.getVertexes());
         rightFrontWheelHelmBushIndexOffset = allVertexes.size();
         rightFrontWheelHelmBush.fireParametersChanged();
         allVertexes.addAll(rightFrontWheelHelmBush.getVertexes());
@@ -272,7 +317,7 @@ public class Bicycle extends AbstractObject {
         allTriangles.addAll(TriangulateUtils.triangulate(leftPedalBush, vertexes, leftPedalBushIndexOffset));
 
         allTriangles.addAll(TriangulateUtils.triangulate(seatHelmBush, vertexes, seatHelmBushIndexOffset));
-        allTriangles.addAll(TriangulateUtils.triangulate(pedalHelmBush, vertexes, pedalHelmBushIndexOffset));
+//        allTriangles.addAll(TriangulateUtils.triangulate(pedalHelmBush, vertexes, pedalHelmBushIndexOffset));
 
         allTriangles.addAll(TriangulateUtils.triangulate(pedalSeatBush, vertexes, pedalSeatBushIndexOffset));
 
@@ -281,12 +326,12 @@ public class Bicycle extends AbstractObject {
         allTriangles.addAll(TriangulateUtils.triangulate(seat, vertexes, seatIndexOffset));
 
         allTriangles.addAll(TriangulateUtils.triangulate(leftBackWheelPedalBush, vertexes, leftBackWheelPedalBushIndexOffset));
-        allTriangles.addAll(TriangulateUtils.triangulate(leftBackWheelSeatBush, vertexes, leftBackWheelSeatBushIndexOffset));
+//        allTriangles.addAll(TriangulateUtils.triangulate(leftBackWheelSeatBush, vertexes, leftBackWheelSeatBushIndexOffset));
         allTriangles.addAll(TriangulateUtils.triangulate(leftFrontWheelHelmBush, vertexes, leftFrontWheelHelmBushIndexOffset));
 
 
         allTriangles.addAll(TriangulateUtils.triangulate(rightBackWheelPedalBush, vertexes, rightBackWheelPedalBushIndexOffset));
-        allTriangles.addAll(TriangulateUtils.triangulate(rightBackWheelSeatBush, vertexes, rightBackWheelSeatBushIndexOffset));
+//        allTriangles.addAll(TriangulateUtils.triangulate(rightBackWheelSeatBush, vertexes, rightBackWheelSeatBushIndexOffset));
         allTriangles.addAll(TriangulateUtils.triangulate(rightFrontWheelHelmBush, vertexes, rightFrontWheelHelmBushIndexOffset));
 
         allTriangles.addAll(TriangulateUtils.triangulate(middleFrontWheelHelmBush, vertexes, middleFrontWheelHelmBushIndexOffset));

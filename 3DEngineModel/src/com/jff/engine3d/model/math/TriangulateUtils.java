@@ -97,7 +97,7 @@ public class TriangulateUtils {
 
         //base lower center vertice
         Point3D center = cylinder.getCenter();
-        int height = cylinder.getHeight();
+        double height = cylinder.getHeight();
         double centerX = center.getX();
         double centerY = center.getY();
         double centerZ = center.getZ();
@@ -354,7 +354,7 @@ public class TriangulateUtils {
 
         //base lower center vertice
         List<Point3D> vertexes = new ArrayList<Point3D>();
-        int cilinderHeight = frustumCone.getHeight();
+        double cilinderHeight = frustumCone.getHeight();
         double lowerBaseRadius = frustumCone.getLowerRadius();
         double upperBaseRadius = frustumCone.getUpperRadius();
         vertexes.add(new Point3D(center.getX(), center.getY(), center.getZ() - cilinderHeight / 2));

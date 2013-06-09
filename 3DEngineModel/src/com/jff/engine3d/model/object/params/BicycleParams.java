@@ -30,6 +30,7 @@ public class BicycleParams extends AbstractObjectParams {
     public int widthHelmBush;
     public int seatHelmBushHeight;
 
+
     public BicycleParams(int widthWheel, int diameterWheel, int lengthSeat, int diameterFrame,
                          int widthHelm, int lengthPedal, int widthSeat, int heightSeat,
                          int widthPedal, int heightPedal) {
@@ -45,13 +46,14 @@ public class BicycleParams extends AbstractObjectParams {
         this.widthPedal = widthPedal;
         this.heightPedal = heightPedal;
 
-        pedalSeatBush = 100;
-        middlePedalBushHeight = 40;
+        pedalSeatBush = 200;
+        middlePedalBushHeight = 80;
         leftPedalBushHeight = 20;
         rightPedalBushHeight = 20;
-        wheelBushHeight = 20;
+        wheelBushHeight = middlePedalBushHeight;
         widthHelmBush = 20;
         seatHelmBushHeight = 200;
+
     }
 
     @Override

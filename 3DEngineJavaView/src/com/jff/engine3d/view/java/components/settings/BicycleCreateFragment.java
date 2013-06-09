@@ -88,21 +88,17 @@ public class BicycleCreateFragment extends Composite implements IEngineView {
 
         new Label(group, SWT.NONE).setText("Width wheel");
         widthWheel = new Text(group, SWT.NONE);
-        addListeners(widthWheel);
 
         new Label(group, SWT.NONE).setText("Diameter wheel");
         diameterWheel = new Text(group, SWT.NONE);
-        addListeners(diameterWheel);
 
 
         new Label(group, SWT.NONE).setText("Width helm");
         widthHelm = new Text(group, SWT.NONE);
-        addListeners(widthHelm);
 
 
         new Label(group, SWT.NONE).setText("Width seat");
         widthSeat = new Text(group, SWT.NONE);
-        addListeners(widthSeat);
 
         new Label(group, SWT.NONE).setText("Height seat");
         heightSeat = new Text(group, SWT.NONE);
@@ -111,25 +107,40 @@ public class BicycleCreateFragment extends Composite implements IEngineView {
 
         new Label(group, SWT.NONE).setText("Length seat");
         lengthSeat = new Text(group, SWT.NONE);
-        addListeners(lengthSeat);
 
 
         new Label(group, SWT.NONE).setText("Width pedal");
         widthPedal = new Text(group, SWT.NONE);
-        addListeners(widthPedal);
 
         new Label(group, SWT.NONE).setText("Height pedal");
         heightPedal = new Text(group, SWT.NONE);
-        addListeners(heightPedal);
 
         new Label(group, SWT.NONE).setText("Length pedal");
         lengthPedal = new Text(group, SWT.NONE);
-        addListeners(lengthPedal);
 
         new Label(group, SWT.NONE).setText("Diameter frame");
         diameterFrame = new Text(group, SWT.NONE);
-        addListeners(diameterFrame);
 
+        addListeners(widthHelm);
+        addListeners(widthWheel);
+        addListeners(diameterWheel);
+        addListeners(widthSeat);
+        addListeners(lengthSeat);
+        addListeners(widthPedal);
+        addListeners(heightPedal);
+        addListeners(diameterFrame);
+        addListeners(lengthPedal);
+
+        applyLayoutData(widthHelm);
+        applyLayoutData(widthWheel);
+        applyLayoutData(diameterWheel);
+        applyLayoutData(widthSeat);
+        applyLayoutData(heightSeat);
+        applyLayoutData(lengthSeat);
+        applyLayoutData(widthPedal);
+        applyLayoutData(heightPedal);
+        applyLayoutData(diameterFrame);
+        applyLayoutData(lengthPedal);
     }
 
     private void addListeners(Text text) {
@@ -232,4 +243,6 @@ public class BicycleCreateFragment extends Composite implements IEngineView {
     public void sceneChanged(Scene scene) {
         //To change body of created methods use File | Settings | File Templates.
     }
+
+
 }
