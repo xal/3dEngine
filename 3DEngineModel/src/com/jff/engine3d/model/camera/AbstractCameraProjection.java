@@ -9,6 +9,8 @@ public abstract class AbstractCameraProjection {
 
     protected ProjectionType type;
     protected CameraSettings cameraSettings;
+    private double minTheta;
+    private double maxTheta;
 
 
     public ProjectionType getType() {
@@ -72,10 +74,10 @@ public abstract class AbstractCameraProjection {
         double ty = lookAt.y - eye.y;
         double tz = lookAt.z - eye.z;
 
+
         Point3D point3D1 = new Point3D(tx, ty, tz);
-        System.out.println("translated " + point3D1);
         SpherePoint3D spherePoint3D = SpherePoint3D.fromCartesian(point3D1);
-        System.out.println(spherePoint3D);
+
 
         double theta = spherePoint3D.theta;
         double phi = spherePoint3D.phi;
@@ -86,24 +88,187 @@ public abstract class AbstractCameraProjection {
         double ye;
         double ze;
 
+
         xe = -xw * Math.sin(theta) + yw * Math.cos(theta);
         ye = -xw * Math.cos(phi) * Math.cos(theta) - yw * Math.cos(phi) * Math.sin(theta) + zw * Math.sin(phi);
         ze = -xw * Math.sin(phi) * Math.cos(theta) - yw * Math.sin(phi) * Math.sin(theta) - zw * Math.cos(phi);
 
         ze *= -1;
 
+//
+//        if (Double.compare(theta, Math.PI) == 0) {
+//
+//            xe *= -1;
+//            ye *= -1;
+//
+//
+//        }
+//        if (theta <= 0) {
+//
+//            xe *= -1;
+//            ye *= -1;
+//
+//
+//        }
 
-        if (Double.compare(theta, Math.PI) == 0) {
-
-            xe *= -1;
-            ye *= -1;
-
-        }
 
         Point3D result = new Point3D(xe, ye, ze);
+//
+//        if(Double.compare(ty, 0) == 0) {
+//            result = result.rotateZ(90);
+//        }
+//
+//
+//
+//        if(theta >= Math.PI /2 || theta < -Math.PI /2) {
+//
+//            result = result.rotateZ(180);
+//        }
+//
+//
+//
+//        if(tx > 0 || ty == 0) {
+//            result.x *= -1;
+//            result.y *= -1;
+//        }
+//
+//        if(ty > 0 || tx == 0) {
+//            result.x *= -1;
+//            result.y *= -1;
+//        }
+
+//        System.out.println("result " + result);
+//        System.out.println("eye " + eye);
+//        System.out.println("look  " + lookAt);
+//        System.out.println("point  " + point3D);
+//        System.out.println("translated " + point3D1);
+        System.out.println(spherePoint3D);
+//        System.out.println();
 
 
-        System.out.println("result " + result);
+        int zAngle = 0;
+//        if (tx < 0) {
+//            if (ty < 0) {
+//                if (tz > 0) {
+//
+//                    zAngle = 90;
+//                } else {
+//                    zAngle = 90;
+//                }
+//            } else if (ty > 0) {
+//
+//                if (tz > 0) {
+//
+//                      zAngle = 180;
+//                } else {
+//
+//                      zAngle =180;
+//                }
+//
+//            } else {
+//
+//                if (tz > 0) {
+//
+//                    zAngle = 270;
+//                } else {
+//                    zAngle = 270;
+//                }
+//            }
+//        } else if (tx > 0) {
+//            if (ty < 0) {
+//                if (tz > 0) {
+//                    zAngle = 90;
+//                } else {
+//                    zAngle = 90;
+//
+//                }
+//            } else if (ty > 0) {
+//
+//                if (tz > 0) {
+//
+//                    zAngle = 180;
+//                } else {
+//                    zAngle = 180;
+//                }
+//
+//            } else {
+//
+//                if (tz > 0) {
+//                    zAngle = 90;
+//
+//                } else {
+//                    zAngle = 90;
+//
+//                }
+//            }
+//        } else {
+//            if (ty < 0) {
+//                if (tz > 0) {
+//
+//                } else {
+//
+//                }
+//            } else if (ty > 0) {
+//
+//                if (tz > 0) {
+//                    zAngle = 180;
+//                } else {
+//                    zAngle = 180;
+//                }
+//
+//            } else {
+//
+//                if (tz > 0) {
+//
+//                    zAngle = 90;
+//                } else {
+//                    zAngle = 90;
+//                }
+//            }
+//        }
+
+//        double pi = Math.PI;
+//        if (theta > -pi && theta < -pi / 2) {
+//
+//                zAngle = 270;
+//
+//        } else if (theta > -pi / 2 && theta < 0) {
+//
+//            zAngle = 270;
+//
+//        } else if (theta > 0 && theta < pi / 2) {
+//
+//            zAngle = 90;
+//        } else if (theta > pi / 2 && theta < pi) {
+//            if (phi >= phi / 2 && phi < pi) {
+//                zAngle = 180;
+//            } else {
+//                zAngle = 90;
+//            }
+//
+//
+//        } else if (theta > pi) {
+//
+//        } else if (theta == -pi) {
+//
+//        } else if (theta == -pi / 2) {
+//            zAngle = 270;
+//        } else if (theta == 0) {
+//
+//        } else if (theta == pi / 2) {
+//            zAngle = 90;
+//        } else if (theta == pi) {
+//            zAngle = 180;
+//        }
+//
+//        result = result.rotateZ(zAngle);
+
+
+//        minTheta = Math.min(minTheta, theta);
+//        maxTheta = Math.max(maxTheta, theta);
+//        System.out.println(minTheta);
+//        System.out.println(maxTheta);
+//        System.out.println();
         return result;
     }
 

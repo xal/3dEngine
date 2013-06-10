@@ -62,7 +62,7 @@ public class CameraSettings {
 
     private Point3D rotate() {
 
-        System.out.println(rotateType + "" + rotationCoordinates);
+//        System.out.println(rotateType + "" + rotationCoordinates);
 
         if (rotateType == CameraRotateType.FROM) {
             Point3D rotateCenterPoint = fromCoordinates;
