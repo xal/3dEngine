@@ -147,85 +147,85 @@ public abstract class AbstractCameraProjection {
 
 
         int zAngle = 0;
-//        if (tx < 0) {
-//            if (ty < 0) {
-//                if (tz > 0) {
-//
-//                    zAngle = 90;
-//                } else {
-//                    zAngle = 90;
-//                }
-//            } else if (ty > 0) {
-//
-//                if (tz > 0) {
-//
-//                      zAngle = 180;
-//                } else {
-//
-//                      zAngle =180;
-//                }
-//
-//            } else {
-//
-//                if (tz > 0) {
-//
-//                    zAngle = 270;
-//                } else {
-//                    zAngle = 270;
-//                }
-//            }
-//        } else if (tx > 0) {
-//            if (ty < 0) {
-//                if (tz > 0) {
-//                    zAngle = 90;
-//                } else {
-//                    zAngle = 90;
-//
-//                }
-//            } else if (ty > 0) {
-//
-//                if (tz > 0) {
-//
-//                    zAngle = 180;
-//                } else {
-//                    zAngle = 180;
-//                }
-//
-//            } else {
-//
-//                if (tz > 0) {
-//                    zAngle = 90;
-//
-//                } else {
-//                    zAngle = 90;
-//
-//                }
-//            }
-//        } else {
-//            if (ty < 0) {
-//                if (tz > 0) {
-//
-//                } else {
-//
-//                }
-//            } else if (ty > 0) {
-//
-//                if (tz > 0) {
-//                    zAngle = 180;
-//                } else {
-//                    zAngle = 180;
-//                }
-//
-//            } else {
-//
-//                if (tz > 0) {
-//
-//                    zAngle = 90;
-//                } else {
-//                    zAngle = 90;
-//                }
-//            }
-//        }
+        if (tx < 0) {
+            if (ty < 0) {
+                if (tz > 0) {
+
+                    zAngle = 90;
+                } else {
+                    zAngle = 90;
+                }
+            } else if (ty > 0) {
+
+                if (tz > 0) {
+
+                    zAngle = 180;
+                } else {
+
+                    zAngle = 180;
+                }
+
+            } else {
+
+                if (tz > 0) {
+
+                    zAngle = 270;
+                } else {
+                    zAngle = 270;
+                }
+            }
+        } else if (tx > 0) {
+            if (ty < 0) {
+                if (tz > 0) {
+                    zAngle = 90;
+                } else {
+                    zAngle = 90;
+
+                }
+            } else if (ty > 0) {
+
+                if (tz > 0) {
+
+                    zAngle = 180;
+                } else {
+                    zAngle = 180;
+                }
+
+            } else {
+
+                if (tz > 0) {
+                    zAngle = 90;
+
+                } else {
+                    zAngle = 90;
+
+                }
+            }
+        } else {
+            if (ty < 0) {
+                if (tz > 0) {
+
+                } else {
+
+                }
+            } else if (ty > 0) {
+
+                if (tz > 0) {
+                    zAngle = 180;
+                } else {
+                    zAngle = 180;
+                }
+
+            } else {
+
+                if (tz > 0) {
+
+                    zAngle = 90;
+                } else {
+                    zAngle = 90;
+                }
+            }
+        }
 
 //        double pi = Math.PI;
 //        if (theta > -pi && theta < -pi / 2) {

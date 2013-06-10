@@ -75,7 +75,7 @@ public class EngineCanvasSWT extends Canvas implements IEngineCanvas {
 
                 GC gc = paintEvent.gc;
 
-                drawAxes(gc);
+//                drawAxes(gc);
 
                 drawCameraCoordinates(gc);
 
@@ -93,7 +93,7 @@ public class EngineCanvasSWT extends Canvas implements IEngineCanvas {
             fromString += cameraFrom.x + " ";
             fromString += cameraFrom.y + " ";
             fromString += cameraFrom.z + " ";
-            String toString = "TO ";
+            String toString = "To ";
             toString += cameraTo.x + " ";
             toString += cameraTo.y + " ";
             toString += cameraTo.z + " ";
