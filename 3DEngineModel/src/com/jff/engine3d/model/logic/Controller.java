@@ -184,4 +184,8 @@ public class Controller {
     public ViewType getViewType() {
         return scene.getViewType();
     }
+
+    public void setCameraHorizontalLength(int horizontalLength) {
+        scene.setCameraHorizontalLength(horizontalLength);
+    }
 }

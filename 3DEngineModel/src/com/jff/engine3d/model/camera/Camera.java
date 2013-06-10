@@ -43,6 +43,7 @@ public class Camera implements Serializable {
     private static final RotationCoordinates DEFAULT_ROTATION_COORDINATES = new RotationCoordinates(0, 0, 0);
     private static final ProjectionType DEFAULT_PROJECTION_TYPE = ProjectionType.PARALLEL;
     private static final int DEFAULT_FOCAL_LENGTH = 500;
+    private static final int DEFAULT_HORIZONTAL_LENGTH = 2000;
 
     private CameraSettings cameraSettings;
     private transient AbstractCameraProjection projection;
@@ -54,6 +55,7 @@ public class Camera implements Serializable {
         cameraSettings = new CameraSettings(DEFAULT_TO_COORDINATES, DEFAULT_FROM_COORDINATES,
                 DEFAULT_ROTATE_TYPE, DEFAULT_ROTATION_COORDINATES, DEFAULT_FOCAL_LENGTH);
         setProjectionType(DEFAULT_PROJECTION_TYPE);
+        cameraSettings.setHorizontalLength(DEFAULT_HORIZONTAL_LENGTH);
     }
 
 
@@ -241,5 +243,9 @@ public class Camera implements Serializable {
     public void fireSettingsChanged() {
         setProjectionType(this.projectionType);
         cameraSettings.fireSettingsChanged();
+    }
+
+    public void setCameraHorizontalLength(int horizontalLength) {
+        cameraSettings.setHorizontalLength(horizontalLength);
     }
 }

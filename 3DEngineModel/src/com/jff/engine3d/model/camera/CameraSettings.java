@@ -11,6 +11,7 @@ public class CameraSettings {
     private CameraRotateType rotateType;
     private RotationCoordinates rotationCoordinates;
     private int focalLength;
+    private int horizontalLength;
 
 
     public Point3D realToCoordinates;
@@ -183,5 +184,14 @@ public class CameraSettings {
         this.cameraWidth = width;
         this.cameraHeight = height;
         fireSettingsChanged();
+    }
+
+
+    public void setHorizontalLength(int horizontalLength) {
+        this.horizontalLength = horizontalLength;
+    }
+
+    public int getHorizontalLength() {
+        return horizontalLength;
     }
 }

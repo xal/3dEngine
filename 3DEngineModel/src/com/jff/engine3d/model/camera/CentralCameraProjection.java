@@ -55,6 +55,10 @@ public class CentralCameraProjection extends AbstractCameraProjection {
         double readDistance = inCamera.z - borderSphereRadius;
         boolean inCameraView = readDistance >= focalLength;
 
+
+        int horizontalLength = cameraSettings.getHorizontalLength();
+        inCameraView &= (inCamera.z + borderSphereRadius) <= horizontalLength;
+
         if (inCameraView == true) {
 
             double ratio = focalLength / (inCamera.z + borderSphereRadius);

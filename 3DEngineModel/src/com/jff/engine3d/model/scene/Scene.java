@@ -332,4 +332,9 @@ public class Scene implements Serializable {
     public ViewType getViewType() {
         return viewType;
     }
+
+    public void setCameraHorizontalLength(int horizontalLength) {
+        camera.setCameraHorizontalLength(horizontalLength);
+        fireSceneChanged();
+    }
 }

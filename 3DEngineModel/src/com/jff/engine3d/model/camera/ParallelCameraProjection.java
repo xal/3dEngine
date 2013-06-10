@@ -38,7 +38,13 @@ public class ParallelCameraProjection extends AbstractCameraProjection {
 
 
         double borderSphereRadius = geometryObject.getBorderSphereRadius();
-        boolean inCameraView = inCamera.z - borderSphereRadius >= 0;
+        int focalLength = cameraSettings.getFocalLength();
+        double readDistance = inCamera.z - borderSphereRadius;
+        boolean inCameraView = readDistance >= focalLength;
+
+
+        int horizontalLength = cameraSettings.getHorizontalLength();
+        inCameraView &= (inCamera.z + borderSphereRadius) <= horizontalLength;
 
         if (inCameraView == true) {
 

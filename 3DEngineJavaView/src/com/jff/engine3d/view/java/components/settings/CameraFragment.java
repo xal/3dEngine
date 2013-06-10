@@ -30,7 +30,9 @@ public class CameraFragment extends Composite {
     private Text rotateZ;
 
     private Text focalLength;
+    private Text horizontLength;
     private Slider focalLengthSlider;
+    private Slider horizontLengthSlider;
 
     private Button fromRotate;
     private Button toRotate;
@@ -176,12 +178,12 @@ public class CameraFragment extends Composite {
 
         group.setText("FocalLength");
 
-        GridLayout gridLayout = new GridLayout(2, true);
+        GridLayout gridLayout = new GridLayout(3, true);
 
         group.setLayout(gridLayout);
 
         Label textFocalLength = new Label(group, SWT.NONE);
-        textFocalLength.setText("Length");
+        textFocalLength.setText("Focal");
         focalLength = new Text(group, SWT.NONE);
         focalLength.addListener(SWT.Verify, UIUtils.createVerifyPositiveIntegerListener());
 
@@ -204,6 +206,31 @@ public class CameraFragment extends Composite {
             }
         });
 
+
+        Label textHorizontLength = new Label(group, SWT.NONE);
+        textHorizontLength.setText("Horizont");
+        horizontLength = new Text(group, SWT.NONE);
+        horizontLength.addListener(SWT.Verify, UIUtils.createVerifyPositiveIntegerListener());
+
+        horizontLengthSlider = new Slider(group, SWT.NONE);
+        horizontLengthSlider.setMinimum(1000);
+        horizontLengthSlider.setMaximum(8000);
+        horizontLengthSlider.setSelection(2000);
+
+        horizontLengthSlider.addSelectionListener(new SelectionListener() {
+            @Override
+            public void widgetSelected(SelectionEvent selectionEvent) {
+                int horizontLengthValue = horizontLengthSlider.getSelection();
+
+                applyHorizontalLength(horizontLengthValue);
+            }
+
+            @Override
+            public void widgetDefaultSelected(SelectionEvent selectionEvent) {
+                //To change body of implemented methods use File | Settings | File Templates.
+            }
+        });
+
         Button buttonOk = new Button(group, SWT.NONE);
         buttonOk.setText("OK");
         buttonOk.addSelectionListener(new SelectionListener() {
@@ -213,6 +240,9 @@ public class CameraFragment extends Composite {
                 try {
                     int focalLength = UIUtils.retrieveInteger(CameraFragment.this.focalLength);
 
+                    int horizontLengthValue = UIUtils.retrieveInteger(CameraFragment.this.horizontLength);
+
+                    applyHorizontalLength(horizontLengthValue);
 
                     applyFocalLength(focalLength);
 
@@ -230,6 +260,13 @@ public class CameraFragment extends Composite {
             }
         });
 
+    }
+
+    private void applyHorizontalLength(int horizontLengthValue) {
+        controller.setCameraHorizontalLength(horizontLengthValue);
+
+        this.horizontLength.setText("" + horizontLengthValue);
+        horizontLengthSlider.setSelection(horizontLengthValue);
     }
 
     private void applyFocalLength(int focalLength) {
@@ -474,6 +511,7 @@ public class CameraFragment extends Composite {
         CameraSettings cameraSettings = camera.getCameraSettings();
 
         int focalLengthValue = cameraSettings.getFocalLength();
+        int horizontalLength = cameraSettings.getHorizontalLength();
         Point3D fromCoordinates = cameraSettings.getFromCoordinates();
         Point3D toCoordinates = cameraSettings.getToCoordinates();
         CameraRotateType rotateType = cameraSettings.getRotateType();
@@ -481,6 +519,10 @@ public class CameraFragment extends Composite {
 
         this.focalLength.setText("" + focalLengthValue);
         focalLengthSlider.setSelection(focalLengthValue);
+
+        this.horizontLength.setText("" + horizontalLength);
+        horizontLengthSlider.setSelection(horizontalLength);
+
 
         rotateX.setText("" + (int) rotationCoordinates.getX());
         rotateY.setText("" + (int) rotationCoordinates.getY());
