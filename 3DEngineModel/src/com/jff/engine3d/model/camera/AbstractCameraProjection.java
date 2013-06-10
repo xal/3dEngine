@@ -230,7 +230,7 @@ public abstract class AbstractCameraProjection {
 //        double pi = Math.PI;
 //        if (theta > -pi && theta < -pi / 2) {
 //
-//                zAngle = 270;
+//                zAngle = 180;
 //
 //        } else if (theta > -pi / 2 && theta < 0) {
 //
@@ -238,14 +238,10 @@ public abstract class AbstractCameraProjection {
 //
 //        } else if (theta > 0 && theta < pi / 2) {
 //
-//            zAngle = 90;
-//        } else if (theta > pi / 2 && theta < pi) {
-//            if (phi >= phi / 2 && phi < pi) {
-//                zAngle = 180;
-//            } else {
-//                zAngle = 90;
-//            }
 //
+//        } else if (theta > pi / 2 && theta < pi) {
+//
+//            zAngle = 90;
 //
 //        } else if (theta > pi) {
 //
@@ -260,8 +256,8 @@ public abstract class AbstractCameraProjection {
 //        } else if (theta == pi) {
 //            zAngle = 180;
 //        }
-//
-//        result = result.rotateZ(zAngle);
+
+        result = result.rotateZ(zAngle);
 
 
 //        minTheta = Math.min(minTheta, theta);

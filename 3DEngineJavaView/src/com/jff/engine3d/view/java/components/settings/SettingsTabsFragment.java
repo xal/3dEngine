@@ -42,8 +42,8 @@ public class SettingsTabsFragment extends Composite implements IEngineView {
 
 
         title = "Create";
-//        createFragment = new TrafficLightCreateFragment(tabFolder);
-        createFragment = new BicycleCreateFragment(tabFolder);
+        createFragment = new TrafficLightCreateFragment(tabFolder);
+//        createFragment = new BicycleCreateFragment(tabFolder);
         createTab(tabFolder, title, (Control) createFragment);
 
 
