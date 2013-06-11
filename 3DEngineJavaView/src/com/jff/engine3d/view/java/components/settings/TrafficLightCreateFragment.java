@@ -69,9 +69,9 @@ public class TrafficLightCreateFragment extends Composite implements IEngineView
 
     private void fillSettings() {
 
-        centerXText.setText("100");
-        centerYText.setText("100");
-        centerZText.setText("100");
+        centerXText.setText("0");
+        centerYText.setText("0");
+        centerZText.setText("0");
 
         this.heightPoleCone.setText("20");
         this.diameterPoleConeLower.setText("40");

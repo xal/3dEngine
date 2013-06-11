@@ -169,7 +169,8 @@ public class Bicycle extends AbstractObject {
         Point3D frontWheelUpperBushCenter = new Point3D(helmFrontWheelBushCenter);
         frontWheelUpperBushCenter.y -= helmFrontWheelBushHeight / 2 + bicycleParams.diameterFrame / 2;
 
-        double frontBushHeight = Math.abs(frontWheelBushCenter.y + frontWheelUpperBushCenter.y);
+        double frontBushHeight = Math.abs(frontWheelBushCenter.y - frontWheelUpperBushCenter.y);
+
 
         Point3D leftFrontWheelHelmBushCenter = new Point3D(frontWheelUpperBushCenter);
         Point3D rightFrontWheelHelmBushCenter = new Point3D(frontWheelUpperBushCenter);
@@ -206,7 +207,7 @@ public class Bicycle extends AbstractObject {
         rightBackWheelPedalBush.rotate(new RotationCoordinates(90, 0, 90));
 
 
-        this.rotate(new RotationCoordinates(180, 0, 90));
+        this.rotate(new RotationCoordinates(180, 0, 0));
         fireParametersChanged();
 
     }

@@ -137,95 +137,110 @@ public abstract class AbstractCameraProjection {
 //            result.y *= -1;
 //        }
 
+        double zAngle = 0;
+
 //        System.out.println("result " + result);
 //        System.out.println("eye " + eye);
 //        System.out.println("look  " + lookAt);
 //        System.out.println("point  " + point3D);
-//        System.out.println("translated " + point3D1);
-        System.out.println(spherePoint3D);
+        System.out.println("translated " + point3D1);
+//        System.out.println(spherePoint3D);
+        System.out.println(Math.toDegrees(spherePoint3D.theta));
 //        System.out.println();
 
+        zAngle = Math.toDegrees(theta);
 
-        int zAngle = 0;
-        if (tx < 0) {
-            if (ty < 0) {
-                if (tz > 0) {
+//        if(tx >= 0) {
+//            zAngle = 90;
+//        }
+//
+//        if(tx < 0) {
+//            zAngle = 270;
+//        }
+//
+//        if(ty <0) {
+//            zAngle +=180;
+//        }
 
-                    zAngle = 90;
-                } else {
-                    zAngle = 90;
-                }
-            } else if (ty > 0) {
-
-                if (tz > 0) {
-
-                    zAngle = 180;
-                } else {
-
-                    zAngle = 180;
-                }
-
-            } else {
-
-                if (tz > 0) {
-
-                    zAngle = 270;
-                } else {
-                    zAngle = 270;
-                }
-            }
-        } else if (tx > 0) {
-            if (ty < 0) {
-                if (tz > 0) {
-                    zAngle = 90;
-                } else {
-                    zAngle = 90;
-
-                }
-            } else if (ty > 0) {
-
-                if (tz > 0) {
-
-                    zAngle = 180;
-                } else {
-                    zAngle = 180;
-                }
-
-            } else {
-
-                if (tz > 0) {
-                    zAngle = 90;
-
-                } else {
-                    zAngle = 90;
-
-                }
-            }
-        } else {
-            if (ty < 0) {
-                if (tz > 0) {
-
-                } else {
-
-                }
-            } else if (ty > 0) {
-
-                if (tz > 0) {
-                    zAngle = 180;
-                } else {
-                    zAngle = 180;
-                }
-
-            } else {
-
-                if (tz > 0) {
-
-                    zAngle = 90;
-                } else {
-                    zAngle = 90;
-                }
-            }
-        }
+//        if (tx < 0) {
+//            if (ty < 0) {
+//                if (tz > 0) {
+//
+//                    zAngle = 90;
+//                } else {
+//                    zAngle = 90;
+//                }
+//            } else if (ty > 0) {
+//
+//                if (tz > 0) {
+//
+//                    zAngle = 180;
+//                } else {
+//
+//                    zAngle = 180;
+//                }
+//
+//            } else {
+//
+//                if (tz > 0) {
+//
+//                    zAngle = 270;
+//                } else {
+//                    zAngle = 270;
+//                }
+//            }
+//        } else if (tx > 0) {
+//            if (ty < 0) {
+//                if (tz > 0) {
+//                    zAngle = 90;
+//                } else {
+//                    zAngle = 90;
+//
+//                }
+//            } else if (ty > 0) {
+//
+//                if (tz > 0) {
+//
+//                    zAngle = 180;
+//                } else {
+//                    zAngle = 180;
+//                }
+//
+//            } else {
+//
+//                if (tz > 0) {
+//                    zAngle = 90;
+//
+//                } else {
+//                    zAngle = 90;
+//
+//                }
+//            }
+//        } else {
+//            if (ty < 0) {
+//                if (tz > 0) {
+//
+//                } else {
+//
+//                }
+//            } else if (ty > 0) {
+//
+//                if (tz > 0) {
+//                    zAngle = 180;
+//                } else {
+//                    zAngle = 180;
+//                }
+//
+//            } else {
+//
+//                if (tz > 0) {
+//
+//                    zAngle = 90;
+//                } else {
+//                    zAngle = 90;
+//                }
+//            }
+//        }
 
 //        double pi = Math.PI;
 //        if (theta > -pi && theta < -pi / 2) {

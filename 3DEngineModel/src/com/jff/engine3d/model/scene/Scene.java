@@ -306,6 +306,11 @@ public class Scene implements Serializable {
     }
 
     public void setCurrentSelectedObject(SceneObject currentSelectedObject) {
+
+        if (this.currentSelectedObject == currentSelectedObject) {
+            return;
+        }
+
         if (this.currentSelectedObject != null) {
 
             this.currentSelectedObject.setSelected(false);

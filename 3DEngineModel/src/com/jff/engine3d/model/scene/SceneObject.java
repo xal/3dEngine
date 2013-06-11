@@ -78,4 +78,11 @@ public class SceneObject implements Serializable {
     public void setSelected(boolean selected) {
         this.selected = selected;
     }
+
+    @Override
+    public String toString() {
+        return "SceneObject [object=" + object + "]";
+    }
+
+
 }

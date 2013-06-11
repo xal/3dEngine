@@ -19,10 +19,8 @@ import java.util.List;
 
 public class Controller {
 
-
     private final StorageHelper storageHelper;
     private Scene scene;
-
 
     public boolean addEngineListener(EngineListener engineListener) {
         return scene.addEngineListener(engineListener);
@@ -38,18 +36,20 @@ public class Controller {
         this.storageHelper = new StorageHelper();
     }
 
+    public void createObject(Point3D point3D, AbstractObjectParams objectParams)
+            throws CollisionDetectedException {
 
-    public void createObject(Point3D point3D, AbstractObjectParams objectParams) throws CollisionDetectedException {
-
-        //AbstractObject object = new Box(point3D, 100, 100, 100);
-//        AbstractObject object = new Cylinder(new Point3D(100, 100, 100),  30, 60, 40);
-//        SceneObject sceneObject = new SceneObject(object);
-//        scene.addObject(sceneObject);
-//
-//        AbstractObject object1 = new Cylinder(new Point3D(200, 100, 100), 30, 30, 40);
-//        SceneObject sceneObject1 = new SceneObject(object1);
-//        scene.addObject(sceneObject1);
-//
+        // AbstractObject object = new Box(point3D, 100, 100, 100);
+        // AbstractObject object = new Cylinder(new Point3D(100, 100, 100), 30,
+        // 60, 40);
+        // SceneObject sceneObject = new SceneObject(object);
+        // scene.addObject(sceneObject);
+        //
+        // AbstractObject object1 = new Cylinder(new Point3D(200, 100, 100), 30,
+        // 30, 40);
+        // SceneObject sceneObject1 = new SceneObject(object1);
+        // scene.addObject(sceneObject1);
+        //
         try {
 
             AbstractObject object = objectParams.createObject(point3D);
@@ -60,11 +60,17 @@ public class Controller {
             throw ex;
         }
 
+        // AbstractObject object2 = new Tor(point3D, 100, 20);
+        // SceneObject sceneObject2 = new SceneObject(object2);
+        // scene.addObject(sceneObject2);
 
-//        AbstractObject object2 = new Tor(point3D, 100, 20);
-//        SceneObject sceneObject2 = new SceneObject(object2);
-//        scene.addObject(sceneObject2);
+    }
 
+    public void createObject(Point3D point3D, SceneObject sceneObject)
+            throws CollisionDetectedException {
+
+        scene.addObject(sceneObject);
+        scene.setCurrentSelectedObject(sceneObject);
 
     }
 
@@ -94,7 +100,8 @@ public class Controller {
         scene.setCameraToCoordinates(point3D);
     }
 
-    public void setCameraRotation(CameraRotateType rotateType, RotationCoordinates rotationCoordinates) {
+    public void setCameraRotation(CameraRotateType rotateType,
+                                  RotationCoordinates rotationCoordinates) {
         scene.setCameraRotation(rotateType, rotationCoordinates);
     }
 
@@ -108,15 +115,18 @@ public class Controller {
         return currentSelectedObject;
     }
 
-    public void setMoveCoordinatesForObject(Point3D point3D, SceneObject object) throws CollisionDetectedException {
+    public void setMoveCoordinatesForObject(Point3D point3D, SceneObject object)
+            throws CollisionDetectedException {
         scene.setCoordinatesForObject(point3D, object);
     }
 
-    public void setRotationForObject(RotationCoordinates rotationCoordinates, SceneObject object) {
+    public void setRotationForObject(RotationCoordinates rotationCoordinates,
+                                     SceneObject object) {
         scene.setRotationForObject(rotationCoordinates, object);
     }
 
-    public void setScaleForObject(float scale, SceneObject object) throws CollisionDetectedException {
+    public void setScaleForObject(float scale, SceneObject object)
+            throws CollisionDetectedException {
         scene.setScaleForObject(scale, object);
     }
 
@@ -187,5 +197,9 @@ public class Controller {
 
     public void setCameraHorizontalLength(int horizontalLength) {
         scene.setCameraHorizontalLength(horizontalLength);
+    }
+
+    public Scene getScene() {
+        return scene;
     }
 }

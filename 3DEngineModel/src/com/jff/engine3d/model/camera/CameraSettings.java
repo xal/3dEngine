@@ -93,6 +93,7 @@ public class CameraSettings {
         double yAngle = rotationCoordinates.getY();
         double zAngle = rotationCoordinates.getZ();
 
+
         vertex = vertex.rotateX(xAngle);
         vertex = vertex.rotateY(yAngle);
         vertex = vertex.rotateZ(zAngle);
