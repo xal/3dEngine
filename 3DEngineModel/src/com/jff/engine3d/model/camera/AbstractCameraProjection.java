@@ -143,134 +143,13 @@ public abstract class AbstractCameraProjection {
 //        System.out.println("eye " + eye);
 //        System.out.println("look  " + lookAt);
 //        System.out.println("point  " + point3D);
-        System.out.println("translated " + point3D1);
+//        System.out.println("translated " + point3D1);
 //        System.out.println(spherePoint3D);
-        System.out.println(Math.toDegrees(spherePoint3D.theta));
+//        System.out.println(Math.toDegrees(spherePoint3D.theta));
 //        System.out.println();
 
         zAngle = Math.toDegrees(theta);
 
-//        if(tx >= 0) {
-//            zAngle = 90;
-//        }
-//
-//        if(tx < 0) {
-//            zAngle = 270;
-//        }
-//
-//        if(ty <0) {
-//            zAngle +=180;
-//        }
-
-//        if (tx < 0) {
-//            if (ty < 0) {
-//                if (tz > 0) {
-//
-//                    zAngle = 90;
-//                } else {
-//                    zAngle = 90;
-//                }
-//            } else if (ty > 0) {
-//
-//                if (tz > 0) {
-//
-//                    zAngle = 180;
-//                } else {
-//
-//                    zAngle = 180;
-//                }
-//
-//            } else {
-//
-//                if (tz > 0) {
-//
-//                    zAngle = 270;
-//                } else {
-//                    zAngle = 270;
-//                }
-//            }
-//        } else if (tx > 0) {
-//            if (ty < 0) {
-//                if (tz > 0) {
-//                    zAngle = 90;
-//                } else {
-//                    zAngle = 90;
-//
-//                }
-//            } else if (ty > 0) {
-//
-//                if (tz > 0) {
-//
-//                    zAngle = 180;
-//                } else {
-//                    zAngle = 180;
-//                }
-//
-//            } else {
-//
-//                if (tz > 0) {
-//                    zAngle = 90;
-//
-//                } else {
-//                    zAngle = 90;
-//
-//                }
-//            }
-//        } else {
-//            if (ty < 0) {
-//                if (tz > 0) {
-//
-//                } else {
-//
-//                }
-//            } else if (ty > 0) {
-//
-//                if (tz > 0) {
-//                    zAngle = 180;
-//                } else {
-//                    zAngle = 180;
-//                }
-//
-//            } else {
-//
-//                if (tz > 0) {
-//
-//                    zAngle = 90;
-//                } else {
-//                    zAngle = 90;
-//                }
-//            }
-//        }
-
-//        double pi = Math.PI;
-//        if (theta > -pi && theta < -pi / 2) {
-//
-//                zAngle = 180;
-//
-//        } else if (theta > -pi / 2 && theta < 0) {
-//
-//            zAngle = 270;
-//
-//        } else if (theta > 0 && theta < pi / 2) {
-//
-//
-//        } else if (theta > pi / 2 && theta < pi) {
-//
-//            zAngle = 90;
-//
-//        } else if (theta > pi) {
-//
-//        } else if (theta == -pi) {
-//
-//        } else if (theta == -pi / 2) {
-//            zAngle = 270;
-//        } else if (theta == 0) {
-//
-//        } else if (theta == pi / 2) {
-//            zAngle = 90;
-//        } else if (theta == pi) {
-//            zAngle = 180;
-//        }
 
         result = result.rotateZ(zAngle);
 
