@@ -68,7 +68,8 @@ public class SceneObject implements Serializable {
     }
 
     public Point3D getCenter() {
-        return object.getCenter();
+        Point3D center = object.getCenter();
+        return center;
     }
 
     public AbstractObject getGeometryObject() {
@@ -81,7 +82,7 @@ public class SceneObject implements Serializable {
 
     @Override
     public String toString() {
-        return "SceneObject [object=" + object + "]";
+        return object.toString();
     }
 
 

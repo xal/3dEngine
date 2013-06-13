@@ -182,4 +182,15 @@ public class TrafficLight extends AbstractObject {
         return borderSphereRadius;
 
     }
+
+    @Override
+    public String toString() {
+        return "TrafficLight{" +
+
+                "Current center = "
+                + getCenter() +
+                "Rotate = " + getRotationCoordinates() +
+                "Scale = " + getScale() +
+                '}';
+    }
 }

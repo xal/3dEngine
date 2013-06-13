@@ -50,7 +50,11 @@ public abstract class AbstractObject implements Serializable {
 
 
     public Point3D getCenter() {
-        return centerPoint3D;
+        Point3D point3D = new Point3D(centerPoint3D);
+        point3D.x += movePoint3D.x;
+        point3D.y += movePoint3D.y;
+        point3D.z += movePoint3D.z;
+        return point3D;
     }
 
     public List<Point3D> getVertexes() {

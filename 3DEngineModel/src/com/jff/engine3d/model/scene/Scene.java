@@ -259,6 +259,7 @@ public class Scene implements Serializable {
         SceneObject objectWithCollision = null;
 
         Point3D myObjectCenter = object.getCenter();
+
         double myObjectBorderRadius = object.getGeometryObject().getBorderSphereRadius();
 
         for (SceneObject sceneObject : objects) {
